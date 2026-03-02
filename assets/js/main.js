@@ -280,30 +280,6 @@
     }
 
     /**
-     * Event filtering functionality
-     */
-    function initEventFilters() {
-        $('.event-filters .filter-btn').on('click', function(e) {
-            e.preventDefault();
-            
-            const filter = $(this).data('filter');
-            const events = $('.event-item');
-            
-            // Update active filter
-            $('.event-filters .filter-btn').removeClass('active');
-            $(this).addClass('active');
-            
-            // Filter events with animation
-            if (filter === 'all') {
-                events.fadeIn(300);
-            } else {
-                events.fadeOut(300);
-                $(`.event-item[data-event-status="${filter}"]`).fadeIn(300);
-            }
-        });
-    }
-
-    /**
      * Gallery lightbox functionality for projects
      */
     function initProjectGallery() {
@@ -315,25 +291,6 @@
                 // Implement lightbox functionality here
                 // This is a placeholder for future gallery enhancement
                 console.log('Gallery lightbox would open here');
-            }
-        });
-    }
-
-    /**
-     * Event countdown functionality
-     */
-    function initEventCountdown() {
-        $('.event-date.upcoming-date').each(function() {
-            const eventDate = new Date($(this).attr('datetime'));
-            const now = new Date();
-            const timeDiff = eventDate.getTime() - now.getTime();
-            
-            if (timeDiff > 0) {
-                const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                
-                if (daysLeft <= 7) {
-                    $(this).after(`<span class="countdown-notice">In ${daysLeft} day${daysLeft !== 1 ? 's' : ''}</span>`);
-                }
             }
         });
     }
@@ -361,11 +318,6 @@
         if ($('body').hasClass('category-projects') || $('.projects-archive').length) {
             initProjectFilters();
             initProjectGallery();
-        }
-        
-        if ($('body').hasClass('category-events') || $('.events-archive').length) {
-            initEventFilters();
-            initEventCountdown();
         }
         
         if ($('body').hasClass('category-awards') || $('.awards-archive').length) {
@@ -421,11 +373,6 @@
         if ($('body').hasClass('category-projects') || $('.projects-archive').length) {
             initProjectFilters();
             initProjectGallery();
-        }
-        
-        if ($('body').hasClass('category-events') || $('.events-archive').length) {
-            initEventFilters();
-            initEventCountdown();
         }
         
         if ($('body').hasClass('category-awards') || $('.awards-archive').length) {

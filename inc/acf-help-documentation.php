@@ -51,7 +51,6 @@ class RiceLipka_ACF_Help_Documentation {
                     <a href="#overview" class="nav-tab nav-tab-active"><?php _e('Overview', 'ricelipka-theme'); ?></a>
                     <a href="#news-article" class="nav-tab"><?php _e('News Articles', 'ricelipka-theme'); ?></a>
                     <a href="#project-portfolio" class="nav-tab"><?php _e('Project Portfolio', 'ricelipka-theme'); ?></a>
-                    <a href="#event-details" class="nav-tab"><?php _e('Event Details', 'ricelipka-theme'); ?></a>
                     <a href="#award-information" class="nav-tab"><?php _e('Award Information', 'ricelipka-theme'); ?></a>
                     <a href="#best-practices" class="nav-tab"><?php _e('Best Practices', 'ricelipka-theme'); ?></a>
                 </nav>
@@ -83,13 +82,6 @@ class RiceLipka_ACF_Help_Documentation {
                         </div>
                         
                         <div class="help-card">
-                            <div class="help-card-icon">📅</div>
-                            <h3><?php _e('Event Details', 'ricelipka-theme'); ?></h3>
-                            <p><?php _e('Create comprehensive event listings with dates, locations, and registration.', 'ricelipka-theme'); ?></p>
-                            <a href="#event-details" class="button"><?php _e('Learn More', 'ricelipka-theme'); ?></a>
-                        </div>
-                        
-                        <div class="help-card">
                             <div class="help-card-icon">🏆</div>
                             <h3><?php _e('Award Information', 'ricelipka-theme'); ?></h3>
                             <p><?php _e('Document awards and recognition with project associations and timelines.', 'ricelipka-theme'); ?></p>
@@ -100,7 +92,7 @@ class RiceLipka_ACF_Help_Documentation {
                     <div class="help-quick-start">
                         <h3><?php _e('Quick Start Guide', 'ricelipka-theme'); ?></h3>
                         <ol>
-                            <li><?php _e('Create a new post and select the appropriate category (News, Projects, Events, or Awards)', 'ricelipka-theme'); ?></li>
+                            <li><?php _e('Create a new post and select the appropriate category (News, Projects, or Awards)', 'ricelipka-theme'); ?></li>
                             <li><?php _e('Add the corresponding ACF block from the block inserter', 'ricelipka-theme'); ?></li>
                             <li><?php _e('Fill in the required fields - tooltips provide guidance for each field', 'ricelipka-theme'); ?></li>
                             <li><?php _e('Use the main content area for detailed descriptions and additional formatting', 'ricelipka-theme'); ?></li>
@@ -117,11 +109,6 @@ class RiceLipka_ACF_Help_Documentation {
                 <!-- Project Portfolio Section -->
                 <div id="project-portfolio" class="help-section">
                     <?php echo self::get_project_portfolio_help(); ?>
-                </div>
-                
-                <!-- Event Details Section -->
-                <div id="event-details" class="help-section">
-                    <?php echo self::get_event_details_help(); ?>
                 </div>
                 
                 <!-- Award Information Section -->
@@ -334,7 +321,7 @@ class RiceLipka_ACF_Help_Documentation {
                 <tr>
                     <td class="field-name"><?php _e('Subcategory', 'ricelipka-theme'); ?></td>
                     <td><?php _e('Type of news for better organization', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Project Updates, Event Announcements, or Award Notifications.', 'ricelipka-theme'); ?></td>
+                    <td><?php _e('Project Updates or Award Notifications.', 'ricelipka-theme'); ?></td>
                 </tr>
             </tbody>
         </table>
@@ -428,84 +415,6 @@ class RiceLipka_ACF_Help_Documentation {
         <h3><?php _e('Project Year', 'ricelipka-theme'); ?></h3>
         <p><?php _e('Enter the year the project was completed or is expected to be completed. This helps with chronological organization and filtering.', 'ricelipka-theme'); ?></p>
         
-        <?php
-        return ob_get_clean();
-    }
-    
-    /**
-     * Get Event Details help content
-     */
-    private static function get_event_details_help() {
-        ob_start();
-        ?>
-        <h2><?php _e('Event Details Block', 'ricelipka-theme'); ?></h2>
-        
-        <p><?php _e('The Event Details block creates comprehensive event listings with automatic countdown timers, calendar integration, and registration functionality.', 'ricelipka-theme'); ?></p>
-        
-        <h3><?php _e('Field Reference', 'ricelipka-theme'); ?></h3>
-        <table class="field-help-table">
-            <thead>
-                <tr>
-                    <th><?php _e('Field', 'ricelipka-theme'); ?></th>
-                    <th><?php _e('Purpose', 'ricelipka-theme'); ?></th>
-                    <th><?php _e('Guidelines', 'ricelipka-theme'); ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="field-name"><?php _e('Event Title', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Official event name', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Use name as it appears on invitations. Be specific and descriptive.', 'ricelipka-theme'); ?></td>
-                </tr>
-                <tr>
-                    <td class="field-name"><?php _e('Event Date', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('When the event takes place', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('For multi-day events, use start date. Enables countdown timers.', 'ricelipka-theme'); ?></td>
-                </tr>
-                <tr>
-                    <td class="field-name"><?php _e('Event Time', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Event start time', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Use 24-hour (18:00) or 12-hour (6:00 PM) format.', 'ricelipka-theme'); ?></td>
-                </tr>
-                <tr>
-                    <td class="field-name"><?php _e('Location', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Event venue and address', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Include venue name and full address for map integration.', 'ricelipka-theme'); ?></td>
-                </tr>
-                <tr>
-                    <td class="field-name"><?php _e('Registration Link', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('URL for event registration', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Creates prominent "Register Now" button. Use direct registration URL.', 'ricelipka-theme'); ?></td>
-                </tr>
-                <tr>
-                    <td class="field-name"><?php _e('Recurring Event', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Indicates if event happens regularly', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Check for weekly, monthly, or annual events.', 'ricelipka-theme'); ?></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <h3><?php _e('Automatic Features', 'ricelipka-theme'); ?></h3>
-        <p><?php _e('The Event Details block automatically provides:', 'ricelipka-theme'); ?></p>
-        <ul>
-            <li><strong><?php _e('Countdown Timer', 'ricelipka-theme'); ?>:</strong> <?php _e('Shows time remaining until event starts', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('Calendar Integration', 'ricelipka-theme'); ?>:</strong> <?php _e('"Add to Calendar" button for Google Calendar, Outlook, and ICS download', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('Event Status', 'ricelipka-theme'); ?>:</strong> <?php _e('Automatically shows "Upcoming" or "Past Event" badges', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('Social Sharing', 'ricelipka-theme'); ?>:</strong> <?php _e('Share buttons for social media and email', 'ricelipka-theme'); ?></li>
-        </ul>
-        
-        <div class="help-tip">
-            <?php _e('Include parking information in the event description if parking is limited or requires special instructions.', 'ricelipka-theme'); ?>
-        </div>
-        
-        <h3><?php _e('External Links', 'ricelipka-theme'); ?></h3>
-        <p><?php _e('Add related links for:', 'ricelipka-theme'); ?></p>
-        <ul>
-            <li><?php _e('Venue website and directions', 'ricelipka-theme'); ?></li>
-            <li><?php _e('Parking information', 'ricelipka-theme'); ?></li>
-            <li><?php _e('Related event pages', 'ricelipka-theme'); ?></li>
-            <li><?php _e('Speaker or presenter information', 'ricelipka-theme'); ?></li>
-        </ul>
         <?php
         return ob_get_clean();
     }
@@ -638,7 +547,6 @@ class RiceLipka_ACF_Help_Documentation {
         <ul>
             <li><?php _e('Check all links work correctly', 'ricelipka-theme'); ?></li>
             <li><?php _e('Verify dates and project information are accurate', 'ricelipka-theme'); ?></li>
-            <li><?php _e('Test registration links for events', 'ricelipka-theme'); ?></li>
             <li><?php _e('Review content on mobile devices', 'ricelipka-theme'); ?></li>
         </ul>
         
@@ -699,7 +607,6 @@ class RiceLipka_ACF_Help_Documentation {
         $help_methods = array(
             'news-article' => 'get_news_article_help',
             'project-portfolio' => 'get_project_portfolio_help',
-            'event-details' => 'get_event_details_help',
             'award-information' => 'get_award_information_help'
         );
         

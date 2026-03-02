@@ -98,7 +98,6 @@
         detectCurrentBlockType: function() {
             if ($('[data-name="publication_date"]').length) return 'news_article';
             if ($('[data-name="completion_status"]').length) return 'project_portfolio';
-            if ($('[data-name="event_date"]').length) return 'event_details';
             if ($('[data-name="awarding_organization"]').length) return 'award_information';
             return null;
         },

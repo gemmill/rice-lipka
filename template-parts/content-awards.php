@@ -8,30 +8,15 @@
 
 $award_fields = ricelipka_get_category_fields(get_the_ID());
 $associated_project = $award_fields['associated_project'];
-
-// Display recognition image or featured image
-$recognition_image = $award_fields['recognition_image'];
-$display_image = null;
-
-if ($recognition_image && is_array($recognition_image)) {
-    $display_image = $recognition_image;
-} elseif (has_post_thumbnail()) {
-    $display_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'medium');
-}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('award-item post-item'); ?>>
     
     <div class="award-content-wrapper">
-        <?php if ($display_image) : ?>
+        <?php if (has_post_thumbnail()) : ?>
             <div class="post-thumbnail award-thumbnail">
                 <a href="<?php the_permalink(); ?>">
-                    <?php if (is_array($display_image) && isset($display_image['url'])) : ?>
-                        <img src="<?php echo esc_url($display_image['url']); ?>" 
-                             alt="<?php echo esc_attr($display_image['alt'] ?: get_the_title()); ?>" />
-                    <?php else : ?>
-                        <?php the_post_thumbnail('medium'); ?>
-                    <?php endif; ?>
+                    <?php the_post_thumbnail('medium'); ?>
                 </a>
             </div>
         <?php endif; ?>
@@ -57,12 +42,6 @@ if ($recognition_image && is_array($recognition_image)) {
                             <?php echo date('F j, Y', strtotime($award_fields['date_received'])); ?>
                         </time>
                     <?php endif; ?>
-                    
-                    <?php if ($award_fields['award_subcategory']) : ?>
-                        <span class="award-subcategory subcategory-<?php echo esc_attr($award_fields['award_subcategory']); ?>">
-                            <?php echo esc_html(ucfirst(str_replace('_', ' ', $award_fields['award_subcategory']))); ?>
-                        </span>
-                    <?php endif; ?>
                 </div>
             </header>
             
@@ -72,6 +51,13 @@ if ($recognition_image && is_array($recognition_image)) {
                     <a href="<?php echo get_permalink($associated_project->ID); ?>" class="project-link">
                         <?php echo esc_html($associated_project->post_title); ?>
                     </a>
+                </div>
+            <?php elseif ($award_fields['project_name_text']) : ?>
+                <div class="associated-project">
+                    <strong><?php _e('Project:', 'ricelipka-theme'); ?></strong>
+                    <span class="project-name-text">
+                        <?php echo esc_html($award_fields['project_name_text']); ?>
+                    </span>
                 </div>
             <?php endif; ?>
             

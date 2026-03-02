@@ -88,11 +88,6 @@
     color: #7b1fa2;
 }
 
-.category-badge.category-events {
-    background: #e8f5e8;
-    color: #388e3c;
-}
-
 .category-badge.category-awards {
     background: #fff3e0;
     color: #f57c00;
@@ -163,7 +158,6 @@
 }
 
 .category-news-container,
-.category-events-container,
 .category-awards-container {
     grid-template-columns: 1fr;
 }
@@ -447,106 +441,6 @@
     margin-left: 0.5rem;
 }
 
-/* Events Archive Styles */
-.events-archive .events-container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-}
-
-.event-filters {
-    display: flex;
-    gap: 0.5rem;
-    margin: 1rem 0 2rem 0;
-}
-
-.event-item {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
-}
-
-.event-item .event-thumbnail {
-    flex: 0 0 150px;
-}
-
-.event-item .event-content {
-    flex: 1;
-}
-
-.event-datetime {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.event-date.upcoming-date {
-    color: #388e3c;
-    font-weight: 600;
-}
-
-.event-date.past-date {
-    color: #666;
-}
-
-.event-time {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.event-location {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-bottom: 0.5rem;
-    color: #666;
-}
-
-.recurring-indicator {
-    background: #fff3e0;
-    color: #f57c00;
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.75rem;
-}
-
-.event-actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.register-link {
-    background: #388e3c;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background 0.3s ease;
-}
-
-.register-link:hover {
-    background: #2e7d32;
-}
-
-.event-links {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.external-link {
-    color: #0073aa;
-    font-size: 0.9rem;
-    text-decoration: none;
-    border-bottom: 1px dotted #0073aa;
-}
-
-.external-link:hover {
-    border-bottom-style: solid;
-}
-
 /* Awards Archive Styles */
 .awards-archive .awards-container {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -625,23 +519,17 @@
     color: #7b1fa2;
 }
 
-.events-title {
-    color: #388e3c;
-}
-
 .awards-title {
     color: #f57c00;
 }
 
 /* Responsive adjustments for category archives */
 @media (max-width: 768px) {
-    .news-item,
-    .event-item {
+    .news-item {
         flex-direction: column;
     }
     
-    .news-item .news-thumbnail,
-    .event-item .event-thumbnail {
+    .news-item .news-thumbnail {
         flex: none;
     }
     
@@ -662,20 +550,8 @@
         align-self: center;
     }
     
-    .project-filters,
-    .event-filters {
+    .project-filters {
         justify-content: center;
-    }
-    
-    .event-datetime {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.25rem;
-    }
-    
-    .event-actions {
-        flex-direction: column;
-        gap: 0.5rem;
     }
     
     .award-actions {
@@ -835,112 +711,6 @@
     font-weight: 600;
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Event Single Post Styles */
-.event-fields-container {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-}
-
-.event-header-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-.event-datetime-display h3 {
-    margin: 0 0 1rem 0;
-    color: #388e3c;
-}
-
-.event-detail {
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.event-detail strong {
-    min-width: 60px;
-    color: #333;
-}
-
-.event-date.upcoming-date {
-    color: #388e3c;
-    font-weight: 600;
-}
-
-.event-date.past-date {
-    color: #666;
-}
-
-.event-registration {
-    text-align: center;
-    margin: 1.5rem 0;
-}
-
-.register-button {
-    display: inline-block;
-    background: #388e3c;
-    color: #fff;
-    padding: 1rem 2rem;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: background 0.3s ease;
-}
-
-.register-button:hover {
-    background: #2e7d32;
-}
-
-.event-external-links h3 {
-    margin: 1.5rem 0 1rem 0;
-    color: #388e3c;
-}
-
-.external-links-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.external-links-list li {
-    margin-bottom: 0.5rem;
-}
-
-.external-links-list .external-link {
-    color: #0073aa;
-    text-decoration: none;
-    border-bottom: 1px dotted #0073aa;
-}
-
-.external-links-list .external-link:hover {
-    border-bottom-style: solid;
-}
-
-.event-status-notice {
-    padding: 1rem;
-    border-radius: 6px;
-    margin-top: 1.5rem;
-    text-align: center;
-}
-
-.upcoming-notice {
-    background: #e8f5e8;
-    color: #2e7d32;
-    border: 1px solid #c8e6c9;
-}
-
-.past-notice {
-    background: #f5f5f5;
-    color: #666;
-    border: 1px solid #e0e0e0;
 }
 
 /* Award Single Post Styles */
@@ -1109,11 +879,6 @@
         grid-template-columns: 1fr;
     }
     
-    .event-header-info {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
     .award-header-info {
         flex-direction: column;
     }
@@ -1279,11 +1044,6 @@
     border-color: #7b1fa2;
 }
 
-.event-type-filters .filter-btn.active {
-    background: #388e3c;
-    border-color: #388e3c;
-}
-
 .award-filters .filter-btn.active {
     background: #f57c00;
     border-color: #f57c00;
@@ -1291,7 +1051,6 @@
 
 /* Subcategory Tags in Content */
 .news-subcategory,
-.event-subcategory,
 .award-subcategory {
     display: inline-block;
     padding: 0.2rem 0.5rem;
@@ -1305,11 +1064,6 @@
 .subcategory-project_updates {
     background: #e8f5e8;
     color: #2e7d32;
-}
-
-.subcategory-event_announcements {
-    background: #fff3e0;
-    color: #f57c00;
 }
 
 .subcategory-award_notifications {
@@ -1328,42 +1082,6 @@
 }
 
 .subcategory-community_involvement {
-    background: #e0f2f1;
-    color: #00695c;
-}
-
-/* Event subcategory colors */
-.subcategory-conferences {
-    background: #e8f5e8;
-    color: #2e7d32;
-}
-
-.subcategory-workshops {
-    background: #fff3e0;
-    color: #f57c00;
-}
-
-.subcategory-exhibitions {
-    background: #fce4ec;
-    color: #c2185b;
-}
-
-.subcategory-lectures {
-    background: #e3f2fd;
-    color: #1976d2;
-}
-
-.subcategory-community_events {
-    background: #f3e5f5;
-    color: #7b1fa2;
-}
-
-.subcategory-awards_ceremonies {
-    background: #fff8e1;
-    color: #ff8f00;
-}
-
-.subcategory-networking {
     background: #e0f2f1;
     color: #00695c;
 }

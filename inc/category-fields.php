@@ -146,106 +146,8 @@ function ricelipka_create_acf_field_groups() {
         ),
     ));
 
-    // Events Category Field Group
-    acf_add_local_field_group(array(
-        'key' => 'group_events_fields',
-        'title' => 'Event Fields',
-        'fields' => array(
-            array(
-                'key' => 'field_event_date',
-                'label' => 'Event Date',
-                'name' => 'event_date',
-                'type' => 'date_picker',
-                'instructions' => 'Select the event date',
-                'display_format' => 'F j, Y',
-                'return_format' => 'Y-m-d',
-                'required' => 1,
-            ),
-            array(
-                'key' => 'field_event_time',
-                'label' => 'Event Time',
-                'name' => 'event_time',
-                'type' => 'time_picker',
-                'instructions' => 'Select the event time',
-                'display_format' => 'g:i a',
-                'return_format' => 'H:i:s',
-            ),
-            array(
-                'key' => 'field_event_location',
-                'label' => 'Location',
-                'name' => 'location',
-                'type' => 'text',
-                'instructions' => 'Enter the event location',
-                'required' => 1,
-            ),
-            array(
-                'key' => 'field_external_links',
-                'label' => 'External Links',
-                'name' => 'external_links',
-                'type' => 'repeater',
-                'instructions' => 'Add related links',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_link_title',
-                        'label' => 'Link Title',
-                        'name' => 'title',
-                        'type' => 'text',
-                    ),
-                    array(
-                        'key' => 'field_link_url',
-                        'label' => 'URL',
-                        'name' => 'url',
-                        'type' => 'url',
-                    ),
-                ),
-            ),
-            array(
-                'key' => 'field_registration_link',
-                'label' => 'Registration Link',
-                'name' => 'registration_link',
-                'type' => 'url',
-                'instructions' => 'Enter the registration URL',
-            ),
-            array(
-                'key' => 'field_recurring_event',
-                'label' => 'Recurring Event',
-                'name' => 'recurring_event',
-                'type' => 'true_false',
-                'instructions' => 'Check if this is a recurring event',
-            ),
-            array(
-                'key' => 'field_event_subcategory',
-                'label' => 'Event Type',
-                'name' => 'event_subcategory',
-                'type' => 'select',
-                'instructions' => 'Select the event type',
-                'choices' => array(
-                    'conferences' => 'Conferences',
-                    'workshops' => 'Workshops',
-                    'exhibitions' => 'Exhibitions',
-                    'lectures' => 'Lectures',
-                    'community_events' => 'Community Events',
-                    'awards_ceremonies' => 'Awards Ceremonies',
-                    'networking' => 'Networking Events',
-                ),
-                'allow_null' => 1,
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'post',
-                ),
-                array(
-                    'param' => 'post_category',
-                    'operator' => '==',
-                    'value' => 'category:events',
-                ),
-            ),
-        ),
-    ));
+    // Events Category Field Group - Removed
+    // Events category has been removed from the system
 
     // Awards Category Field Group
     acf_add_local_field_group(array(
@@ -265,10 +167,26 @@ function ricelipka_create_acf_field_groups() {
                 'label' => 'Associated Project',
                 'name' => 'associated_project',
                 'type' => 'post_object',
-                'instructions' => 'Link to the associated project',
+                'instructions' => 'Link to the associated project, or enter project name below if not found',
                 'post_type' => array('post'),
                 'taxonomy' => array('category:projects'),
                 'return_format' => 'object',
+                'allow_null' => 1,
+            ),
+            array(
+                'key' => 'field_project_name_text',
+                'label' => 'Project Name (if not linked above)',
+                'name' => 'project_name_text',
+                'type' => 'text',
+                'instructions' => 'Enter project name if it\'s not available in the project list above',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_associated_project',
+                            'operator' => '==empty',
+                        ),
+                    ),
+                ),
             ),
             array(
                 'key' => 'field_date_received',
@@ -279,31 +197,6 @@ function ricelipka_create_acf_field_groups() {
                 'display_format' => 'F j, Y',
                 'return_format' => 'Y-m-d',
                 'required' => 1,
-            ),
-            array(
-                'key' => 'field_recognition_image',
-                'label' => 'Recognition Image',
-                'name' => 'recognition_image',
-                'type' => 'image',
-                'instructions' => 'Upload award certificate or image',
-                'return_format' => 'array',
-                'preview_size' => 'medium',
-            ),
-            array(
-                'key' => 'field_award_subcategory',
-                'label' => 'Award Type',
-                'name' => 'award_subcategory',
-                'type' => 'select',
-                'instructions' => 'Select the award type',
-                'choices' => array(
-                    'design_excellence' => 'Design Excellence',
-                    'sustainability' => 'Sustainability Awards',
-                    'innovation' => 'Innovation Awards',
-                    'community_impact' => 'Community Impact',
-                    'professional_recognition' => 'Professional Recognition',
-                    'project_awards' => 'Project Awards',
-                ),
-                'allow_null' => 1,
             ),
         ),
         'location' => array(
@@ -408,25 +301,12 @@ function ricelipka_get_category_fields($post_id = null) {
             );
             break;
 
-        case 'events':
-            $fields = array(
-                'event_date' => get_field('event_date', $post_id),
-                'event_time' => get_field('event_time', $post_id),
-                'location' => get_field('location', $post_id),
-                'external_links' => get_field('external_links', $post_id),
-                'registration_link' => get_field('registration_link', $post_id),
-                'recurring_event' => get_field('recurring_event', $post_id),
-                'event_subcategory' => get_field('event_subcategory', $post_id),
-            );
-            break;
-
         case 'awards':
             $fields = array(
                 'awarding_organization' => get_field('awarding_organization', $post_id),
                 'associated_project' => get_field('associated_project', $post_id),
+                'project_name_text' => get_field('project_name_text', $post_id),
                 'date_received' => get_field('date_received', $post_id),
-                'recognition_image' => get_field('recognition_image', $post_id),
-                'award_subcategory' => get_field('award_subcategory', $post_id),
             );
             break;
 

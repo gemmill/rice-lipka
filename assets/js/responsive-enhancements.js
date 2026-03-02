@@ -58,7 +58,7 @@
             $('body').addClass('touch-device');
             
             // Enhanced touch targets for buttons
-            $('.news-read-more, .event-register-btn, .view-project-btn, .action-btn').each(function() {
+            $('.news-read-more, .view-project-btn, .action-btn').each(function() {
                 const $btn = $(this);
                 const minTouchTarget = 44; // 44px minimum touch target
                 

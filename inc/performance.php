@@ -369,7 +369,7 @@ function ricelipka_add_resource_hints() {
         $count = 0;
         foreach ($categories as $category) {
             if ($count >= 3) break; // Limit prefetch to avoid overloading
-            if (in_array($category->slug, array('news', 'projects', 'events', 'awards'))) {
+            if (in_array($category->slug, array('news', 'projects', 'awards'))) {
                 echo '<link rel="prefetch" href="' . get_category_link($category->term_id) . '">';
                 $count++;
             }

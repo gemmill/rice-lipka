@@ -14,13 +14,6 @@ $associated_project = $fields['associated_project'];
     <div class="award-fields-container">
         
         <div class="award-header-info">
-            <?php if ($fields['recognition_image'] && is_array($fields['recognition_image'])) : ?>
-                <div class="award-recognition-image">
-                    <img src="<?php echo esc_url($fields['recognition_image']['url']); ?>" 
-                         alt="<?php echo esc_attr($fields['recognition_image']['alt'] ?: get_the_title()); ?>" />
-                </div>
-            <?php endif; ?>
-            
             <div class="award-details">
                 <h3><?php _e('Award Information', 'ricelipka-theme'); ?></h3>
                 
@@ -80,6 +73,13 @@ $associated_project = $fields['associated_project'];
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+        <?php elseif ($fields['project_name_text']) : ?>
+            <div class="associated-project-display">
+                <h3><?php _e('Associated Project', 'ricelipka-theme'); ?></h3>
+                <div class="project-name-text">
+                    <strong><?php echo esc_html($fields['project_name_text']); ?></strong>
                 </div>
             </div>
         <?php endif; ?>

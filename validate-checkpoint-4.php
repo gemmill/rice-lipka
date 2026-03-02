@@ -34,7 +34,7 @@ function validate_checkpoint_4() {
     
     // Test 2: Primary categories
     echo "<h2>2. Primary Category Structure</h2>\n";
-    $primary_categories = array('news', 'projects', 'events', 'awards');
+    $primary_categories = array('news', 'projects', 'awards');
     $category_tests_passed = true;
     
     foreach ($primary_categories as $category_slug) {
@@ -58,7 +58,6 @@ function validate_checkpoint_4() {
         $expected_groups = array(
             'group_news_fields' => 'News Fields',
             'group_projects_fields' => 'Project Fields',
-            'group_events_fields' => 'Event Fields',
             'group_awards_fields' => 'Award Fields'
         );
         
@@ -129,15 +128,6 @@ function validate_checkpoint_4() {
             'image_gallery' => 'gallery',
             'project_year' => 'number'
         ),
-        'group_events_fields' => array(
-            'event_title' => 'text',
-            'event_date' => 'date_picker',
-            'event_time' => 'time_picker',
-            'location' => 'text',
-            'external_links' => 'repeater',
-            'registration_link' => 'url',
-            'recurring_event' => 'true_false'
-        ),
         'group_awards_fields' => array(
             'award_name' => 'text',
             'awarding_organization' => 'text',
@@ -190,7 +180,6 @@ function validate_checkpoint_4() {
     $template_files = array(
         'category-news.php' => 'News category template',
         'category-projects.php' => 'Projects category template',
-        'category-events.php' => 'Events category template',
         'category-awards.php' => 'Awards category template'
     );
     
@@ -216,7 +205,6 @@ function validate_checkpoint_4() {
     $block_directories = array(
         'blocks/news-article/' => 'News Article Block',
         'blocks/project-portfolio/' => 'Project Portfolio Block',
-        'blocks/event-details/' => 'Event Details Block',
         'blocks/award-information/' => 'Award Information Block'
     );
     
@@ -294,7 +282,7 @@ function validate_checkpoint_4() {
         echo "<h3 style='color: #155724; margin: 0 0 10px 0;'>✅ TASK 4 CHECKPOINT PASSED</h3>\n";
         echo "<p style='color: #155724; margin: 0;'>All ACF field groups and category structure components are properly implemented and functional.</p>\n";
         echo "<ul style='color: #155724;'>\n";
-        echo "<li>✅ Four primary categories (News, Projects, Events, Awards) exist</li>\n";
+        echo "<li>✅ Three primary categories (News, Projects, Awards) exist</li>\n";
         echo "<li>✅ ACF field groups with conditional logic are properly configured</li>\n";
         echo "<li>✅ All required fields are present with correct types</li>\n";
         echo "<li>✅ Category-specific templates are available</li>\n";

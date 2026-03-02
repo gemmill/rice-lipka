@@ -23,9 +23,6 @@ function ricelipka_add_structured_data() {
             case 'projects':
                 ricelipka_project_structured_data($post_id);
                 break;
-            case 'events':
-                ricelipka_event_structured_data($post_id);
-                break;
             case 'news':
                 ricelipka_article_structured_data($post_id);
                 break;
@@ -89,55 +86,6 @@ function ricelipka_project_structured_data($post_id) {
             $images[] = $image['url'];
         }
         $structured_data['image'] = $images;
-    }
-    
-    echo '<script type="application/ld+json">' . json_encode($structured_data, JSON_UNESCAPED_SLASHES) . '</script>';
-}
-
-/**
- * Event structured data
- */
-function ricelipka_event_structured_data($post_id) {
-    $event_title = get_field('event_title', $post_id) ?: get_the_title($post_id);
-    $event_date = get_field('event_date', $post_id);
-    $event_time = get_field('event_time', $post_id);
-    $location = get_field('location', $post_id);
-    $registration_link = get_field('registration_link', $post_id);
-    
-    $structured_data = array(
-        '@context' => 'https://schema.org',
-        '@type' => 'Event',
-        'name' => $event_title,
-        'description' => get_the_excerpt($post_id),
-        'url' => get_permalink($post_id),
-        'organizer' => array(
-            '@type' => 'Organization',
-            'name' => get_bloginfo('name'),
-            'url' => home_url(),
-        ),
-    );
-    
-    if ($event_date) {
-        $start_date = $event_date;
-        if ($event_time) {
-            $start_date .= 'T' . $event_time;
-        }
-        $structured_data['startDate'] = $start_date;
-    }
-    
-    if ($location) {
-        $structured_data['location'] = array(
-            '@type' => 'Place',
-            'name' => $location,
-        );
-    }
-    
-    if ($registration_link) {
-        $structured_data['offers'] = array(
-            '@type' => 'Offer',
-            'url' => $registration_link,
-            'availability' => 'https://schema.org/InStock',
-        );
     }
     
     echo '<script type="application/ld+json">' . json_encode($structured_data, JSON_UNESCAPED_SLASHES) . '</script>';

@@ -215,7 +215,7 @@ function ricelipka_get_post_primary_category($post_id = null) {
     }
     
     $categories = get_the_category($post_id);
-    $primary_cats = array('news', 'projects', 'events', 'awards', 'people');
+    $primary_cats = array('news', 'projects', 'awards', 'people');
     
     foreach ($categories as $category) {
         if (in_array($category->slug, $primary_cats)) {
@@ -263,7 +263,6 @@ function ricelipka_theme_activation() {
     $categories = array(
         'news' => 'News',
         'projects' => 'Projects', 
-        'events' => 'Events',
         'awards' => 'Awards',
         'people' => 'People'
     );

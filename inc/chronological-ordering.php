@@ -19,7 +19,7 @@ function ricelipka_modify_category_query($query) {
     if (!is_admin() && $query->is_main_query() && is_category()) {
         $category = get_queried_object();
         
-        if ($category && in_array($category->slug, ['news', 'events'])) {
+        if ($category && in_array($category->slug, ['news'])) {
             // Set posts per page for better pagination
             $query->set('posts_per_page', 12);
             
@@ -44,54 +44,6 @@ function ricelipka_modify_category_query($query) {
                         'compare' => 'NOT EXISTS'
                     )
                 ));
-                
-            } elseif ($category->slug === 'events') {
-                // Events: Order by event_date, upcoming first, then past events
-                $today = date('Y-m-d');
-                
-                // Check if we're filtering for upcoming or past events
-                $event_filter = get_query_var('event_filter', 'all');
-                
-                if ($event_filter === 'upcoming') {
-                    $query->set('meta_query', array(
-                        array(
-                            'key' => 'event_date',
-                            'value' => $today,
-                            'compare' => '>=',
-                            'type' => 'DATE'
-                        )
-                    ));
-                    $query->set('meta_key', 'event_date');
-                    $query->set('orderby', 'meta_value');
-                    $query->set('order', 'ASC');
-                    $query->set('meta_type', 'DATE');
-                    
-                } elseif ($event_filter === 'past') {
-                    $query->set('meta_query', array(
-                        array(
-                            'key' => 'event_date',
-                            'value' => $today,
-                            'compare' => '<',
-                            'type' => 'DATE'
-                        )
-                    ));
-                    $query->set('meta_key', 'event_date');
-                    $query->set('orderby', 'meta_value');
-                    $query->set('order', 'DESC');
-                    $query->set('meta_type', 'DATE');
-                    
-                } else {
-                    // All events: upcoming first (ASC), then past events (DESC)
-                    $query->set('meta_key', 'event_date');
-                    $query->set('orderby', array(
-                        'meta_value' => 'ASC',
-                        'date' => 'DESC'
-                    ));
-                    $query->set('meta_type', 'DATE');
-                    
-                    // Custom ordering to show upcoming first, then past
-                    add_filter('posts_orderby', 'ricelipka_events_custom_orderby', 10, 2);
-                }
             }
         }
     }
@@ -99,47 +51,9 @@ function ricelipka_modify_category_query($query) {
 add_action('pre_get_posts', 'ricelipka_modify_category_query');
 
 /**
- * Custom orderby for events to show upcoming first, then past events
- */
-function ricelipka_events_custom_orderby($orderby, $query) {
-    global $wpdb;
-    
-    if (!is_admin() && $query->is_main_query() && is_category()) {
-        $category = get_queried_object();
-        
-        if ($category && $category->slug === 'events') {
-            $today = date('Y-m-d');
-            
-            // Custom SQL to order upcoming events ASC, past events DESC
-            $orderby = "
-                CASE 
-                    WHEN {$wpdb->postmeta}.meta_value >= '{$today}' THEN 0 
-                    ELSE 1 
-                END ASC,
-                CASE 
-                    WHEN {$wpdb->postmeta}.meta_value >= '{$today}' THEN {$wpdb->postmeta}.meta_value 
-                    ELSE NULL 
-                END ASC,
-                CASE 
-                    WHEN {$wpdb->postmeta}.meta_value < '{$today}' THEN {$wpdb->postmeta}.meta_value 
-                    ELSE NULL 
-                END DESC,
-                {$wpdb->posts}.post_date DESC
-            ";
-        }
-    }
-    
-    // Remove filter to prevent infinite loop
-    remove_filter('posts_orderby', 'ricelipka_events_custom_orderby', 10);
-    
-    return $orderby;
-}
-
-/**
  * Add custom query vars for filtering
  */
 function ricelipka_add_query_vars($vars) {
-    $vars[] = 'event_filter';
     $vars[] = 'date_range';
     $vars[] = 'subcategory_filter';
     return $vars;
