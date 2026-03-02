@@ -1,0 +1,404 @@
+/**
+ * Performance Optimization CSS for Rice+Lipka WordPress Theme
+ * 
+ * @package RiceLipka_Theme
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   Lazy Loading Animations and Optimizations
+   ========================================================================== */
+
+/* Base lazy loading styles */
+img[data-lazy],
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: translateY(10px);
+}
+
+img.lazy-loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+img.lazy-error {
+    opacity: 0.5;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+img.lazy-error::after {
+    content: "Image failed to load";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Loading placeholder animation */
+.loading-placeholder {
+    min-height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes loading-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Gallery lazy loading animations */
+.gallery-grid,
+.awards-grid,
+.project-gallery {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.gallery-grid.gallery-visible,
+.awards-grid.gallery-visible,
+.project-gallery.gallery-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gallery-grid img,
+.awards-grid img,
+.project-gallery img {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.gallery-grid img.gallery-image-loaded,
+.awards-grid img.gallery-image-loaded,
+.project-gallery img.gallery-image-loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==========================================================================
+   Performance Optimizations
+   ========================================================================== */
+
+/* Box-sizing optimization */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Image optimization */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Responsive images */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* High-priority images */
+img[fetchpriority="high"],
+img[loading="eager"] {
+    opacity: 1;
+    transform: none;
+}
+
+/* ==========================================================================
+   WebP Support
+   ========================================================================== */
+
+/* WebP fallback handling */
+.webp-supported .fallback-image {
+    display: none;
+}
+
+.webp-not-supported .webp-image {
+    display: none;
+}
+
+/* ==========================================================================
+   Critical Resource Loading
+   ========================================================================== */
+
+/* Font loading optimization */
+body {
+    font-display: swap;
+}
+
+.fonts-loaded body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Critical CSS loaded indicator */
+.critical-css-loaded {
+    visibility: visible;
+}
+
+/* ==========================================================================
+   Performance-Optimized Components
+   ========================================================================== */
+
+/* Optimized project galleries */
+.project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.project-gallery img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.project-gallery img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Optimized news article images */
+.news-article img {
+    margin: 1.5rem 0;
+    border-radius: 6px;
+}
+
+.news-featured-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+}
+
+/* Optimized award certificates */
+.award-certificate img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background: #fff;
+}
+
+/* ==========================================================================
+   Layout Shift Prevention
+   ========================================================================== */
+
+/* Aspect ratio containers to prevent layout shifts */
+.aspect-ratio-16-9 {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.aspect-ratio-4-3 {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.aspect-ratio-1-1 {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+}
+
+/* Image containers with fixed dimensions */
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   Performance Monitoring Indicators (Development Only)
+   ========================================================================== */
+
+/* Performance metrics display (hidden by default) */
+.performance-metrics {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    z-index: 9999;
+    display: none;
+}
+
+.performance-metrics.visible {
+    display: block;
+}
+
+.performance-metrics .metric {
+    margin-bottom: 5px;
+}
+
+.performance-metrics .metric-label {
+    font-weight: bold;
+}
+
+.performance-metrics .metric-good {
+    color: #4CAF50;
+}
+
+.performance-metrics .metric-warning {
+    color: #FF9800;
+}
+
+.performance-metrics .metric-poor {
+    color: #F44336;
+}
+
+/* ==========================================================================
+   Responsive Performance Optimizations
+   ========================================================================== */
+
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+    /* Reduce animation complexity on mobile */
+    .gallery-grid img,
+    .awards-grid img,
+    .project-gallery img {
+        transition-duration: 0.2s;
+    }
+    
+    /* Optimize touch targets */
+    .gallery-grid img,
+    .awards-grid img,
+    .project-gallery img {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Reduce layout complexity */
+    .project-gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .project-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop-specific optimizations */
+@media (min-width: 1025px) {
+    /* Enable more complex animations on desktop */
+    .gallery-grid img:hover,
+    .awards-grid img:hover,
+    .project-gallery img:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Optimize for larger screens */
+    .project-gallery {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   Print Optimizations
+   ========================================================================== */
+
+@media print {
+    /* Hide non-essential elements for printing */
+    .loading-placeholder,
+    .performance-metrics {
+        display: none !important;
+    }
+    
+    /* Ensure images are visible when printing */
+    img[data-lazy],
+    img[loading="lazy"] {
+        opacity: 1 !important;
+    }
+    
+    /* Optimize layout for printing */
+    .gallery-grid,
+    .awards-grid,
+    .project-gallery {
+        break-inside: avoid;
+    }
+}
+
+/* ==========================================================================
+   Accessibility Optimizations
+   ========================================================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    img[data-lazy],
+    img[loading="lazy"],
+    .gallery-grid,
+    .awards-grid,
+    .project-gallery,
+    .gallery-grid img,
+    .awards-grid img,
+    .project-gallery img {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .loading-placeholder {
+        animation: none !important;
+        background: #f0f0f0 !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .loading-placeholder {
+        background: #000 !important;
+        color: #fff !important;
+    }
+    
+    img.lazy-error {
+        border: 2px solid #000 !important;
+    }
+}
+
+/* Focus indicators for keyboard navigation */
+img:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* Screen reader optimizations */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}

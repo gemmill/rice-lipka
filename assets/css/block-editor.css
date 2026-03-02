@@ -1,0 +1,384 @@
+/**
+ * Block Editor Styles for Rice+Lipka Architects theme
+ *
+ * @package RiceLipka_Theme
+ * @since 1.0.0
+ */
+
+/* Block Editor Enhancements */
+.block-editor-page .edit-post-visual-editor {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* ACF Block Previews */
+.acf-block-preview {
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 1rem;
+    background: #f9f9f9;
+    margin: 1rem 0;
+}
+
+.acf-block-preview h3 {
+    margin-top: 0;
+    color: #666;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+/* News Article Block Editor Styles */
+.news-article-block {
+    border: 1px solid #e3f2fd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fafafa;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.news-article-block.enhanced-preview {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.news-article-block.enhanced-preview:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.news-article-block .news-subcategory {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.news-article-block .news-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.news-article-block .news-date {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.news-article-block .news-excerpt {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-left: 3px solid #3498db;
+    border-radius: 4px;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.news-article-block .news-featured-image {
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.news-article-block .news-featured-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Preview Mode Enhancements */
+.preview-mode-indicator {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.block-validation-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.block-preview-indicator {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.block-preview-footer {
+    background: #f0f0f1;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    color: #646970;
+    border-top: 1px solid #dcdcde;
+    margin-top: 1rem;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Real-time validation styles */
+.has-validation-errors {
+    border-color: #dc3232 !important;
+    background: #fef7f7 !important;
+}
+
+.has-validation-warnings {
+    border-color: #ffb900 !important;
+    background: #fffbf0 !important;
+}
+
+.validation-success {
+    border-color: #46b450 !important;
+    background: #f7fff7 !important;
+}
+
+/* Project Portfolio Block Editor Styles */
+.project-portfolio-block {
+    border: 1px solid #f3e5f5;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fafafa;
+}
+
+.project-portfolio-block .project-status {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.project-portfolio-block .project-status.status-completed {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.project-portfolio-block .project-status.status-in-progress {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.project-portfolio-block .project-status.status-planned {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.project-portfolio-block .completion-progress {
+    margin: 0.5rem 0;
+}
+
+.project-portfolio-block .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e1e1e1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.project-portfolio-block .progress-fill {
+    height: 100%;
+    background: #4caf50;
+    transition: width 0.3s ease;
+}
+
+.project-portfolio-block .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin-left: 0.5rem;
+}
+
+.project-portfolio-block .project-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.project-portfolio-block .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.project-portfolio-block .gallery-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Event Details Block Editor Styles */
+.event-details-block {
+    border: 1px solid #e8f5e8;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fafafa;
+}
+
+.event-details-block .recurring-badge,
+.event-details-block .past-event-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+}
+
+.event-details-block .recurring-badge {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.event-details-block .past-event-badge {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.event-details-block .event-meta {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.event-details-block .registration-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+/* Award Information Block Editor Styles */
+.award-information-block {
+    border: 1px solid #fff3e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fafafa;
+}
+
+.award-information-block .award-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.award-information-block .awarding-organization,
+.award-information-block .award-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.award-information-block .award-image {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.award-information-block .award-image img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.award-information-block .achievement-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #fff3e0;
+    border-radius: 4px;
+    margin: 1rem 0;
+    color: #f57c00;
+    font-weight: 600;
+}
+
+/* Block Pattern Previews */
+.block-editor-block-patterns-list__item .block-editor-block-preview__container {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Custom Block Styles */
+.is-style-highlight {
+    background: #fff3e0;
+    padding: 1rem;
+    border-left: 4px solid #f57c00;
+}
+
+.is-style-underlined {
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 0.5rem;
+}
+
+/* Block Editor Responsive Previews */
+@media (max-width: 768px) {
+    .acf-block-preview {
+        padding: 0.75rem;
+    }
+    
+    .project-portfolio-block .project-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .project-portfolio-block .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+}
+
+/* Block Validation and Error States */
+.acf-block-preview.has-error {
+    border-color: #d32f2f;
+    background: #ffebee;
+}
+
+.acf-block-preview.has-warning {
+    border-color: #f57c00;
+    background: #fff3e0;
+}
+
+.block-validation-message {
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.block-validation-message.error {
+    background: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}
+
+.block-validation-message.warning {
+    background: #fff3e0;
+    color: #f57c00;
+    border: 1px solid #f57c00;
+}

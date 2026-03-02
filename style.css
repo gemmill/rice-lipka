@@ -1,0 +1,174 @@
+/*
+Theme Name: Rice+Lipka Architects
+Description: Custom WordPress theme for Rice+Lipka Architects website with ACF Pro integration and category-based content organization.
+Version: 1.0.0
+Author: Rice+Lipka Architects
+Text Domain: ricelipka-theme
+Requires at least: 6.0
+Tested up to: 6.4
+Requires PHP: 8.0
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+This theme supports the Gutenberg block editor and is designed to work with Advanced Custom Fields Pro for structured content management.
+*/
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Container and Layout - Enhanced for responsive */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .container {
+        padding: 0 2rem;
+    }
+}
+
+/* Typography - Responsive scale */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+h3 {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+h4 {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.6;
+}
+
+/* Links */
+a {
+    color: #0073aa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* WordPress Core Styles - Enhanced for responsive */
+.alignleft {
+    float: left;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alignright {
+    float: right;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.aligncenter {
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+@media (max-width: 767px) {
+    .alignleft,
+    .alignright {
+        float: none;
+        display: block;
+        margin: 0 auto 1rem;
+    }
+}
+
+.wp-caption {
+    max-width: 100%;
+}
+
+.wp-caption-text {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Block Editor Styles - Enhanced */
+.wp-block-group {
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 767px) {
+    .wp-block-group {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Responsive utilities */
+.show-mobile {
+    display: block;
+}
+
+.show-tablet,
+.show-desktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .show-mobile {
+        display: none;
+    }
+    
+    .show-tablet {
+        display: block;
+    }
+}
+
+@media (min-width: 1025px) {
+    .show-tablet {
+        display: none;
+    }
+    
+    .show-desktop {
+        display: block;
+    }
+}
+
+/* Category-specific styles will be added in separate files */
