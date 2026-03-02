@@ -35,8 +35,7 @@ get_header(); ?>
                     ?>
                 </div>
                 
-                <!-- Award type filters -->
-                <div class="award-filters subcategory-filters category-nav">
+                <!-- Award filters removed - using only top-level categories -->
                     <ul>
                         <li><a href="#" class="filter-btn active" data-filter="all"><?php _e('All Awards', 'ricelipka-theme'); ?></a></li>
                         <li><a href="#" class="filter-btn" data-filter="design_excellence"><?php _e('Design Excellence', 'ricelipka-theme'); ?></a></li>

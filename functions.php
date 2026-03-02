@@ -266,7 +266,6 @@ add_filter('excerpt_more', 'ricelipka_excerpt_more');
  */
 require_once get_template_directory() . '/inc/acf-blocks.php';
 require_once get_template_directory() . '/inc/category-fields.php';
-require_once get_template_directory() . '/inc/subcategory-management.php';
 require_once get_template_directory() . '/inc/category-navigation-widget.php';
 require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/seo.php';

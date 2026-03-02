@@ -10,7 +10,6 @@
 $publication_date = get_field('publication_date');
 $excerpt = get_field('excerpt');
 $featured_image = get_field('featured_image');
-$subcategory = get_field('subcategory');
 
 // Use post title
 $news_title = get_the_title();

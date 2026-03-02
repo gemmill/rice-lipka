@@ -52,22 +52,6 @@ function ricelipka_create_acf_field_groups() {
                 'return_format' => 'array',
                 'preview_size' => 'medium',
             ),
-            array(
-                'key' => 'field_news_subcategory',
-                'label' => 'News Subcategory',
-                'name' => 'subcategory',
-                'type' => 'select',
-                'instructions' => 'Select the news subcategory',
-                'choices' => array(
-                    'project_updates' => 'Project Updates',
-                    'event_announcements' => 'Event Announcements',
-                    'award_notifications' => 'Award Notifications',
-                    'firm_news' => 'Firm News',
-                    'press_releases' => 'Press Releases',
-                    'community_involvement' => 'Community Involvement',
-                ),
-                'allow_null' => 1,
-            ),
         ),
         'location' => array(
             array(

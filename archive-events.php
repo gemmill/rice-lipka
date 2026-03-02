@@ -84,19 +84,7 @@ get_header(); ?>
             </ul>
         </div>
         
-        <!-- Event type filters -->
-        <div class="event-type-filters subcategory-filters category-nav">
-            <ul>
-                <li><a href="#" class="filter-btn active" data-subcategory="all"><?php _e('All Types', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="conferences"><?php _e('Conferences', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="workshops"><?php _e('Workshops', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="exhibitions"><?php _e('Exhibitions', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="lectures"><?php _e('Lectures', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="community_events"><?php _e('Community Events', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="awards_ceremonies"><?php _e('Awards Ceremonies', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="networking"><?php _e('Networking Events', 'ricelipka-theme'); ?></a></li>
-            </ul>
-        </div>
+        <!-- Event filters removed - using only top-level categories -->
         
         <?php if (have_posts()) : ?>
             <div class="results-count">

@@ -75,18 +75,7 @@ get_header(); ?>
             </div>
         </div>
         
-        <!-- News subcategory filters -->
-        <div class="news-filters subcategory-filters category-nav">
-            <ul>
-                <li><a href="#" class="filter-btn active" data-subcategory="all"><?php _e('All News', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="project_updates"><?php _e('Project Updates', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="event_announcements"><?php _e('Event Announcements', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="award_notifications"><?php _e('Award Notifications', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="firm_news"><?php _e('Firm News', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="press_releases"><?php _e('Press Releases', 'ricelipka-theme'); ?></a></li>
-                <li><a href="#" class="filter-btn" data-subcategory="community_involvement"><?php _e('Community Involvement', 'ricelipka-theme'); ?></a></li>
-            </ul>
-        </div>
+        <!-- News filters removed - using only top-level categories -->
         
         <?php if (have_posts()) : ?>
             <div class="results-count">

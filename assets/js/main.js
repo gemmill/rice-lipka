@@ -125,19 +125,14 @@
             e.preventDefault();
             
             const $button = $(this);
-            const filter = $button.data('filter') || $button.data('subcategory');
-            const isSubcategory = $button.data('subcategory') !== undefined;
+            const filter = $button.data('filter');
             
             // Update active filter
             $button.siblings('.filter-btn').removeClass('active');
             $button.addClass('active');
             
-            // Handle different filter types
-            if (isSubcategory) {
-                handleSubcategoryFilter(filter, $button);
-            } else {
-                handlePrimaryFilter(filter, $button);
-            }
+            // Handle primary filter
+            handlePrimaryFilter(filter, $button);
         });
     }
     
@@ -153,54 +148,6 @@
             posts.fadeOut(300);
             $(`.post-item[data-${$button.closest('.filter-container').data('filter-type')}="${filter}"]`).fadeIn(300);
         }
-    }
-    
-    /**
-     * Handle subcategory filtering with AJAX
-     */
-    function handleSubcategoryFilter(subcategory, $button) {
-        const $container = $button.closest('.site-main');
-        const $postsContainer = $container.find('.posts-container');
-        const currentCategory = $('body').attr('class').match(/category-(\w+)/);
-        
-        if (!currentCategory) return;
-        
-        const categorySlug = currentCategory[1];
-        
-        // Show loading state
-        $postsContainer.addClass('loading');
-        
-        // Prepare AJAX data
-        const ajaxData = {
-            action: 'filter_posts_by_category',
-            category: categorySlug,
-            subcategory: subcategory,
-            paged: 1,
-            nonce: ricelipka_ajax.nonce
-        };
-        
-        // Make AJAX request
-        $.ajax({
-            url: ricelipka_ajax.ajax_url,
-            type: 'POST',
-            data: ajaxData,
-            success: function(response) {
-                if (response.success) {
-                    $postsContainer.html(response.data.content);
-                    $postsContainer.removeClass('loading');
-                    
-                    // Update pagination if needed
-                    updatePagination(response.data.max_pages, response.data.current_page);
-                } else {
-                    console.error('Filter request failed:', response.data);
-                    $postsContainer.removeClass('loading');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error:', error);
-                $postsContainer.removeClass('loading');
-            }
-        });
     }
     
     /**
