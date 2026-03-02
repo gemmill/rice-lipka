@@ -388,50 +388,6 @@ function ricelipka_create_acf_field_groups() {
                 'multiple' => 1,
                 'allow_null' => 1,
             ),
-            array(
-                'key' => 'field_person_bio',
-                'label' => 'Biography',
-                'name' => 'person_bio',
-                'type' => 'textarea',
-                'instructions' => 'Brief biography or description',
-                'rows' => 4,
-            ),
-            array(
-                'key' => 'field_person_photo',
-                'label' => 'Photo',
-                'name' => 'person_photo',
-                'type' => 'image',
-                'instructions' => 'Upload a professional photo',
-                'return_format' => 'array',
-                'preview_size' => 'medium',
-            ),
-            array(
-                'key' => 'field_person_contact',
-                'label' => 'Contact Information',
-                'name' => 'person_contact',
-                'type' => 'group',
-                'instructions' => 'Optional contact details',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_person_email',
-                        'label' => 'Email',
-                        'name' => 'email',
-                        'type' => 'email',
-                    ),
-                    array(
-                        'key' => 'field_person_phone',
-                        'label' => 'Phone',
-                        'name' => 'phone',
-                        'type' => 'text',
-                    ),
-                    array(
-                        'key' => 'field_person_linkedin',
-                        'label' => 'LinkedIn URL',
-                        'name' => 'linkedin',
-                        'type' => 'url',
-                    ),
-                ),
-            ),
         ),
         'location' => array(
             array(
@@ -509,9 +465,6 @@ function ricelipka_get_category_fields($post_id = null) {
             $fields = array(
                 'person_role' => get_field('person_role', $post_id),
                 'person_associations' => get_field('person_associations', $post_id),
-                'person_bio' => get_field('person_bio', $post_id),
-                'person_photo' => get_field('person_photo', $post_id),
-                'person_contact' => get_field('person_contact', $post_id),
             );
             break;
     }
