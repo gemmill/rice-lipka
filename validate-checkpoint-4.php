@@ -127,7 +127,7 @@ function validate_checkpoint_4() {
             'client' => 'text',
             'location' => 'text',
             'image_gallery' => 'gallery',
-            'project_metadata' => 'group'
+            'project_year' => 'number'
         ),
         'group_events_fields' => array(
             'event_title' => 'text',

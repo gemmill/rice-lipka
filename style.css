@@ -10,7 +10,7 @@ Requires PHP: 8.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This theme supports the Gutenberg block editor and is designed to work with Advanced Custom Fields Pro for structured content management.
+This theme uses the classic editor and is designed to work with Advanced Custom Fields Pro for structured content management.
 */
 
 /* Reset and Base Styles */
@@ -128,17 +128,6 @@ a:hover {
 img {
     max-width: 100%;
     height: auto;
-}
-
-/* Block Editor Styles - Enhanced */
-.wp-block-group {
-    margin-bottom: 2rem;
-}
-
-@media (max-width: 767px) {
-    .wp-block-group {
-        margin-bottom: 1.5rem;
-    }
 }
 
 /* Responsive utilities */

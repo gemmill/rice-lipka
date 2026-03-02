@@ -112,13 +112,14 @@ function ricelipka_create_acf_field_groups() {
                 'type' => 'select',
                 'instructions' => 'Select the project type',
                 'choices' => array(
-                    'civic_architecture' => 'Civic Architecture',
-                    'cultural_projects' => 'Cultural Projects',
-                    'educational_buildings' => 'Educational Buildings',
-                    'public_works' => 'Public Works',
-                    'residential' => 'Residential',
-                    'commercial' => 'Commercial',
-                    'mixed_use' => 'Mixed Use',
+                    'cultural' => 'Cultural',
+                    'academic' => 'Academic',
+                    'offices' => 'Offices',
+                    'retail_commercial' => 'Retail & Commercial',
+                    'institutional' => 'Institutional',
+                    'planning' => 'Planning',
+                    'exhibitions' => 'Exhibitions',
+                    'research_installation' => 'Research & Installation',
                 ),
                 'required' => 1,
             ),
@@ -146,37 +147,15 @@ function ricelipka_create_acf_field_groups() {
                 'preview_size' => 'medium',
             ),
             array(
-                'key' => 'field_project_metadata',
-                'label' => 'Project Metadata',
-                'name' => 'project_metadata',
-                'type' => 'group',
-                'instructions' => 'Additional project details',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_square_footage',
-                        'label' => 'Square Footage',
-                        'name' => 'square_footage',
-                        'type' => 'number',
-                    ),
-                    array(
-                        'key' => 'field_budget',
-                        'label' => 'Budget',
-                        'name' => 'budget',
-                        'type' => 'text',
-                    ),
-                    array(
-                        'key' => 'field_start_date',
-                        'label' => 'Start Date',
-                        'name' => 'start_date',
-                        'type' => 'date_picker',
-                    ),
-                    array(
-                        'key' => 'field_end_date',
-                        'label' => 'End Date',
-                        'name' => 'end_date',
-                        'type' => 'date_picker',
-                    ),
-                ),
+                'key' => 'field_project_year',
+                'label' => 'Year',
+                'name' => 'project_year',
+                'type' => 'number',
+                'instructions' => 'Enter the project year',
+                'min' => 1900,
+                'max' => 2100,
+                'step' => 1,
+                'required' => 1,
             ),
         ),
         'location' => array(
@@ -370,6 +349,105 @@ function ricelipka_create_acf_field_groups() {
             ),
         ),
     ));
+
+    // People Category Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_people_fields',
+        'title' => 'People Fields',
+        'fields' => array(
+            array(
+                'key' => 'field_person_role',
+                'label' => 'Role',
+                'name' => 'person_role',
+                'type' => 'select',
+                'instructions' => 'Select the person\'s role or position',
+                'choices' => array(
+                    'principal' => 'Principal',
+                    'associate' => 'Associate',
+                    'architect' => 'Architect',
+                    'designer' => 'Designer',
+                    'project_manager' => 'Project Manager',
+                    'intern' => 'Intern',
+                    'consultant' => 'Consultant',
+                    'collaborator' => 'Collaborator',
+                    'client' => 'Client',
+                    'contractor' => 'Contractor',
+                ),
+                'required' => 1,
+                'allow_null' => 0,
+            ),
+            array(
+                'key' => 'field_person_associations',
+                'label' => 'Project Associations',
+                'name' => 'person_associations',
+                'type' => 'post_object',
+                'instructions' => 'Select projects this person is associated with',
+                'post_type' => array('post'),
+                'taxonomy' => array('category:projects'),
+                'return_format' => 'object',
+                'multiple' => 1,
+                'allow_null' => 1,
+            ),
+            array(
+                'key' => 'field_person_bio',
+                'label' => 'Biography',
+                'name' => 'person_bio',
+                'type' => 'textarea',
+                'instructions' => 'Brief biography or description',
+                'rows' => 4,
+            ),
+            array(
+                'key' => 'field_person_photo',
+                'label' => 'Photo',
+                'name' => 'person_photo',
+                'type' => 'image',
+                'instructions' => 'Upload a professional photo',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_person_contact',
+                'label' => 'Contact Information',
+                'name' => 'person_contact',
+                'type' => 'group',
+                'instructions' => 'Optional contact details',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_person_email',
+                        'label' => 'Email',
+                        'name' => 'email',
+                        'type' => 'email',
+                    ),
+                    array(
+                        'key' => 'field_person_phone',
+                        'label' => 'Phone',
+                        'name' => 'phone',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'field_person_linkedin',
+                        'label' => 'LinkedIn URL',
+                        'name' => 'linkedin',
+                        'type' => 'url',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'post',
+                ),
+                array(
+                    'param' => 'post_category',
+                    'operator' => '==',
+                    'value' => 'category:people',
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'ricelipka_create_acf_field_groups');
 
@@ -387,30 +465,26 @@ function ricelipka_get_category_fields($post_id = null) {
     switch ($primary_category) {
         case 'news':
             $fields = array(
-                'news_title' => get_field('news_title', $post_id),
                 'publication_date' => get_field('publication_date', $post_id),
                 'excerpt' => get_field('excerpt', $post_id),
                 'featured_image' => get_field('featured_image', $post_id),
-                'subcategory' => get_field('subcategory', $post_id),
             );
             break;
 
         case 'projects':
             $fields = array(
-                'project_name' => get_field('project_name', $post_id),
                 'completion_status' => get_field('completion_status', $post_id),
                 'completion_percentage' => get_field('completion_percentage', $post_id),
                 'project_type' => get_field('project_type', $post_id),
                 'client' => get_field('client', $post_id),
                 'location' => get_field('location', $post_id),
                 'image_gallery' => get_field('image_gallery', $post_id),
-                'project_metadata' => get_field('project_metadata', $post_id),
+                'project_year' => get_field('project_year', $post_id),
             );
             break;
 
         case 'events':
             $fields = array(
-                'event_title' => get_field('event_title', $post_id),
                 'event_date' => get_field('event_date', $post_id),
                 'event_time' => get_field('event_time', $post_id),
                 'location' => get_field('location', $post_id),
@@ -423,7 +497,6 @@ function ricelipka_get_category_fields($post_id = null) {
 
         case 'awards':
             $fields = array(
-                'award_name' => get_field('award_name', $post_id),
                 'awarding_organization' => get_field('awarding_organization', $post_id),
                 'associated_project' => get_field('associated_project', $post_id),
                 'date_received' => get_field('date_received', $post_id),
@@ -431,7 +504,35 @@ function ricelipka_get_category_fields($post_id = null) {
                 'award_subcategory' => get_field('award_subcategory', $post_id),
             );
             break;
+
+        case 'people':
+            $fields = array(
+                'person_role' => get_field('person_role', $post_id),
+                'person_associations' => get_field('person_associations', $post_id),
+                'person_bio' => get_field('person_bio', $post_id),
+                'person_photo' => get_field('person_photo', $post_id),
+                'person_contact' => get_field('person_contact', $post_id),
+            );
+            break;
     }
 
     return $fields;
+}
+
+/**
+ * Get the display name for a project type
+ */
+function ricelipka_get_project_type_display($project_type) {
+    $type_labels = array(
+        'cultural' => 'Cultural',
+        'academic' => 'Academic',
+        'offices' => 'Offices',
+        'retail_commercial' => 'Retail & Commercial',
+        'institutional' => 'Institutional',
+        'planning' => 'Planning',
+        'exhibitions' => 'Exhibitions',
+        'research_installation' => 'Research & Installation',
+    );
+    
+    return isset($type_labels[$project_type]) ? $type_labels[$project_type] : ucfirst(str_replace('_', ' ', $project_type));
 }

@@ -401,7 +401,7 @@ class RiceLipka_ACF_Help_Documentation {
                 <tr>
                     <td class="field-name"><?php _e('Project Type', 'ricelipka-theme'); ?></td>
                     <td><?php _e('Category of architectural work', 'ricelipka-theme'); ?></td>
-                    <td><?php _e('Civic, Cultural, Educational, or Public Works.', 'ricelipka-theme'); ?></td>
+                    <td><?php _e('Cultural, Academic, Offices, Retail & Commercial, Institutional, Planning, Exhibitions, Research & Installation.', 'ricelipka-theme'); ?></td>
                 </tr>
                 <tr>
                     <td class="field-name"><?php _e('Client', 'ricelipka-theme'); ?></td>
@@ -425,18 +425,9 @@ class RiceLipka_ACF_Help_Documentation {
             <?php _e('Use descriptive alt text for gallery images - it helps with accessibility and enables automatic image categorization (exterior, interior, detail, construction).', 'ricelipka-theme'); ?>
         </div>
         
-        <h3><?php _e('Project Metadata', 'ricelipka-theme'); ?></h3>
-        <p><?php _e('The project metadata section allows you to add detailed information:', 'ricelipka-theme'); ?></p>
-        <ul>
-            <li><strong><?php _e('Square Footage', 'ricelipka-theme'); ?>:</strong> <?php _e('Building size in square feet', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('Budget', 'ricelipka-theme'); ?>:</strong> <?php _e('Project cost (optional, use for public projects)', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('Start Date', 'ricelipka-theme'); ?>:</strong> <?php _e('When construction began', 'ricelipka-theme'); ?></li>
-            <li><strong><?php _e('End Date', 'ricelipka-theme'); ?>:</strong> <?php _e('Completion or expected completion date', 'ricelipka-theme'); ?></li>
-        </ul>
+        <h3><?php _e('Project Year', 'ricelipka-theme'); ?></h3>
+        <p><?php _e('Enter the year the project was completed or is expected to be completed. This helps with chronological organization and filtering.', 'ricelipka-theme'); ?></p>
         
-        <div class="help-warning">
-            <?php _e('Budget information is optional and should only be included when appropriate for public projects or when specifically requested by the client.', 'ricelipka-theme'); ?>
-        </div>
         <?php
         return ob_get_clean();
     }

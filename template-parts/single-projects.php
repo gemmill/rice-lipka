@@ -52,7 +52,7 @@ $fields = $args['fields'] ?? array();
                     <div class="project-detail">
                         <strong><?php _e('Type:', 'ricelipka-theme'); ?></strong>
                         <span class="project-type-display">
-                            <?php echo esc_html(ucfirst(str_replace('_', ' ', $fields['project_type']))); ?>
+                            <?php echo esc_html(ricelipka_get_project_type_display($fields['project_type'])); ?>
                         </span>
                     </div>
                 <?php endif; ?>
@@ -70,45 +70,15 @@ $fields = $args['fields'] ?? array();
                         <span><?php echo esc_html($fields['location']); ?></span>
                     </div>
                 <?php endif; ?>
+                
+                <?php if ($fields['project_year']) : ?>
+                    <div class="project-detail">
+                        <strong><?php _e('Year:', 'ricelipka-theme'); ?></strong>
+                        <span><?php echo esc_html($fields['project_year']); ?></span>
+                    </div>
+                <?php endif; ?>
             </div>
             
-            <?php if ($fields['project_metadata'] && is_array($fields['project_metadata'])) : ?>
-                <div class="project-metadata">
-                    <h3><?php _e('Project Details', 'ricelipka-theme'); ?></h3>
-                    
-                    <?php if ($fields['project_metadata']['square_footage']) : ?>
-                        <div class="project-detail">
-                            <strong><?php _e('Square Footage:', 'ricelipka-theme'); ?></strong>
-                            <span><?php echo number_format($fields['project_metadata']['square_footage']); ?> sq ft</span>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <?php if ($fields['project_metadata']['budget']) : ?>
-                        <div class="project-detail">
-                            <strong><?php _e('Budget:', 'ricelipka-theme'); ?></strong>
-                            <span><?php echo esc_html($fields['project_metadata']['budget']); ?></span>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <?php if ($fields['project_metadata']['start_date']) : ?>
-                        <div class="project-detail">
-                            <strong><?php _e('Start Date:', 'ricelipka-theme'); ?></strong>
-                            <time datetime="<?php echo esc_attr($fields['project_metadata']['start_date']); ?>">
-                                <?php echo date('F j, Y', strtotime($fields['project_metadata']['start_date'])); ?>
-                            </time>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <?php if ($fields['project_metadata']['end_date']) : ?>
-                        <div class="project-detail">
-                            <strong><?php _e('End Date:', 'ricelipka-theme'); ?></strong>
-                            <time datetime="<?php echo esc_attr($fields['project_metadata']['end_date']); ?>">
-                                <?php echo date('F j, Y', strtotime($fields['project_metadata']['end_date'])); ?>
-                            </time>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
         </div>
         
     </div>

@@ -64,7 +64,7 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
                 
                 <?php if ($project_fields['project_type']) : ?>
                     <span class="project-type type-<?php echo esc_attr($project_fields['project_type']); ?>">
-                        <?php echo esc_html(ucfirst(str_replace('_', ' ', $project_fields['project_type']))); ?>
+                        <?php echo esc_html(ricelipka_get_project_type_display($project_fields['project_type'])); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -82,6 +82,13 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
                 <div class="project-location">
                     <strong><?php _e('Location:', 'ricelipka-theme'); ?></strong>
                     <?php echo esc_html($project_fields['location']); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($project_fields['project_year']) : ?>
+                <div class="project-year">
+                    <strong><?php _e('Year:', 'ricelipka-theme'); ?></strong>
+                    <?php echo esc_html($project_fields['project_year']); ?>
                 </div>
             <?php endif; ?>
         </div>

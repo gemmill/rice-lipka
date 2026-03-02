@@ -389,3 +389,50 @@
         // Add category-specific functionality
         initCategoryEnhancements();
     });
+    /**
+     * People filtering functionality
+     */
+    function initPeopleFilters() {
+        $('.people-filters .filter-btn').on('click', function(e) {
+            e.preventDefault();
+            
+            const filter = $(this).data('filter');
+            const people = $('.person-item');
+            
+            // Update active filter
+            $('.people-filters .filter-btn').removeClass('active');
+            $(this).addClass('active');
+            
+            // Filter people with animation
+            if (filter === 'all') {
+                people.fadeIn(300);
+            } else {
+                people.fadeOut(300);
+                $(`.person-item[data-person-role="${filter}"]`).fadeIn(300);
+            }
+        });
+    }
+
+    /**
+     * Update the category enhancements function to include people
+     */
+    function initCategoryEnhancements() {
+        // Initialize based on current page
+        if ($('body').hasClass('category-projects') || $('.projects-archive').length) {
+            initProjectFilters();
+            initProjectGallery();
+        }
+        
+        if ($('body').hasClass('category-events') || $('.events-archive').length) {
+            initEventFilters();
+            initEventCountdown();
+        }
+        
+        if ($('body').hasClass('category-awards') || $('.awards-archive').length) {
+            initAwardProjectLinks();
+        }
+        
+        if ($('body').hasClass('category-people') || $('.people-archive').length) {
+            initPeopleFilters();
+        }
+    }

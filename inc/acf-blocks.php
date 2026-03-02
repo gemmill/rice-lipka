@@ -1,6 +1,6 @@
 <?php
 /**
- * ACF Blocks functionality
+ * Classic Editor and ACF Fields functionality
  *
  * @package RiceLipka_Theme
  * @since 1.0.0
@@ -12,348 +12,56 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Register ACF blocks
+ * Disable the block editor (Gutenberg) and use classic editor
  */
-function ricelipka_register_acf_blocks() {
-    // Check if ACF Pro is active
-    if (!function_exists('acf_register_block_type')) {
-        return;
-    }
+function ricelipka_disable_block_editor() {
+    // Disable block editor for posts
+    add_filter('use_block_editor_for_post', '__return_false');
+    
+    // Disable block editor for post types
+    add_filter('use_block_editor_for_post_type', '__return_false');
+    
+    // Remove block editor assets
+    remove_action('wp_enqueue_scripts', 'wp_common_block_scripts_and_styles');
+    
+    // Remove block editor styles from frontend
+    add_action('wp_print_styles', 'ricelipka_remove_block_styles', 100);
+}
+add_action('init', 'ricelipka_disable_block_editor');
 
-    // Register custom image sizes for blocks
+/**
+ * Remove block editor styles from frontend
+ */
+function ricelipka_remove_block_styles() {
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('wc-blocks-style');
+}
+
+/**
+ * Remove block editor from admin
+ */
+function ricelipka_remove_block_editor_admin() {
+    // Remove block editor scripts and styles from admin
+    remove_action('admin_enqueue_scripts', 'wp_enqueue_editor_block_directory_assets');
+    
+    // Disable block widgets
+    remove_theme_support('widgets-block-editor');
+}
+add_action('admin_init', 'ricelipka_remove_block_editor_admin');
+
+/**
+ * Add custom image sizes for ACF fields
+ */
+function ricelipka_add_image_sizes() {
     add_image_size('news-featured', 800, 450, true);
     add_image_size('project-thumbnail', 400, 300, true);
     add_image_size('project-large', 1200, 800, true);
     add_image_size('project-gallery', 600, 400, true);
     add_image_size('event-banner', 1200, 300, true);
     add_image_size('award-certificate', 400, 300, true);
-
-    // News Article Block
-    acf_register_block_type(array(
-        'name'              => 'news-article',
-        'title'             => __('News Article', 'ricelipka-theme'),
-        'description'       => __('Create engaging news articles with structured content and media. Includes help tooltips and field guidance for easy content creation.', 'ricelipka-theme'),
-        'render_template'   => 'blocks/news-article/block.php',
-        'category'          => 'ricelipka-blocks',
-        'icon'              => 'admin-post',
-        'keywords'          => array('news', 'article', 'post', 'announcement'),
-        'supports'          => array(
-            'align' => array('wide', 'full'),
-            'mode' => false,
-            'jsx' => true,
-            'anchor' => true,
-            'customClassName' => true,
-        ),
-        'example'           => array(
-            'attributes' => array(
-                'mode' => 'preview',
-                'data' => array(
-                    'news_title' => 'Rice+Lipka Architects Wins Prestigious Design Award',
-                    'publication_date' => date('Y-m-d'),
-                    'excerpt' => 'We are thrilled to announce that our latest civic architecture project has been recognized with the Excellence in Design Award from the American Institute of Architects.',
-                    'subcategory' => 'award_notifications',
-                    'is_preview' => true
-                )
-            )
-        ),
-        'enqueue_style'     => get_template_directory_uri() . '/blocks/news-article/style.css',
-        'enqueue_script'    => get_template_directory_uri() . '/blocks/news-article/script.js',
-    ));
-
-    // Project Portfolio Block
-    acf_register_block_type(array(
-        'name'              => 'project-portfolio',
-        'title'             => __('Project Portfolio', 'ricelipka-theme'),
-        'description'       => __('Showcase architectural projects with detailed information and image galleries. Includes contextual help for project metadata and completion tracking.', 'ricelipka-theme'),
-        'render_template'   => 'blocks/project-portfolio/block.php',
-        'category'          => 'ricelipka-blocks',
-        'icon'              => 'portfolio',
-        'keywords'          => array('project', 'portfolio', 'architecture', 'gallery', 'lightbox'),
-        'supports'          => array(
-            'align' => array('wide', 'full'),
-            'mode' => false,
-            'jsx' => true,
-            'anchor' => true,
-            'customClassName' => true,
-        ),
-        'example'           => array(
-            'attributes' => array(
-                'mode' => 'preview',
-                'data' => array(
-                    'project_name' => 'Sample Architectural Project',
-                    'completion_status' => 'completed',
-                    'completion_percentage' => 100,
-                    'project_type' => 'civic',
-                    'client' => 'Sample Client Organization',
-                    'location' => 'Sample City, State',
-                    'is_preview' => true
-                )
-            )
-        ),
-        'enqueue_style'     => get_template_directory_uri() . '/blocks/project-portfolio/style.css',
-        'enqueue_script'    => get_template_directory_uri() . '/blocks/project-portfolio/script.js',
-    ));
-
-    // Event Details Block
-    acf_register_block_type(array(
-        'name'              => 'event-details',
-        'title'             => __('Event Details', 'ricelipka-theme'),
-        'description'       => __('Create comprehensive event listings with dates, locations, and registration information. Includes guided setup for calendar integration and countdown timers.', 'ricelipka-theme'),
-        'render_template'   => 'blocks/event-details/block.php',
-        'category'          => 'ricelipka-blocks',
-        'icon'              => 'calendar-alt',
-        'keywords'          => array('event', 'calendar', 'date', 'countdown', 'registration', 'location'),
-        'supports'          => array(
-            'align' => array('wide', 'full'),
-            'mode' => false,
-            'jsx' => true,
-            'anchor' => true,
-            'customClassName' => true,
-        ),
-        'example'           => array(
-            'attributes' => array(
-                'mode' => 'preview',
-                'data' => array(
-                    'event_title' => 'Rice+Lipka Architects Open House',
-                    'event_date' => date('Y-m-d', strtotime('+1 week')),
-                    'event_time' => '18:00',
-                    'location' => 'Rice+Lipka Architects Studio, Downtown',
-                    'registration_link' => 'https://example.com/register',
-                    'recurring_event' => false,
-                    'is_preview' => true
-                )
-            )
-        ),
-        'enqueue_style'     => get_template_directory_uri() . '/blocks/event-details/style.css',
-        'enqueue_script'    => get_template_directory_uri() . '/blocks/event-details/script.js',
-    ));
-
-    // Award Information Block
-    acf_register_block_type(array(
-        'name'              => 'award-information',
-        'title'             => __('Award Information', 'ricelipka-theme'),
-        'description'       => __('Document awards and recognition with detailed information and project associations. Includes help for timeline visualization and cross-referencing with projects.', 'ricelipka-theme'),
-        'render_template'   => 'blocks/award-information/block.php',
-        'category'          => 'ricelipka-blocks',
-        'icon'              => 'awards',
-        'keywords'          => array('award', 'recognition', 'achievement', 'certificate', 'timeline'),
-        'supports'          => array(
-            'align' => array('wide', 'full'),
-            'mode' => false,
-            'jsx' => true,
-            'anchor' => true,
-            'customClassName' => true,
-        ),
-        'example'           => array(
-            'attributes' => array(
-                'mode' => 'preview',
-                'data' => array(
-                    'award_name' => 'Excellence in Civic Architecture Award',
-                    'awarding_organization' => 'American Institute of Architects',
-                    'date_received' => date('Y-m-d', strtotime('-3 months')),
-                    'is_preview' => true
-                )
-            )
-        ),
-        'enqueue_style'     => get_template_directory_uri() . '/blocks/award-information/style.css',
-        'enqueue_script'    => get_template_directory_uri() . '/blocks/award-information/script.js',
-    ));
 }
-add_action('acf/init', 'ricelipka_register_acf_blocks');
-
-/**
- * Add custom block category
- */
-function ricelipka_block_categories($categories, $post) {
-    return array_merge(
-        $categories,
-        array(
-            array(
-                'slug'  => 'ricelipka-blocks',
-                'title' => __('Rice+Lipka Blocks', 'ricelipka-theme'),
-                'icon'  => 'building',
-            ),
-        )
-    );
-}
-add_filter('block_categories_all', 'ricelipka_block_categories', 10, 2);
-
-/**
- * Enqueue block editor assets
- */
-function ricelipka_block_editor_assets() {
-    wp_enqueue_script(
-        'ricelipka-block-editor',
-        get_template_directory_uri() . '/assets/js/block-editor.js',
-        array('wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-data'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-
-    wp_enqueue_style(
-        'ricelipka-block-editor',
-        get_template_directory_uri() . '/assets/css/block-editor.css',
-        array('wp-edit-blocks'),
-        wp_get_theme()->get('Version')
-    );
-
-    // Localize script with theme data
-    wp_localize_script('ricelipka-block-editor', 'riceLipkaBlocks', array(
-        'themeUrl' => get_template_directory_uri(),
-        'ajaxUrl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('ricelipka_blocks_nonce'),
-        'strings' => array(
-            'previewMode' => __('Preview Mode', 'ricelipka-theme'),
-            'editMode' => __('Edit Mode', 'ricelipka-theme'),
-            'validationError' => __('Please fill in all required fields', 'ricelipka-theme'),
-            'contentTooShort' => __('Content appears to be very short', 'ricelipka-theme'),
-            'contentTooLong' => __('Content is quite long - consider breaking into sections', 'ricelipka-theme'),
-        )
-    ));
-}
-add_action('enqueue_block_editor_assets', 'ricelipka_block_editor_assets');
-
-/**
- * Filter blocks based on post category
- */
-function ricelipka_filter_blocks_by_category($allowed_blocks, $editor_context = null) {
-    // Handle different WordPress versions and parameter variations
-    $post = null;
-    
-    if ($editor_context && is_object($editor_context)) {
-        // WordPress 5.8+ passes WP_Block_Editor_Context
-        if (isset($editor_context->post) && is_object($editor_context->post)) {
-            $post = $editor_context->post;
-        }
-    } else {
-        // Fallback to global post
-        global $post;
-    }
-    
-    if (!$post || !is_object($post) || !isset($post->ID)) {
-        return $allowed_blocks;
-    }
-
-    // Get post categories
-    $categories = get_the_category($post->ID);
-    if (!$categories || !is_array($categories)) {
-        return $allowed_blocks;
-    }
-    
-    $primary_category = null;
-    
-    $primary_cats = array('news', 'projects', 'events', 'awards');
-    foreach ($categories as $category) {
-        if (is_object($category) && in_array($category->slug, $primary_cats)) {
-            $primary_category = $category->slug;
-            break;
-        }
-    }
-
-    // If no primary category found, allow all blocks
-    if (!$primary_category) {
-        return $allowed_blocks;
-    }
-
-    // Define category-specific blocks
-    $category_blocks = array(
-        'news' => array('acf/news-article'),
-        'projects' => array('acf/project-portfolio'),
-        'events' => array('acf/event-details'),
-        'awards' => array('acf/award-information'),
-    );
-
-    // Get allowed blocks for this category
-    $category_allowed_blocks = isset($category_blocks[$primary_category]) 
-        ? $category_blocks[$primary_category] 
-        : array();
-
-    // Always allow core blocks
-    $core_blocks = array(
-        'core/paragraph',
-        'core/heading',
-        'core/image',
-        'core/gallery',
-        'core/list',
-        'core/quote',
-        'core/separator',
-        'core/spacer',
-        'core/columns',
-        'core/group',
-    );
-
-    return array_merge($core_blocks, $category_allowed_blocks);
-}
-
-// Hook with compatibility for different WordPress versions
-if (version_compare(get_bloginfo('version'), '5.8', '>=')) {
-    add_filter('allowed_block_types_all', 'ricelipka_filter_blocks_by_category', 10, 2);
-} else {
-    add_filter('allowed_block_types', 'ricelipka_filter_blocks_by_category', 10, 2);
-}
-
-/**
- * Handle AJAX requests for block preview updates
- */
-function ricelipka_handle_block_preview_ajax() {
-    // Verify nonce
-    if (!wp_verify_nonce($_POST['nonce'], 'ricelipka_blocks_nonce')) {
-        wp_die('Security check failed');
-    }
-
-    $block_type = sanitize_text_field($_POST['block_type']);
-    $block_data = $_POST['block_data'];
-
-    // Process the block data and return updated preview
-    $response = array(
-        'success' => true,
-        'preview_html' => '',
-        'validation' => array(
-            'isValid' => true,
-            'errors' => array(),
-            'warnings' => array()
-        )
-    );
-
-    // Validate based on block type
-    if ($block_type === 'news-article') {
-        $validation = ricelipka_validate_news_block($block_data);
-        $response['validation'] = $validation;
-    }
-
-    wp_send_json($response);
-}
-add_action('wp_ajax_ricelipka_block_preview', 'ricelipka_handle_block_preview_ajax');
-add_action('wp_ajax_nopriv_ricelipka_block_preview', 'ricelipka_handle_block_preview_ajax');
-
-/**
- * Validate news block data
- */
-function ricelipka_validate_news_block($data) {
-    $validation = array(
-        'isValid' => true,
-        'errors' => array(),
-        'warnings' => array()
-    );
-
-    // Check required fields
-    if (empty($data['news_title']) && empty($data['post_title'])) {
-        $validation['isValid'] = false;
-        $validation['errors'][] = 'Title is required';
-    }
-
-    // Check content length
-    $content = $data['post_content'] ?? '';
-    $word_count = str_word_count(strip_tags($content));
-    
-    if ($word_count < 50 && !empty($content)) {
-        $validation['warnings'][] = 'Content appears to be very short';
-    } elseif ($word_count > 2000) {
-        $validation['warnings'][] = 'Content is quite long - consider breaking into sections';
-    }
-
-    return $validation;
-}
+add_action('after_setup_theme', 'ricelipka_add_image_sizes');
 
 /**
  * Add custom image sizes to media library
@@ -369,3 +77,315 @@ function ricelipka_add_custom_image_sizes($sizes) {
     ));
 }
 add_filter('image_size_names_choose', 'ricelipka_add_custom_image_sizes');
+
+/**
+ * Enhance classic editor with better formatting
+ */
+function ricelipka_enhance_classic_editor() {
+    // Add more buttons to TinyMCE
+    add_filter('mce_buttons', 'ricelipka_mce_buttons');
+    add_filter('mce_buttons_2', 'ricelipka_mce_buttons_2');
+    
+    // Add custom styles to editor
+    add_editor_style('assets/css/editor-style.css');
+}
+add_action('init', 'ricelipka_enhance_classic_editor');
+
+/**
+ * Add buttons to TinyMCE toolbar
+ */
+function ricelipka_mce_buttons($buttons) {
+    array_push($buttons, 'separator', 'styleselect');
+    return $buttons;
+}
+
+/**
+ * Add more buttons to second TinyMCE toolbar
+ */
+function ricelipka_mce_buttons_2($buttons) {
+    array_push($buttons, 'fontselect', 'fontsizeselect');
+    return $buttons;
+}
+
+/**
+ * Add custom styles to TinyMCE
+ */
+function ricelipka_mce_before_init($init_array) {
+    $style_formats = array(
+        array(
+            'title' => 'Project Highlight',
+            'block' => 'div',
+            'classes' => 'project-highlight',
+            'wrapper' => true,
+        ),
+        array(
+            'title' => 'News Excerpt',
+            'block' => 'p',
+            'classes' => 'news-excerpt',
+        ),
+        array(
+            'title' => 'Event Date',
+            'inline' => 'span',
+            'classes' => 'event-date',
+        ),
+        array(
+            'title' => 'Award Title',
+            'block' => 'h3',
+            'classes' => 'award-title',
+        ),
+    );
+    
+    $init_array['style_formats'] = json_encode($style_formats);
+    return $init_array;
+}
+add_filter('tiny_mce_before_init', 'ricelipka_mce_before_init');
+
+/**
+ * Add CSS for classic editor styles
+ */
+function ricelipka_classic_editor_styles() {
+    ?>
+    <style>
+    /* Classic Editor Enhancements */
+    .wp-editor-wrap {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .wp-editor-container {
+        background: white;
+    }
+    
+    /* Custom content styles */
+    .project-highlight {
+        background: #f0f6fc;
+        border-left: 4px solid #0073aa;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .news-excerpt {
+        font-style: italic;
+        color: #666;
+        font-size: 1.1em;
+        line-height: 1.4;
+    }
+    
+    .event-date {
+        background: #0073aa;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+    
+    .award-title {
+        color: #d63638;
+        border-bottom: 2px solid #d63638;
+        padding-bottom: 0.5rem;
+    }
+    </style>
+    <?php
+}
+add_action('admin_head', 'ricelipka_classic_editor_styles');
+
+/**
+ * Enable media upload in classic editor
+ */
+function ricelipka_enable_media_upload() {
+    if (function_exists('wp_enqueue_media')) {
+        wp_enqueue_media();
+    }
+}
+add_action('admin_enqueue_scripts', 'ricelipka_enable_media_upload');
+
+/**
+ * Add media buttons to classic editor
+ */
+function ricelipka_add_media_buttons() {
+    echo '<a href="#" class="button ricelipka-add-media" data-editor="content">Add Media</a>';
+}
+add_action('media_buttons', 'ricelipka_add_media_buttons');
+
+/**
+ * Add JavaScript for enhanced media handling in classic editor
+ */
+function ricelipka_classic_editor_scripts() {
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // Enhanced media uploader for classic editor
+        var mediaUploader;
+        
+        $('.ricelipka-add-media').click(function(e) {
+            e.preventDefault();
+            
+            // If the uploader object has already been created, reopen the dialog
+            if (mediaUploader) {
+                mediaUploader.open();
+                return;
+            }
+            
+            // Create the media uploader
+            mediaUploader = wp.media({
+                title: 'Choose Media',
+                button: {
+                    text: 'Insert into post'
+                },
+                multiple: true
+            });
+            
+            // When media is selected, insert into editor
+            mediaUploader.on('select', function() {
+                var selection = mediaUploader.state().get('selection');
+                selection.map(function(attachment) {
+                    attachment = attachment.toJSON();
+                    var content = '';
+                    
+                    if (attachment.type === 'image') {
+                        content = '<img src="' + attachment.url + '" alt="' + attachment.alt + '" />';
+                    } else {
+                        content = '<a href="' + attachment.url + '">' + attachment.title + '</a>';
+                    }
+                    
+                    // Insert into TinyMCE editor
+                    if (typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor) {
+                        tinyMCE.activeEditor.execCommand('mceInsertContent', false, content);
+                    }
+                });
+            });
+            
+            // Open the uploader dialog
+            mediaUploader.open();
+        });
+        
+        // Add gallery functionality
+        $('.ricelipka-add-gallery').click(function(e) {
+            e.preventDefault();
+            
+            var galleryUploader = wp.media({
+                title: 'Create Gallery',
+                button: {
+                    text: 'Create Gallery'
+                },
+                multiple: true,
+                library: {
+                    type: 'image'
+                }
+            });
+            
+            galleryUploader.on('select', function() {
+                var selection = galleryUploader.state().get('selection');
+                var gallery = '<div class="ricelipka-gallery">';
+                
+                selection.map(function(attachment) {
+                    attachment = attachment.toJSON();
+                    gallery += '<div class="gallery-item">';
+                    gallery += '<img src="' + attachment.sizes.medium.url + '" alt="' + attachment.alt + '" />';
+                    gallery += '</div>';
+                });
+                
+                gallery += '</div>';
+                
+                if (typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor) {
+                    tinyMCE.activeEditor.execCommand('mceInsertContent', false, gallery);
+                }
+            });
+            
+            galleryUploader.open();
+        });
+    });
+    </script>
+    <?php
+}
+add_action('admin_footer-post.php', 'ricelipka_classic_editor_scripts');
+add_action('admin_footer-post-new.php', 'ricelipka_classic_editor_scripts');
+
+/**
+ * Add gallery button to media buttons
+ */
+function ricelipka_add_gallery_button() {
+    echo '<a href="#" class="button ricelipka-add-gallery">Add Gallery</a>';
+}
+add_action('media_buttons', 'ricelipka_add_gallery_button');
+
+/**
+ * Add frontend styles for classic editor content
+ */
+function ricelipka_frontend_classic_styles() {
+    ?>
+    <style>
+    /* Frontend styles for classic editor content */
+    .project-highlight {
+        background: #f0f6fc;
+        border-left: 4px solid #0073aa;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .news-excerpt {
+        font-style: italic;
+        color: #666;
+        font-size: 1.1em;
+        line-height: 1.4;
+        margin: 1rem 0;
+    }
+    
+    .event-date {
+        background: #0073aa;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 3px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 0.5rem 0;
+    }
+    
+    .award-title {
+        color: #d63638;
+        border-bottom: 2px solid #d63638;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .ricelipka-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .ricelipka-gallery .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+    
+    .ricelipka-gallery .gallery-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+    
+    .ricelipka-gallery .gallery-item:hover img {
+        transform: scale(1.05);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .ricelipka-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .project-highlight {
+            padding: 0.75rem;
+            margin: 0.75rem 0;
+        }
+    }
+    </style>
+    <?php
+}
+add_action('wp_head', 'ricelipka_frontend_classic_styles');

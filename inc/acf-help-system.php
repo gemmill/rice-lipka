@@ -2,7 +2,7 @@
 /**
  * ACF Help System for Rice+Lipka WordPress Theme
  * 
- * Provides contextual help, tooltips, and onboarding for ACF blocks
+ * Provides contextual help, tooltips, and guidance for ACF fields in classic editor
  *
  * @package RiceLipka_Theme
  * @since 1.0.0
@@ -22,23 +22,62 @@ class RiceLipka_ACF_Help_System {
         add_action('acf/input/admin_head', array(__CLASS__, 'add_help_styles'));
         add_action('acf/input/admin_footer', array(__CLASS__, 'add_help_scripts'));
         add_filter('acf/prepare_field', array(__CLASS__, 'add_field_help'));
-        add_action('wp_ajax_acf_help_dismiss_tutorial', array(__CLASS__, 'dismiss_tutorial'));
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_help_assets'));
+        add_action('admin_notices', array(__CLASS__, 'show_category_help'));
     }
     
     /**
-     * Get help content for specific field types and blocks
+     * Show help notice based on post category
+     */
+    public static function show_category_help() {
+        global $post, $pagenow;
+        
+        if (!in_array($pagenow, array('post.php', 'post-new.php')) || !$post) {
+            return;
+        }
+        
+        $categories = get_the_category($post->ID);
+        if (empty($categories)) {
+            return;
+        }
+        
+        $primary_category = null;
+        $primary_cats = array('news', 'projects', 'events', 'awards');
+        
+        foreach ($categories as $category) {
+            if (in_array($category->slug, $primary_cats)) {
+                $primary_category = $category->slug;
+                break;
+            }
+        }
+        
+        if (!$primary_category) {
+            return;
+        }
+        
+        $help_messages = array(
+            'news' => __('You\'re editing a News post. Use the content editor for the main article and fill in the ACF fields below for structured data like publication date and excerpt.', 'ricelipka-theme'),
+            'projects' => __('You\'re editing a Project post. Use the content editor to describe the project and fill in the ACF fields for project details, status, and gallery images.', 'ricelipka-theme'),
+            'events' => __('You\'re editing an Event post. Use the content editor for event details and fill in the ACF fields for date, time, location, and registration information.', 'ricelipka-theme'),
+            'awards' => __('You\'re editing an Award post. Use the content editor to describe the award and fill in the ACF fields for organization, date received, and associated project.', 'ricelipka-theme'),
+        );
+        
+        if (isset($help_messages[$primary_category])) {
+            echo '<div class="notice notice-info is-dismissible">';
+            echo '<p><strong>' . ucfirst($primary_category) . ' Post:</strong> ' . $help_messages[$primary_category] . '</p>';
+            echo '</div>';
+        }
+    }
+    
+    /**
+     * Get help content for specific field types
      */
     public static function get_help_content() {
         return array(
-            'news_article' => array(
-                'title' => __('News Article Block Help', 'ricelipka-theme'),
-                'description' => __('Create engaging news articles with structured content and media.', 'ricelipka-theme'),
+            'news' => array(
+                'title' => __('News Post Fields', 'ricelipka-theme'),
+                'description' => __('Fill in these fields to provide structured information for your news article.', 'ricelipka-theme'),
                 'fields' => array(
-                    'news_title' => array(
-                        'tooltip' => __('Enter a compelling headline that summarizes the news story. Keep it under 60 characters for best SEO results.', 'ricelipka-theme'),
-                        'help' => __('Use action words and specific details. Example: "Rice+Lipka Wins Sustainable Design Award for Civic Center Project"', 'ricelipka-theme')
-                    ),
                     'publication_date' => array(
                         'tooltip' => __('Select the date when this news should be published. Leave empty to use the post publication date.', 'ricelipka-theme'),
                         'help' => __('For scheduled content, choose a future date. For backdated news, select the original announcement date.', 'ricelipka-theme')
@@ -75,7 +114,7 @@ class RiceLipka_ACF_Help_System {
                     ),
                     'project_type' => array(
                         'tooltip' => __('Select the category that best describes this project.', 'ricelipka-theme'),
-                        'help' => __('Civic: Government buildings, libraries. Cultural: Museums, theaters. Educational: Schools, universities. Public Works: Infrastructure.', 'ricelipka-theme')
+                        'help' => __('Cultural: Museums, theaters, arts centers. Academic: Schools, universities. Offices: Corporate buildings. Retail & Commercial: Stores, restaurants. Institutional: Government, healthcare. Planning: Urban design, master plans. Exhibitions: Gallery installations. Research & Installation: Experimental projects.', 'ricelipka-theme')
                     ),
                     'client' => array(
                         'tooltip' => __('Enter the client organization or entity that commissioned this project.', 'ricelipka-theme'),
@@ -89,9 +128,9 @@ class RiceLipka_ACF_Help_System {
                         'tooltip' => __('Upload multiple high-quality images showing different aspects of the project.', 'ricelipka-theme'),
                         'help' => __('Include exterior views, interior spaces, detail shots, and construction progress. Use descriptive alt text for each image.', 'ricelipka-theme')
                     ),
-                    'project_metadata' => array(
-                        'tooltip' => __('Add additional project details like square footage, budget, and timeline.', 'ricelipka-theme'),
-                        'help' => __('Include information that helps visitors understand the project scope and scale. Budget information is optional.', 'ricelipka-theme')
+                    'project_year' => array(
+                        'tooltip' => __('Enter the year the project was completed or is expected to be completed.', 'ricelipka-theme'),
+                        'help' => __('This helps with chronological organization and filtering of projects by year.', 'ricelipka-theme')
                     )
                 )
             ),
@@ -207,9 +246,9 @@ class RiceLipka_ACF_Help_System {
                         'tip' => __('Tip: Use descriptive alt text for each image - it helps with accessibility and SEO.', 'ricelipka-theme')
                     ),
                     array(
-                        'title' => __('Add Project Details', 'ricelipka-theme'),
-                        'content' => __('Include metadata like square footage, budget, and timeline. This helps visitors understand the project scope.', 'ricelipka-theme'),
-                        'tip' => __('Tip: Budget information is optional - include it only if appropriate for public projects.', 'ricelipka-theme')
+                        'title' => __('Add Project Year', 'ricelipka-theme'),
+                        'content' => __('Enter the year the project was completed or is expected to be completed. This helps with chronological organization.', 'ricelipka-theme'),
+                        'tip' => __('Tip: Use the actual completion year for finished projects, or expected completion year for ongoing projects.', 'ricelipka-theme')
                     )
                 )
             ),

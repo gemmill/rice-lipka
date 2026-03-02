@@ -29,9 +29,7 @@ function ricelipka_theme_setup() {
         'script'
     ));
     
-    // Add support for block editor styles
-    add_theme_support('wp-block-styles');
-    add_theme_support('align-wide');
+    // Add support for classic editor styles
     add_theme_support('editor-styles');
     add_editor_style('assets/css/editor-style.css');
     
@@ -68,14 +66,6 @@ function ricelipka_theme_scripts() {
         'ricelipka-responsive-layouts',
         get_template_directory_uri() . '/assets/css/responsive-layouts.css',
         array('ricelipka-theme-style'),
-        wp_get_theme()->get('Version')
-    );
-    
-    // Enqueue block templates CSS
-    wp_enqueue_style(
-        'ricelipka-block-templates',
-        get_template_directory_uri() . '/assets/css/block-templates.css',
-        array('ricelipka-responsive-layouts'),
         wp_get_theme()->get('Version')
     );
     
@@ -126,15 +116,6 @@ function ricelipka_theme_scripts() {
         'ricelipka-theme-script',
         get_template_directory_uri() . '/assets/js/main.js',
         array('jquery'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-    
-    // Enqueue block templates JavaScript
-    wp_enqueue_script(
-        'ricelipka-block-templates',
-        get_template_directory_uri() . '/assets/js/block-templates.js',
-        array('jquery', 'ricelipka-theme-script'),
         wp_get_theme()->get('Version'),
         true
     );
@@ -234,7 +215,7 @@ function ricelipka_get_post_primary_category($post_id = null) {
     }
     
     $categories = get_the_category($post_id);
-    $primary_cats = array('news', 'projects', 'events', 'awards');
+    $primary_cats = array('news', 'projects', 'events', 'awards', 'people');
     
     foreach ($categories as $category) {
         if (in_array($category->slug, $primary_cats)) {
@@ -264,7 +245,7 @@ add_filter('excerpt_more', 'ricelipka_excerpt_more');
 /**
  * Include additional theme files
  */
-require_once get_template_directory() . '/inc/acf-blocks.php';
+require_once get_template_directory() . '/inc/acf-blocks.php'; // Now contains classic editor functionality
 require_once get_template_directory() . '/inc/category-fields.php';
 require_once get_template_directory() . '/inc/category-navigation-widget.php';
 require_once get_template_directory() . '/inc/performance.php';
@@ -272,15 +253,7 @@ require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/acf-help-system.php';
 require_once get_template_directory() . '/inc/acf-field-validation.php';
 require_once get_template_directory() . '/inc/acf-help-documentation.php';
-require_once get_template_directory() . '/inc/block-templates.php';
-require_once get_template_directory() . '/inc/pattern-registration.php';
 require_once get_template_directory() . '/inc/chronological-ordering.php';
-
-// Include block patterns
-require_once get_template_directory() . '/patterns/news-layouts.php';
-require_once get_template_directory() . '/patterns/project-layouts.php';
-require_once get_template_directory() . '/patterns/event-layouts.php';
-require_once get_template_directory() . '/patterns/award-layouts.php';
 
 /**
  * Theme activation hook
@@ -291,7 +264,8 @@ function ricelipka_theme_activation() {
         'news' => 'News',
         'projects' => 'Projects', 
         'events' => 'Events',
-        'awards' => 'Awards'
+        'awards' => 'Awards',
+        'people' => 'People'
     );
     
     foreach ($categories as $slug => $name) {

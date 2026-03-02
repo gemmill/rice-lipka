@@ -299,17 +299,6 @@
     right: var(--space-xs);
 }
 
-/* Project metadata responsive */
-.project-metadata {
-    padding: var(--space-sm);
-    margin-top: var(--space-md);
-}
-
-.metadata-list {
-    grid-template-columns: 1fr;
-    gap: var(--space-sm);
-}
-
 /* Tablet styles for project portfolio */
 @media (min-width: 768px) {
     .project-portfolio-block {
@@ -383,14 +372,6 @@
         font-size: 1.5rem;
         top: var(--space-sm);
         right: var(--space-sm);
-    }
-    
-    .project-metadata {
-        padding: var(--space-md);
-    }
-    
-    .metadata-list {
-        grid-template-columns: repeat(2, 1fr);
     }
 }
 

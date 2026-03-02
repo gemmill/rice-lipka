@@ -50,14 +50,13 @@ function validate_projects_field_group() {
     
     // Required fields from Task 3.2
     $required_fields = array(
-        'project_name' => 'Project Name',
         'completion_status' => 'Completion Status',
         'completion_percentage' => 'Completion Percentage',
         'project_type' => 'Project Type',
         'client' => 'Client',
         'location' => 'Location',
         'image_gallery' => 'Image Gallery',
-        'project_metadata' => 'Project Metadata'
+        'project_year' => 'Project Year'
     );
     
     $found_fields = array();
@@ -129,13 +128,17 @@ function validate_projects_field_group() {
                 
             case 'project_type':
                 if (isset($field['choices']) && 
-                    isset($field['choices']['civic_architecture']) && 
-                    isset($field['choices']['cultural_projects']) && 
-                    isset($field['choices']['educational_buildings']) && 
-                    isset($field['choices']['public_works'])) {
-                    echo "<p>✅ Project Type has project subcategories</p>\n";
+                    isset($field['choices']['cultural']) && 
+                    isset($field['choices']['academic']) && 
+                    isset($field['choices']['offices']) && 
+                    isset($field['choices']['retail_commercial']) && 
+                    isset($field['choices']['institutional']) && 
+                    isset($field['choices']['planning']) && 
+                    isset($field['choices']['exhibitions']) && 
+                    isset($field['choices']['research_installation'])) {
+                    echo "<p>✅ Project Type has all required options</p>\n";
                 } else {
-                    echo "<p>❌ Project Type missing required subcategory options</p>\n";
+                    echo "<p>❌ Project Type missing required options</p>\n";
                 }
                 break;
                 
@@ -147,12 +150,11 @@ function validate_projects_field_group() {
                 }
                 break;
                 
-            case 'project_metadata':
-                if ($field['type'] === 'group' && isset($field['sub_fields'])) {
-                    $sub_field_count = count($field['sub_fields']);
-                    echo "<p>✅ Project Metadata is group field with {$sub_field_count} sub-fields</p>\n";
+            case 'project_year':
+                if ($field['type'] === 'number') {
+                    echo "<p>✅ Project Year is configured as number field</p>\n";
                 } else {
-                    echo "<p>❌ Project Metadata not configured as group field</p>\n";
+                    echo "<p>❌ Project Year not configured as number field</p>\n";
                 }
                 break;
         }
@@ -166,7 +168,7 @@ function validate_projects_field_group() {
         echo "<p>The Projects category field group has been properly implemented with:</p>\n";
         echo "<ul>\n";
         echo "<li>✅ Conditional logic to display when post category = 'Projects'</li>\n";
-        echo "<li>✅ All required fields: project_name, completion_status, completion_percentage, project_type, client, location, image_gallery, project_metadata</li>\n";
+        echo "<li>✅ All required fields: completion_status, completion_percentage, project_type, client, location, image_gallery, project_year</li>\n";
         echo "<li>✅ Project-specific field validation and selection options</li>\n";
         echo "<li>✅ Requirements 2.2 and 7.1 satisfied</li>\n";
         echo "</ul>\n";
