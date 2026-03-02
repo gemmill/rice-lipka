@@ -17,9 +17,9 @@ if (!defined('ABSPATH')) {
 function ricelipka_add_structured_data() {
     if (is_single()) {
         $post_id = get_the_ID();
-        $primary_category = ricelipka_get_post_primary_category($post_id);
+        $post_type = get_post_type($post_id);
         
-        switch ($primary_category) {
+        switch ($post_type) {
             case 'projects':
                 ricelipka_project_structured_data($post_id);
                 break;
@@ -216,15 +216,15 @@ function ricelipka_breadcrumb_structured_data() {
                 'item' => get_category_link($category->term_id),
             );
         } elseif (is_single()) {
-            $primary_category = ricelipka_get_post_primary_category();
-            if ($primary_category) {
-                $category = get_category_by_slug($primary_category);
-                if ($category) {
+            $post_type = get_post_type();
+            if (in_array($post_type, array('news', 'projects', 'awards', 'people'))) {
+                $post_type_object = get_post_type_object($post_type);
+                if ($post_type_object) {
                     $breadcrumbs['itemListElement'][] = array(
                         '@type' => 'ListItem',
                         'position' => $position,
-                        'name' => $category->name,
-                        'item' => get_category_link($category->term_id),
+                        'name' => $post_type_object->labels->name,
+                        'item' => get_post_type_archive_link($post_type),
                     );
                     $position++;
                 }

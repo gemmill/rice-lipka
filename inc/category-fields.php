@@ -202,17 +202,17 @@ function ricelipka_create_acf_field_groups() {
         ),
     ));
 
-    // About Page Field Group
+    // Page Child Pages Field Group (for any page with children)
     acf_add_local_field_group(array(
-        'key' => 'group_about_page_fields',
-        'title' => 'About Page Fields',
+        'key' => 'group_page_child_pages_fields',
+        'title' => 'Child Pages',
         'fields' => array(
             array(
-                'key' => 'field_about_child_pages',
+                'key' => 'field_page_child_pages',
                 'label' => 'Child Pages Order',
-                'name' => 'about_child_pages',
+                'name' => 'page_child_pages',
                 'type' => 'relationship',
-                'instructions' => 'Select and drag to reorder the child pages that should appear on the About page',
+                'instructions' => 'Select and drag to reorder the child pages that should appear on this page',
                 'post_type' => array('page'),
                 'taxonomy' => array(),
                 'filters' => array(
@@ -231,9 +231,14 @@ function ricelipka_create_acf_field_groups() {
         'location' => array(
             array(
                 array(
-                    'param' => 'page_template',
+                    'param' => 'post_type',
                     'operator' => '==',
-                    'value' => 'page-about.php',
+                    'value' => 'page',
+                ),
+                array(
+                    'param' => 'page_parent',
+                    'operator' => '==',
+                    'value' => '0',
                 ),
             ),
         ),
@@ -250,20 +255,23 @@ function ricelipka_create_acf_field_groups() {
 add_action('acf/init', 'ricelipka_create_acf_field_groups');
 
 /**
- * Filter relationship field to show only child pages of About page
+ * Filter relationship field to show only child pages of current page
  */
-function ricelipka_filter_about_child_pages($args, $field, $post_id) {
-    // Only apply this filter to the about_child_pages field
-    if ($field['name'] !== 'about_child_pages') {
+function ricelipka_filter_page_child_pages($args, $field, $post_id) {
+    // Only apply this filter to the page_child_pages field
+    if ($field['name'] !== 'page_child_pages') {
         return $args;
     }
     
-    // Get the About page
-    $about_page = get_page_by_path('about');
+    // Get the current page ID
+    if (!$post_id) {
+        global $post;
+        $post_id = $post ? $post->ID : 0;
+    }
     
-    if ($about_page) {
-        // Modify the query to only show child pages of About
-        $args['post_parent'] = $about_page->ID;
+    if ($post_id) {
+        // Modify the query to only show child pages of current page
+        $args['post_parent'] = $post_id;
         $args['post_status'] = 'publish';
         $args['orderby'] = 'menu_order title';
         $args['order'] = 'ASC';
@@ -271,7 +279,7 @@ function ricelipka_filter_about_child_pages($args, $field, $post_id) {
     
     return $args;
 }
-add_filter('acf/fields/relationship/query/name=about_child_pages', 'ricelipka_filter_about_child_pages', 10, 3);
+add_filter('acf/fields/relationship/query/name=page_child_pages', 'ricelipka_filter_page_child_pages', 10, 3);
 
 /**
  * Helper function to get post type specific fields
@@ -317,13 +325,10 @@ function ricelipka_get_post_type_fields($post_id = null) {
             break;
             
         case 'page':
-            // Check if this is the About page
-            $page_slug = get_post_field('post_name', $post_id);
-            if ($page_slug === 'about') {
-                $fields = array(
-                    'about_child_pages' => get_field('about_child_pages', $post_id),
-                );
-            }
+            // Get page-specific fields
+            $fields = array(
+                'page_child_pages' => get_field('page_child_pages', $post_id),
+            );
             break;
     }
 
@@ -349,19 +354,19 @@ function ricelipka_get_project_type_display($project_type) {
 }
 
 /**
- * Get ordered child pages for About page
+ * Get ordered child pages for any page
  */
-function ricelipka_get_about_child_pages($about_page_id = null) {
-    if (!$about_page_id) {
-        $about_page = get_page_by_path('about');
-        if (!$about_page) {
-            return array();
-        }
-        $about_page_id = $about_page->ID;
+function ricelipka_get_page_child_pages($page_id = null) {
+    if (!$page_id) {
+        $page_id = get_the_ID();
+    }
+    
+    if (!$page_id) {
+        return array();
     }
     
     // Get the custom ordered pages from ACF field
-    $ordered_pages = get_field('about_child_pages', $about_page_id);
+    $ordered_pages = get_field('page_child_pages', $page_id);
     
     if ($ordered_pages && is_array($ordered_pages)) {
         return $ordered_pages;
@@ -369,7 +374,7 @@ function ricelipka_get_about_child_pages($about_page_id = null) {
     
     // Fallback: get all child pages in default order
     $child_pages = get_children(array(
-        'post_parent' => $about_page_id,
+        'post_parent' => $page_id,
         'post_type' => 'page',
         'post_status' => 'publish',
         'orderby' => 'menu_order title',

@@ -55,7 +55,7 @@ get_header(); ?>
                     
                     <?php
                     // Get ACF fields for projects
-                    $project_fields = ricelipka_get_category_fields(get_the_ID());
+                    $project_fields = ricelipka_get_post_type_fields(get_the_ID());
                     $project_type = $project_fields['project_type'] ?: 'general';
                     ?>
                     
@@ -192,5 +192,4 @@ get_header(); ?>
 </main>
 
 <?php
-get_sidebar();
 get_footer();

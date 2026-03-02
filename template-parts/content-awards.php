@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-$award_fields = ricelipka_get_category_fields(get_the_ID());
+$award_fields = ricelipka_get_post_type_fields(get_the_ID());
 $associated_project = $award_fields['associated_project'];
 ?>
 

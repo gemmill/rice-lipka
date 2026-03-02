@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-$news_fields = ricelipka_get_category_fields(get_the_ID());
+$news_fields = ricelipka_get_post_type_fields(get_the_ID());
 $featured_image = $news_fields['featured_image'] ?: (has_post_thumbnail() ? wp_get_attachment_image_src(get_post_thumbnail_id(), 'medium') : null);
 ?>
 

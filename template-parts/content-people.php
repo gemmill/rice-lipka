@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-$person_fields = ricelipka_get_category_fields(get_the_ID());
+$person_fields = ricelipka_get_post_type_fields(get_the_ID());
 $person_role = $person_fields['person_role'] ?: 'team-member';
 
 // Display person photo or default

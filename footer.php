@@ -9,12 +9,6 @@
 
     <footer id="colophon" class="site-footer">
         <div class="container">
-            <?php if (is_active_sidebar('footer-1')) : ?>
-                <div class="footer-widgets">
-                    <?php dynamic_sidebar('footer-1'); ?>
-                </div>
-            <?php endif; ?>
-            
             <div class="site-info">
                 <div class="footer-navigation">
                     <?php
@@ -27,13 +21,6 @@
                         'fallback_cb'    => false,
                     ));
                     ?>
-                </div>
-                
-                <div class="copyright">
-                    <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. <?php _e('All rights reserved.', 'ricelipka-theme'); ?></p>
-                    <p class="powered-by">
-                        <?php printf(__('Powered by %s', 'ricelipka-theme'), '<a href="https://wordpress.org/">WordPress</a>'); ?>
-                    </p>
                 </div>
             </div>
         </div>

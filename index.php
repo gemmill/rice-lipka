@@ -34,11 +34,11 @@ get_header(); ?>
                         <div class="post-content">
                             <header class="entry-header">
                                 <?php
-                                // Display category badge
-                                $primary_category = ricelipka_get_post_primary_category();
-                                if ($primary_category) : ?>
-                                    <span class="category-badge category-<?php echo esc_attr($primary_category); ?>">
-                                        <?php echo esc_html(ucfirst($primary_category)); ?>
+                                // Display post type badge for custom post types
+                                $post_type = get_post_type();
+                                if (in_array($post_type, array('news', 'projects', 'awards', 'people'))) : ?>
+                                    <span class="category-badge category-<?php echo esc_attr($post_type); ?>">
+                                        <?php echo esc_html(ucfirst($post_type)); ?>
                                     </span>
                                 <?php endif; ?>
                                 

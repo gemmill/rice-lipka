@@ -1,163 +1,395 @@
 /*
 Theme Name: Rice+Lipka Architects
-Description: Custom WordPress theme for Rice+Lipka Architects website with ACF Pro integration and category-based content organization.
+Description: Custom WordPress theme for Rice+Lipka Architects
 Version: 1.0.0
 Author: Rice+Lipka Architects
-Text Domain: ricelipka-theme
-Requires at least: 6.0
-Tested up to: 6.4
-Requires PHP: 8.0
-License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
-This theme uses the classic editor and is designed to work with Advanced Custom Fields Pro for structured content management.
 */
 
-/* Reset and Base Styles */
+/* Modern CSS Reset */
+/* Based on Josh Comeau's CSS Reset with additions */
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove default margin
+*/
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
 }
 
+/*
+  3. Allow percentage-based heights in the application
+*/
+html, body {
+  height: 100%;
+}
+
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Container and Layout - Enhanced for responsive */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    width: 100%;
+/*
+  6. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
 }
 
-@media (min-width: 768px) {
-    .container {
-        padding: 0 1.5rem;
-    }
+/*
+  7. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
 }
 
-@media (min-width: 1025px) {
-    .container {
-        padding: 0 2rem;
-    }
+/*
+  8. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
 }
 
-/* Typography - Responsive scale */
-h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 1rem;
-    line-height: 1.2;
+/*
+  9. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
 }
 
-h1 {
-    font-size: clamp(1.75rem, 4vw, 3rem);
+/*
+  10. Remove list styles
+*/
+ul, ol {
+  list-style: none;
+  padding: 0;
 }
 
-h2 {
-    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+/*
+  11. Remove default button styles
+*/
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
-h3 {
-    font-size: clamp(1.25rem, 3vw, 2rem);
-}
-
-h4 {
-    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-}
-
-p {
-    margin-bottom: 1rem;
-    font-size: clamp(0.875rem, 2vw, 1rem);
-    line-height: 1.6;
-}
-
-/* Links */
+/*
+  12. Remove default link styles
+*/
 a {
-    color: #0073aa;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
-a:hover {
-    text-decoration: underline;
+/*
+  13. Remove default table styles
+*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-/* WordPress Core Styles - Enhanced for responsive */
-.alignleft {
-    float: left;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
+/*
+  14. Remove default fieldset styles
+*/
+fieldset {
+  border: none;
+  padding: 0;
 }
 
-.alignright {
-    float: right;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
+/*
+  15. Remove default legend styles
+*/
+legend {
+  padding: 0;
 }
 
-.aligncenter {
-    display: block;
-    margin: 0 auto 1rem;
+/*
+  16. Remove default address styles
+*/
+address {
+  font-style: normal;
 }
 
-@media (max-width: 767px) {
-    .alignleft,
-    .alignright {
-        float: none;
-        display: block;
-        margin: 0 auto 1rem;
-    }
+/*
+  17. Remove default cite styles
+*/
+cite {
+  font-style: normal;
 }
 
-.wp-caption {
-    max-width: 100%;
+/*
+  18. Remove default abbr styles
+*/
+abbr[title] {
+  text-decoration: none;
 }
 
-.wp-caption-text {
-    font-size: 0.9rem;
-    color: #666;
-    text-align: center;
-    margin-top: 0.5rem;
+/*
+  19. Remove default mark styles
+*/
+mark {
+  background: transparent;
+  color: inherit;
 }
 
-/* Responsive Images */
-img {
-    max-width: 100%;
-    height: auto;
+/*
+  20. Remove default small styles
+*/
+small {
+  font-size: inherit;
 }
 
-/* Responsive utilities */
-.show-mobile {
-    display: block;
+/*
+  21. Remove default sub and sup styles
+*/
+sub, sup {
+  font-size: inherit;
+  line-height: inherit;
+  position: static;
+  vertical-align: baseline;
 }
 
-.show-tablet,
-.show-desktop {
-    display: none;
+/*
+  22. Remove default summary styles
+*/
+summary {
+  display: block;
 }
 
-@media (min-width: 768px) {
-    .show-mobile {
-        display: none;
-    }
-    
-    .show-tablet {
-        display: block;
-    }
+/*
+  23. Remove default details styles
+*/
+details {
+  display: block;
 }
 
-@media (min-width: 1025px) {
-    .show-tablet {
-        display: none;
-    }
-    
-    .show-desktop {
-        display: block;
-    }
+/*
+  24. Remove default hr styles
+*/
+hr {
+  border: none;
+  height: 0;
 }
 
-/* Category-specific styles will be added in separate files */
+/*
+  25. Remove default pre styles
+*/
+pre {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/*
+  26. Remove default code styles
+*/
+code, kbd, samp {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/*
+  27. Remove default blockquote styles
+*/
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+  28. Remove default dd styles
+*/
+dd {
+  margin: 0;
+}
+
+/*
+  29. Remove default figure styles
+*/
+figure {
+  margin: 0;
+}
+
+/*
+  30. Remove default iframe border
+*/
+iframe {
+  border: none;
+}
+
+/*
+  31. Remove default focus outline (add your own)
+*/
+:focus {
+  outline: none;
+}
+
+/*
+  32. Remove default webkit appearance
+*/
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+/*
+  33. Remove default webkit search cancel button
+*/
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/*
+  34. Remove default webkit search decoration
+*/
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+  35. Remove default webkit number spinner
+*/
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*
+  36. Remove default firefox number spinner
+*/
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/*
+  37. Remove default webkit date input styles
+*/
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/*
+  38. Remove default webkit time input styles
+*/
+input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/*
+  39. Remove default webkit datetime input styles
+*/
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/*
+  40. Remove default webkit month input styles
+*/
+input[type="month"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/*
+  41. Remove default webkit week input styles
+*/
+input[type="week"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/*
+  42. Remove default webkit file input styles
+*/
+input[type="file"] {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+/*
+  43. Remove default progress styles
+*/
+progress {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/*
+  44. Remove default meter styles
+*/
+meter {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/*
+  45. Remove default range input styles
+*/
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+/*
+  46. Remove default range thumb styles
+*/
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  border: none;
+  background: transparent;
+}
+
+/*
+  47. Remove default range track styles
+*/
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-moz-range-track {
+  background: transparent;
+  border: none;
+}
+
+/*
+  48. Remove default checkbox and radio styles
+*/
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/*
+  49. Remove default select styles
+*/
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+}
+
+/*
+  50. Remove default textarea resize
+*/
+textarea {
+  resize: none;
+}

@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-$project_fields = ricelipka_get_category_fields(get_the_ID());
+$project_fields = ricelipka_get_post_type_fields(get_the_ID());
 $project_type = $project_fields['project_type'] ?: 'general';
 
 // Display project gallery or featured image

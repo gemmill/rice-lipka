@@ -62,6 +62,146 @@ function ricelipka_remove_excerpt_metabox() {
 add_action('admin_menu', 'ricelipka_remove_excerpt_metabox');
 
 /**
+ * Customize TinyMCE editor to only show basic text formatting and links
+ */
+function ricelipka_customize_tinymce($init) {
+    // Define minimal toolbar with only text formatting and links
+    $init['toolbar1'] = 'bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,|,undo,redo';
+    $init['toolbar2'] = '';
+    $init['toolbar3'] = '';
+    $init['toolbar4'] = '';
+    
+    // Remove plugins that add unwanted functionality
+    $init['plugins'] = 'lists,link,paste,textcolor';
+    
+    // Disable media buttons
+    $init['media_buttons'] = false;
+    
+    // Remove color picker and other advanced options
+    $init['textcolor_map'] = '';
+    $init['textcolor_rows'] = 0;
+    
+    // Disable drag and drop
+    $init['paste_data_images'] = false;
+    $init['paste_remove_styles'] = true;
+    $init['paste_remove_spans'] = true;
+    $init['paste_strip_class_attributes'] = 'all';
+    
+    // Remove format dropdown
+    $init['block_formats'] = 'Paragraph=p';
+    
+    // Disable resize
+    $init['resize'] = false;
+    
+    // Remove statusbar
+    $init['statusbar'] = false;
+    
+    // Remove menubar
+    $init['menubar'] = false;
+    
+    return $init;
+}
+add_filter('tiny_mce_before_init', 'ricelipka_customize_tinymce');
+
+/**
+ * Remove media buttons from post editor
+ */
+function ricelipka_remove_media_buttons() {
+    remove_action('media_buttons', 'media_buttons');
+}
+add_action('admin_head', 'ricelipka_remove_media_buttons');
+
+/**
+ * Remove additional editor buttons and features
+ */
+function ricelipka_remove_editor_buttons($buttons) {
+    // Remove buttons we don't want
+    $remove_buttons = array(
+        'formatselect',
+        'forecolor',
+        'backcolor',
+        'indent',
+        'outdent',
+        'alignleft',
+        'aligncenter',
+        'alignright',
+        'alignjustify',
+        'wp_more',
+        'wp_page',
+        'spellchecker',
+        'fullscreen',
+        'wp_adv',
+        'wp_help'
+    );
+    
+    return array_diff($buttons, $remove_buttons);
+}
+add_filter('mce_buttons', 'ricelipka_remove_editor_buttons');
+add_filter('mce_buttons_2', 'ricelipka_remove_editor_buttons');
+add_filter('mce_buttons_3', 'ricelipka_remove_editor_buttons');
+add_filter('mce_buttons_4', 'ricelipka_remove_editor_buttons');
+
+/**
+ * Remove TinyMCE plugins we don't want
+ */
+function ricelipka_remove_tinymce_plugins($plugins) {
+    $remove_plugins = array(
+        'colorpicker',
+        'textcolor',
+        'image',
+        'media',
+        'wordpress',
+        'wpgallery',
+        'wplink',
+        'wpdialogs',
+        'wpfullscreen',
+        'wpview'
+    );
+    
+    return array_diff_key($plugins, array_flip($remove_plugins));
+}
+add_filter('tiny_mce_plugins', 'ricelipka_remove_tinymce_plugins');
+
+/**
+ * Add admin CSS to hide media-related elements
+ */
+function ricelipka_admin_css() {
+    echo '<style>
+        /* Hide media buttons */
+        #wp-content-media-buttons,
+        .wp-media-buttons,
+        .insert-media,
+        .add_media {
+            display: none !important;
+        }
+        
+        /* Hide drag and drop area */
+        .uploader-inline,
+        .drag-drop-area {
+            display: none !important;
+        }
+        
+        /* Hide format dropdown if it appears */
+        .mce-listbox.mce-first,
+        .mce-colorbutton,
+        .mce-splitbtn {
+            display: none !important;
+        }
+        
+        /* Simplify editor appearance */
+        .mce-toolbar-grp {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Hide visual/text tabs if needed */
+        .wp-editor-tabs {
+            display: none !important;
+        }
+    </style>';
+}
+add_action('admin_head', 'ricelipka_admin_css');
+
+/**
  * Enqueue scripts and styles
  */
 function ricelipka_theme_scripts() {
@@ -186,32 +326,6 @@ function ricelipka_theme_scripts() {
     ));
 }
 add_action('wp_enqueue_scripts', 'ricelipka_theme_scripts');
-
-/**
- * Register widget areas
- */
-function ricelipka_theme_widgets_init() {
-    register_sidebar(array(
-        'name'          => __('Sidebar', 'ricelipka-theme'),
-        'id'            => 'sidebar-1',
-        'description'   => __('Add widgets here to appear in your sidebar.', 'ricelipka-theme'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title">',
-        'after_title'   => '</h3>',
-    ));
-    
-    register_sidebar(array(
-        'name'          => __('Footer', 'ricelipka-theme'),
-        'id'            => 'footer-1',
-        'description'   => __('Add widgets here to appear in your footer.', 'ricelipka-theme'),
-        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="footer-widget-title">',
-        'after_title'   => '</h4>',
-    ));
-}
-add_action('widgets_init', 'ricelipka_theme_widgets_init');
 
 /**
  * Custom excerpt length
