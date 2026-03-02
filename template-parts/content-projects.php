@@ -50,18 +50,6 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
             </h2>
             
             <div class="entry-meta project-meta">
-                <?php if ($project_fields['completion_status']) : ?>
-                    <span class="project-status status-<?php echo esc_attr($project_fields['completion_status']); ?>">
-                        <?php echo esc_html(ucfirst(str_replace('_', ' ', $project_fields['completion_status']))); ?>
-                    </span>
-                    
-                    <?php if ($project_fields['completion_status'] === 'in_progress' && $project_fields['completion_percentage']) : ?>
-                        <span class="completion-percentage">
-                            <?php printf(__('%d%% Complete', 'ricelipka-theme'), $project_fields['completion_percentage']); ?>
-                        </span>
-                    <?php endif; ?>
-                <?php endif; ?>
-                
                 <?php if ($project_fields['project_type']) : ?>
                     <span class="project-type type-<?php echo esc_attr($project_fields['project_type']); ?>">
                         <?php echo esc_html(ricelipka_get_project_type_display($project_fields['project_type'])); ?>

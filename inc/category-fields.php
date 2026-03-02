@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Create ACF field groups for each category
+ * Create ACF field groups for each custom post type
  */
 function ricelipka_create_acf_field_groups() {
     // Check if ACF Pro is active
@@ -20,63 +20,14 @@ function ricelipka_create_acf_field_groups() {
         return;
     }
 
-    // News Category Field Group - No custom fields, uses WordPress defaults
-    // acf_add_local_field_group(array(
-    //     'key' => 'group_news_fields',
-    //     'title' => 'News Fields',
-    //     'fields' => array(),
-    //     'location' => array(
-    //         array(
-    //             array(
-    //                 'param' => 'post_type',
-    //                 'operator' => '==',
-    //                 'value' => 'post',
-    //             ),
-    //             array(
-    //                 'param' => 'post_category',
-    //                 'operator' => '==',
-    //                 'value' => 'category:news',
-    //             ),
-    //         ),
-    //     ),
-    // ));
+    // News Post Type - No custom fields, uses WordPress defaults
+    // (No ACF field group needed)
 
-    // Projects Category Field Group
+    // Projects Post Type Field Group
     acf_add_local_field_group(array(
         'key' => 'group_projects_fields',
         'title' => 'Project Fields',
         'fields' => array(
-            array(
-                'key' => 'field_completion_status',
-                'label' => 'Completion Status',
-                'name' => 'completion_status',
-                'type' => 'select',
-                'instructions' => 'Select the project completion status',
-                'choices' => array(
-                    'completed' => 'Completed',
-                    'in_progress' => 'In Progress',
-                    'planned' => 'Planned',
-                ),
-                'required' => 1,
-            ),
-            array(
-                'key' => 'field_completion_percentage',
-                'label' => 'Completion Percentage',
-                'name' => 'completion_percentage',
-                'type' => 'number',
-                'instructions' => 'Enter completion percentage (0-100)',
-                'min' => 0,
-                'max' => 100,
-                'conditional_logic' => array(
-                    array(
-                        array(
-                            'field' => 'field_completion_status',
-                            'operator' => '==',
-                            'value' => 'in_progress',
-                        ),
-                    ),
-                ),
-            ),
             array(
                 'key' => 'field_project_type',
                 'label' => 'Project Type',
@@ -100,14 +51,25 @@ function ricelipka_create_acf_field_groups() {
                 'label' => 'Client',
                 'name' => 'client',
                 'type' => 'text',
-                'instructions' => 'Enter the client organization',
+                                'required' => 1,
             ),
             array(
                 'key' => 'field_location',
                 'label' => 'Location',
                 'name' => 'location',
                 'type' => 'text',
-                'instructions' => 'Enter the project location',
+                                'required' => 1,
+            ),
+                        array(
+                'key' => 'field_project_year',
+                'label' => 'Year',
+                'name' => 'project_year',
+                'type' => 'number',
+                'instructions' => 'Enter the project year',
+                'min' => 2000,
+                'max' => 2100,
+                'step' => 1,
+                'required' => 1,
             ),
             array(
                 'key' => 'field_image_gallery',
@@ -118,38 +80,20 @@ function ricelipka_create_acf_field_groups() {
                 'return_format' => 'array',
                 'preview_size' => 'medium',
             ),
-            array(
-                'key' => 'field_project_year',
-                'label' => 'Year',
-                'name' => 'project_year',
-                'type' => 'number',
-                'instructions' => 'Enter the project year',
-                'min' => 1900,
-                'max' => 2100,
-                'step' => 1,
-                'required' => 1,
-            ),
+
         ),
         'location' => array(
             array(
                 array(
                     'param' => 'post_type',
                     'operator' => '==',
-                    'value' => 'post',
-                ),
-                array(
-                    'param' => 'post_category',
-                    'operator' => '==',
-                    'value' => 'category:projects',
+                    'value' => 'projects',
                 ),
             ),
         ),
     ));
 
-    // Events Category Field Group - Removed
-    // Events category has been removed from the system
-
-    // Awards Category Field Group
+    // Awards Post Type Field Group
     acf_add_local_field_group(array(
         'key' => 'group_awards_fields',
         'title' => 'Award Fields',
@@ -168,8 +112,7 @@ function ricelipka_create_acf_field_groups() {
                 'name' => 'associated_project',
                 'type' => 'post_object',
                 'instructions' => 'Link to the associated project, or enter project name below if not found',
-                'post_type' => array('post'),
-                'taxonomy' => array('category:projects'),
+                'post_type' => array('projects'),
                 'return_format' => 'object',
                 'allow_null' => 1,
             ),
@@ -204,18 +147,13 @@ function ricelipka_create_acf_field_groups() {
                 array(
                     'param' => 'post_type',
                     'operator' => '==',
-                    'value' => 'post',
-                ),
-                array(
-                    'param' => 'post_category',
-                    'operator' => '==',
-                    'value' => 'category:awards',
+                    'value' => 'awards',
                 ),
             ),
         ),
     ));
 
-    // People Category Field Group
+    // People Post Type Field Group
     acf_add_local_field_group(array(
         'key' => 'group_people_fields',
         'title' => 'People Fields',
@@ -247,8 +185,7 @@ function ricelipka_create_acf_field_groups() {
                 'name' => 'person_associations',
                 'type' => 'post_object',
                 'instructions' => 'Select projects this person is associated with',
-                'post_type' => array('post'),
-                'taxonomy' => array('category:projects'),
+                'post_type' => array('projects'),
                 'return_format' => 'object',
                 'multiple' => 1,
                 'allow_null' => 1,
@@ -259,31 +196,95 @@ function ricelipka_create_acf_field_groups() {
                 array(
                     'param' => 'post_type',
                     'operator' => '==',
-                    'value' => 'post',
-                ),
-                array(
-                    'param' => 'post_category',
-                    'operator' => '==',
-                    'value' => 'category:people',
+                    'value' => 'people',
                 ),
             ),
         ),
+    ));
+
+    // About Page Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_about_page_fields',
+        'title' => 'About Page Fields',
+        'fields' => array(
+            array(
+                'key' => 'field_about_child_pages',
+                'label' => 'Child Pages Order',
+                'name' => 'about_child_pages',
+                'type' => 'relationship',
+                'instructions' => 'Select and drag to reorder the child pages that should appear on the About page',
+                'post_type' => array('page'),
+                'taxonomy' => array(),
+                'filters' => array(
+                    'search',
+                    'post_type',
+                ),
+                'elements' => array(
+                    'featured_image',
+                ),
+                'min' => '',
+                'max' => '',
+                'return_format' => 'object',
+                'library' => 'all',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-about.php',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
     ));
 }
 add_action('acf/init', 'ricelipka_create_acf_field_groups');
 
 /**
- * Helper function to get category-specific fields
+ * Filter relationship field to show only child pages of About page
  */
-function ricelipka_get_category_fields($post_id = null) {
+function ricelipka_filter_about_child_pages($args, $field, $post_id) {
+    // Only apply this filter to the about_child_pages field
+    if ($field['name'] !== 'about_child_pages') {
+        return $args;
+    }
+    
+    // Get the About page
+    $about_page = get_page_by_path('about');
+    
+    if ($about_page) {
+        // Modify the query to only show child pages of About
+        $args['post_parent'] = $about_page->ID;
+        $args['post_status'] = 'publish';
+        $args['orderby'] = 'menu_order title';
+        $args['order'] = 'ASC';
+    }
+    
+    return $args;
+}
+add_filter('acf/fields/relationship/query/name=about_child_pages', 'ricelipka_filter_about_child_pages', 10, 3);
+
+/**
+ * Helper function to get post type specific fields
+ */
+function ricelipka_get_post_type_fields($post_id = null) {
     if (!$post_id) {
         $post_id = get_the_ID();
     }
 
-    $primary_category = ricelipka_get_post_primary_category($post_id);
+    $post_type = get_post_type($post_id);
     $fields = array();
 
-    switch ($primary_category) {
+    switch ($post_type) {
         case 'news':
             // News uses WordPress default fields (title, content, excerpt, featured image)
             $fields = array();
@@ -291,8 +292,6 @@ function ricelipka_get_category_fields($post_id = null) {
 
         case 'projects':
             $fields = array(
-                'completion_status' => get_field('completion_status', $post_id),
-                'completion_percentage' => get_field('completion_percentage', $post_id),
                 'project_type' => get_field('project_type', $post_id),
                 'client' => get_field('client', $post_id),
                 'location' => get_field('location', $post_id),
@@ -316,6 +315,16 @@ function ricelipka_get_category_fields($post_id = null) {
                 'person_associations' => get_field('person_associations', $post_id),
             );
             break;
+            
+        case 'page':
+            // Check if this is the About page
+            $page_slug = get_post_field('post_name', $post_id);
+            if ($page_slug === 'about') {
+                $fields = array(
+                    'about_child_pages' => get_field('about_child_pages', $post_id),
+                );
+            }
+            break;
     }
 
     return $fields;
@@ -337,4 +346,35 @@ function ricelipka_get_project_type_display($project_type) {
     );
     
     return isset($type_labels[$project_type]) ? $type_labels[$project_type] : ucfirst(str_replace('_', ' ', $project_type));
+}
+
+/**
+ * Get ordered child pages for About page
+ */
+function ricelipka_get_about_child_pages($about_page_id = null) {
+    if (!$about_page_id) {
+        $about_page = get_page_by_path('about');
+        if (!$about_page) {
+            return array();
+        }
+        $about_page_id = $about_page->ID;
+    }
+    
+    // Get the custom ordered pages from ACF field
+    $ordered_pages = get_field('about_child_pages', $about_page_id);
+    
+    if ($ordered_pages && is_array($ordered_pages)) {
+        return $ordered_pages;
+    }
+    
+    // Fallback: get all child pages in default order
+    $child_pages = get_children(array(
+        'post_parent' => $about_page_id,
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'orderby' => 'menu_order title',
+        'order' => 'ASC'
+    ));
+    
+    return $child_pages;
 }

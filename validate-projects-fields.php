@@ -50,8 +50,6 @@ function validate_projects_field_group() {
     
     // Required fields from Task 3.2
     $required_fields = array(
-        'completion_status' => 'Completion Status',
-        'completion_percentage' => 'Completion Percentage',
         'project_type' => 'Project Type',
         'client' => 'Client',
         'location' => 'Location',
@@ -107,25 +105,6 @@ function validate_projects_field_group() {
     
     foreach ($fields as $field) {
         switch ($field['name']) {
-            case 'completion_status':
-                if (isset($field['choices']) && 
-                    isset($field['choices']['completed']) && 
-                    isset($field['choices']['in_progress']) && 
-                    isset($field['choices']['planned'])) {
-                    echo "<p>✅ Completion Status has correct options</p>\n";
-                } else {
-                    echo "<p>❌ Completion Status missing required options</p>\n";
-                }
-                break;
-                
-            case 'completion_percentage':
-                if (isset($field['conditional_logic']) && !empty($field['conditional_logic'])) {
-                    echo "<p>✅ Completion Percentage has conditional logic</p>\n";
-                } else {
-                    echo "<p>❌ Completion Percentage missing conditional logic</p>\n";
-                }
-                break;
-                
             case 'project_type':
                 if (isset($field['choices']) && 
                     isset($field['choices']['cultural']) && 
@@ -168,7 +147,7 @@ function validate_projects_field_group() {
         echo "<p>The Projects category field group has been properly implemented with:</p>\n";
         echo "<ul>\n";
         echo "<li>✅ Conditional logic to display when post category = 'Projects'</li>\n";
-        echo "<li>✅ All required fields: completion_status, completion_percentage, project_type, client, location, image_gallery, project_year</li>\n";
+        echo "<li>✅ All required fields: project_type, client, location, image_gallery, project_year</li>\n";
         echo "<li>✅ Project-specific field validation and selection options</li>\n";
         echo "<li>✅ Requirements 2.2 and 7.1 satisfied</li>\n";
         echo "</ul>\n";

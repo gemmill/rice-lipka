@@ -50,6 +50,18 @@ function ricelipka_theme_setup() {
 add_action('after_setup_theme', 'ricelipka_theme_setup');
 
 /**
+ * Remove excerpt metabox from post editor
+ */
+function ricelipka_remove_excerpt_metabox() {
+    remove_meta_box('postexcerpt', 'post', 'normal');
+    remove_meta_box('postexcerpt', 'news', 'normal');
+    remove_meta_box('postexcerpt', 'projects', 'normal');
+    remove_meta_box('postexcerpt', 'awards', 'normal');
+    remove_meta_box('postexcerpt', 'people', 'normal');
+}
+add_action('admin_menu', 'ricelipka_remove_excerpt_metabox');
+
+/**
  * Enqueue scripts and styles
  */
 function ricelipka_theme_scripts() {
@@ -172,11 +184,6 @@ function ricelipka_theme_scripts() {
             'intersection_observer' => true
         )
     ));
-    
-    // Enqueue comment reply script
-    if (is_singular() && comments_open() && get_option('thread_comments')) {
-        wp_enqueue_script('comment-reply');
-    }
 }
 add_action('wp_enqueue_scripts', 'ricelipka_theme_scripts');
 
@@ -207,26 +214,6 @@ function ricelipka_theme_widgets_init() {
 add_action('widgets_init', 'ricelipka_theme_widgets_init');
 
 /**
- * Category detection helper function
- */
-function ricelipka_get_post_primary_category($post_id = null) {
-    if (!$post_id) {
-        $post_id = get_the_ID();
-    }
-    
-    $categories = get_the_category($post_id);
-    $primary_cats = array('news', 'projects', 'awards', 'people');
-    
-    foreach ($categories as $category) {
-        if (in_array($category->slug, $primary_cats)) {
-            return $category->slug;
-        }
-    }
-    
-    return 'news'; // Default fallback
-}
-
-/**
  * Custom excerpt length
  */
 function ricelipka_excerpt_length($length) {
@@ -247,6 +234,7 @@ add_filter('excerpt_more', 'ricelipka_excerpt_more');
  */
 require_once get_template_directory() . '/inc/acf-blocks.php'; // Now contains classic editor functionality
 require_once get_template_directory() . '/inc/category-fields.php';
+require_once get_template_directory() . '/debug-about-fields.php'; // Debug file - remove in production
 require_once get_template_directory() . '/inc/category-navigation-widget.php';
 require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/seo.php';
@@ -255,25 +243,166 @@ require_once get_template_directory() . '/inc/acf-field-validation.php';
 require_once get_template_directory() . '/inc/acf-help-documentation.php';
 require_once get_template_directory() . '/inc/chronological-ordering.php';
 
+// Include debug script for development
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    require_once get_template_directory() . '/debug-acf-fields.php';
+}
+
+/**
+ * Restrict posts to only one category selection
+ */
+function ricelipka_restrict_single_category() {
+    // This will be replaced with custom post types
+    // Keeping minimal functionality for now
+}
+add_action('init', 'ricelipka_restrict_single_category');
+
+/**
+ * Register custom post types for content organization
+ */
+function ricelipka_register_custom_post_types() {
+    // News Post Type
+    register_post_type('news', array(
+        'labels' => array(
+            'name' => 'News',
+            'singular_name' => 'News Article',
+            'add_new' => 'Add New Article',
+            'add_new_item' => 'Add New News Article',
+            'edit_item' => 'Edit News Article',
+            'new_item' => 'New News Article',
+            'view_item' => 'View News Article',
+            'search_items' => 'Search News',
+            'not_found' => 'No news articles found',
+            'not_found_in_trash' => 'No news articles found in trash'
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-admin-post',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'news'),
+        'show_in_rest' => true
+    ));
+
+    // Projects Post Type
+    register_post_type('projects', array(
+        'labels' => array(
+            'name' => 'Projects',
+            'singular_name' => 'Project',
+            'add_new' => 'Add New Project',
+            'add_new_item' => 'Add New Project',
+            'edit_item' => 'Edit Project',
+            'new_item' => 'New Project',
+            'view_item' => 'View Project',
+            'search_items' => 'Search Projects',
+            'not_found' => 'No projects found',
+            'not_found_in_trash' => 'No projects found in trash'
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-building',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'projects'),
+        'show_in_rest' => true
+    ));
+
+    // Awards Post Type
+    register_post_type('awards', array(
+        'labels' => array(
+            'name' => 'Awards',
+            'singular_name' => 'Award',
+            'add_new' => 'Add New Award',
+            'add_new_item' => 'Add New Award',
+            'edit_item' => 'Edit Award',
+            'new_item' => 'New Award',
+            'view_item' => 'View Award',
+            'search_items' => 'Search Awards',
+            'not_found' => 'No awards found',
+            'not_found_in_trash' => 'No awards found in trash'
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-awards',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'awards'),
+        'show_in_rest' => true
+    ));
+
+    // People Post Type
+    register_post_type('people', array(
+        'labels' => array(
+            'name' => 'People',
+            'singular_name' => 'Person',
+            'add_new' => 'Add New Person',
+            'add_new_item' => 'Add New Person',
+            'edit_item' => 'Edit Person',
+            'new_item' => 'New Person',
+            'view_item' => 'View Person',
+            'search_items' => 'Search People',
+            'not_found' => 'No people found',
+            'not_found_in_trash' => 'No people found in trash'
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-groups',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'people'),
+        'show_in_rest' => true
+    ));
+}
+add_action('init', 'ricelipka_register_custom_post_types');
+
+/**
+ * Disable comments on all posts and custom post types
+ */
+function ricelipka_disable_comments() {
+    // Disable comments for all post types
+    add_filter('comments_open', '__return_false', 20, 2);
+    add_filter('pings_open', '__return_false', 20, 2);
+    
+    // Hide existing comments
+    add_filter('comments_array', '__return_empty_array', 10, 2);
+    
+    // Remove comments page in admin
+    add_action('admin_init', function() {
+        // Remove comments metabox from dashboard
+        remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+        
+        // Remove comments menu
+        remove_menu_page('edit-comments.php');
+        
+        // Remove comments from admin bar
+        add_action('wp_before_admin_bar_render', function() {
+            global $wp_admin_bar;
+            $wp_admin_bar->remove_menu('comments');
+        });
+    });
+    
+    // Remove comment-related widgets
+    add_action('widgets_init', function() {
+        unregister_widget('WP_Widget_Recent_Comments');
+    });
+    
+    // Remove comment feed links
+    remove_action('wp_head', 'feed_links_extra', 3);
+    
+    // Remove comment reply script
+    add_action('wp_print_scripts', function() {
+        wp_deregister_script('comment-reply');
+    });
+}
+add_action('init', 'ricelipka_disable_comments');
+
+
+
+
 /**
  * Theme activation hook
  */
 function ricelipka_theme_activation() {
-    // Create default categories if they don't exist
-    $categories = array(
-        'news' => 'News',
-        'projects' => 'Projects', 
-        'awards' => 'Awards',
-        'people' => 'People'
-    );
+    // Register custom post types
+    ricelipka_register_custom_post_types();
     
-    foreach ($categories as $slug => $name) {
-        if (!term_exists($slug, 'category')) {
-            wp_insert_term($name, 'category', array('slug' => $slug));
-        }
-    }
-    
-    // Flush rewrite rules
+    // Flush rewrite rules to ensure custom post type URLs work
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'ricelipka_theme_activation');

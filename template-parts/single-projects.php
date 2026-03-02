@@ -32,22 +32,6 @@ $fields = $args['fields'] ?? array();
             <div class="project-info">
                 <h3><?php _e('Project Information', 'ricelipka-theme'); ?></h3>
                 
-                <?php if ($fields['completion_status']) : ?>
-                    <div class="project-detail">
-                        <strong><?php _e('Status:', 'ricelipka-theme'); ?></strong>
-                        <span class="project-status status-<?php echo esc_attr($fields['completion_status']); ?>">
-                            <?php echo esc_html(ucfirst(str_replace('_', ' ', $fields['completion_status']))); ?>
-                        </span>
-                        
-                        <?php if ($fields['completion_status'] === 'in_progress' && $fields['completion_percentage']) : ?>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: <?php echo intval($fields['completion_percentage']); ?>%"></div>
-                                <span class="progress-text"><?php echo intval($fields['completion_percentage']); ?>% Complete</span>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-                
                 <?php if ($fields['project_type']) : ?>
                     <div class="project-detail">
                         <strong><?php _e('Type:', 'ricelipka-theme'); ?></strong>
