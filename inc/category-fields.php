@@ -20,54 +20,26 @@ function ricelipka_create_acf_field_groups() {
         return;
     }
 
-    // News Category Field Group
-    acf_add_local_field_group(array(
-        'key' => 'group_news_fields',
-        'title' => 'News Fields',
-        'fields' => array(
-            array(
-                'key' => 'field_publication_date',
-                'label' => 'Publication Date',
-                'name' => 'publication_date',
-                'type' => 'date_picker',
-                'instructions' => 'Select the publication date',
-                'display_format' => 'F j, Y',
-                'return_format' => 'Y-m-d',
-                'first_day' => 1,
-            ),
-            array(
-                'key' => 'field_news_excerpt',
-                'label' => 'Excerpt',
-                'name' => 'excerpt',
-                'type' => 'textarea',
-                'instructions' => 'Brief summary of the news article',
-                'rows' => 3,
-            ),
-            array(
-                'key' => 'field_featured_image',
-                'label' => 'Featured Image',
-                'name' => 'featured_image',
-                'type' => 'image',
-                'instructions' => 'Upload a featured image for the news article',
-                'return_format' => 'array',
-                'preview_size' => 'medium',
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'post',
-                ),
-                array(
-                    'param' => 'post_category',
-                    'operator' => '==',
-                    'value' => 'category:news',
-                ),
-            ),
-        ),
-    ));
+    // News Category Field Group - No custom fields, uses WordPress defaults
+    // acf_add_local_field_group(array(
+    //     'key' => 'group_news_fields',
+    //     'title' => 'News Fields',
+    //     'fields' => array(),
+    //     'location' => array(
+    //         array(
+    //             array(
+    //                 'param' => 'post_type',
+    //                 'operator' => '==',
+    //                 'value' => 'post',
+    //             ),
+    //             array(
+    //                 'param' => 'post_category',
+    //                 'operator' => '==',
+    //                 'value' => 'category:news',
+    //             ),
+    //         ),
+    //     ),
+    // ));
 
     // Projects Category Field Group
     acf_add_local_field_group(array(
@@ -420,11 +392,8 @@ function ricelipka_get_category_fields($post_id = null) {
 
     switch ($primary_category) {
         case 'news':
-            $fields = array(
-                'publication_date' => get_field('publication_date', $post_id),
-                'excerpt' => get_field('excerpt', $post_id),
-                'featured_image' => get_field('featured_image', $post_id),
-            );
+            // News uses WordPress default fields (title, content, excerpt, featured image)
+            $fields = array();
             break;
 
         case 'projects':
