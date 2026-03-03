@@ -26,7 +26,7 @@ get_header(); ?>
                             
                             <?php if (!empty($fields['project_type'])) : ?>
                                 <span class="project-type">
-                                    <a href="<?php echo home_url('/projects/' . $fields['project_type'] . '/'); ?>">
+                                    <a href="<?php echo home_url('/work/' . $fields['project_type'] . '/'); ?>">
                                         <?php echo esc_html(ricelipka_get_project_type_display($fields['project_type'])); ?>
                                     </a>
                                 </span>
@@ -96,7 +96,7 @@ get_header(); ?>
                         <?php endif; ?>
                         
                         <div class="nav-back">
-                            <a href="<?php echo home_url('/projects/'); ?>" class="back-to-projects">
+                            <a href="<?php echo home_url('/work/'); ?>" class="back-to-projects">
                                 All Projects
                             </a>
                         </div>

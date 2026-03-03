@@ -69,7 +69,7 @@ if (!current_user_can('manage_options')) {
     echo '<h2>Relevant Rewrite Rules:</h2>';
     echo '<pre>';
     foreach ($rules as $pattern => $replacement) {
-        if (strpos($pattern, 'projects') !== false) {
+        if (strpos($pattern, 'work') !== false || strpos($replacement, 'projects') !== false) {
             echo $pattern . ' => ' . $replacement . "\n";
         }
     }
@@ -86,8 +86,8 @@ if (!current_user_can('manage_options')) {
     // Test URLs
     echo '<h2>Test URLs:</h2>';
     echo '<ul>';
-    echo '<li><a href="' . home_url('/projects/') . '" target="_blank">' . home_url('/projects/') . '</a></li>';
-    echo '<li><a href="' . home_url('/projects/cultural/') . '" target="_blank">' . home_url('/projects/cultural/') . '</a></li>';
+    echo '<li><a href="' . home_url('/work/') . '" target="_blank">' . home_url('/work/') . '</a></li>';
+    echo '<li><a href="' . home_url('/work/cultural/') . '" target="_blank">' . home_url('/work/cultural/') . '</a></li>';
     echo '<li><a href="' . get_post_type_archive_link('projects') . '" target="_blank">WordPress archive link</a></li>';
     echo '</ul>';
     ?>

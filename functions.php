@@ -415,7 +415,7 @@ function ricelipka_register_custom_post_types() {
         'has_archive' => true,
         'menu_icon' => 'dashicons-building',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
-        'rewrite' => array('slug' => 'projects'),
+        'rewrite' => array('slug' => 'work'),
         'show_in_rest' => true
     ));
 
@@ -528,22 +528,22 @@ function ricelipka_add_project_type_rewrite_rules() {
     // Create a regex pattern for valid project types only
     $types_pattern = '(' . implode('|', $valid_types) . ')';
     
-    // Add rewrite rule for /projects/{project_type}/ (only valid types)
+    // Add rewrite rule for /work/{project_type}/ (only valid types)
     add_rewrite_rule(
-        '^projects/' . $types_pattern . '/?$',
+        '^work/' . $types_pattern . '/?$',
         'index.php?post_type=projects&project_type_filter=$matches[1]',
         'top'
     );
     
-    // Add rewrite rule for /projects/{project_type}/page/{page_num}/
+    // Add rewrite rule for /work/{project_type}/page/{page_num}/
     add_rewrite_rule(
-        '^projects/' . $types_pattern . '/page/([0-9]+)/?$',
+        '^work/' . $types_pattern . '/page/([0-9]+)/?$',
         'index.php?post_type=projects&project_type_filter=$matches[1]&paged=$matches[2]',
         'top'
     );
     
     // Individual project URLs will use the default WordPress rewrite:
-    // /projects/{project-slug}/ -> handled by WordPress automatically
+    // /work/{project-slug}/ -> handled by WordPress automatically
 }
 add_action('init', 'ricelipka_add_project_type_rewrite_rules');
 

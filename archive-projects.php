@@ -23,11 +23,10 @@ get_header(); ?>
             }
             ?>
             
-            <!-- Project Type Filter Navigation -->
             <nav class="project-type-filter">
                 <ul class="filter-list">
                     <li class="filter-item <?php echo !$project_type ? 'active' : ''; ?>">
-                        <a href="<?php echo home_url('/projects/'); ?>">All Projects</a>
+                        <a href="<?php echo home_url('/work/'); ?>">All Projects</a>
                     </li>
                     <?php
                     $project_types = array(
@@ -44,7 +43,7 @@ get_header(); ?>
                     foreach ($project_types as $type_key => $type_label) {
                         $active_class = ($project_type === $type_key) ? 'active' : '';
                         echo '<li class="filter-item ' . $active_class . '">';
-                        echo '<a href="' . home_url('/projects/' . $type_key . '/') . '">' . esc_html($type_label) . '</a>';
+                        echo '<a href="' . home_url('/work/' . $type_key . '/') . '">' . esc_html($type_label) . '</a>';
                         echo '</li>';
                     }
                     ?>
@@ -73,7 +72,7 @@ get_header(); ?>
                 <h2><?php _e('No projects found', 'ricelipka-theme'); ?></h2>
                 <?php if ($project_type) : ?>
                     <p><?php printf(__('No projects found in the %s category.', 'ricelipka-theme'), ricelipka_get_project_type_display($project_type)); ?></p>
-                    <p><a href="<?php echo home_url('/projects/'); ?>"><?php _e('View all projects', 'ricelipka-theme'); ?></a></p>
+                    <p><a href="<?php echo home_url('/work/'); ?>"><?php _e('View all projects', 'ricelipka-theme'); ?></a></p>
                 <?php else : ?>
                     <p><?php _e('No projects have been published yet.', 'ricelipka-theme'); ?></p>
                 <?php endif; ?>

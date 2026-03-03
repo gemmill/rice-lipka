@@ -39,20 +39,20 @@ flush_rewrite_rules();
         <p><strong>Success!</strong> WordPress rewrite rules have been flushed.</p>
         <p>Your custom URLs should now work properly:</p>
         <ul style="text-align: left; display: inline-block;">
-            <li><code>/projects/</code> - All projects</li>
-            <li><code>/projects/cultural/</code> - Cultural projects</li>
-            <li><code>/projects/academic/</code> - Academic projects</li>
-            <li><code>/projects/offices/</code> - Office projects</li>
-            <li><code>/projects/retail_commercial/</code> - Retail & Commercial projects</li>
-            <li><code>/projects/institutional/</code> - Institutional projects</li>
-            <li><code>/projects/planning/</code> - Planning projects</li>
-            <li><code>/projects/exhibitions/</code> - Exhibition projects</li>
-            <li><code>/projects/research_installation/</code> - Research & Installation projects</li>
+            <li><code>/work/</code> - All projects</li>
+            <li><code>/work/cultural/</code> - Cultural projects</li>
+            <li><code>/work/academic/</code> - Academic projects</li>
+            <li><code>/work/offices/</code> - Office projects</li>
+            <li><code>/work/retail_commercial/</code> - Retail & Commercial projects</li>
+            <li><code>/work/institutional/</code> - Institutional projects</li>
+            <li><code>/work/planning/</code> - Planning projects</li>
+            <li><code>/work/exhibitions/</code> - Exhibition projects</li>
+            <li><code>/work/research_installation/</code> - Research & Installation projects</li>
         </ul>
     </div>
     
     <p>
-        <a href="<?php echo home_url('/projects/'); ?>" class="button">View Projects Archive</a>
+        <a href="<?php echo home_url('/work/'); ?>" class="button">View Projects Archive</a>
         <a href="<?php echo admin_url(); ?>" class="button">Back to WordPress Admin</a>
     </p>
 </body>
