@@ -510,11 +510,102 @@ add_action('init', 'ricelipka_disable_comments');
 
 
 /**
+ * Add custom rewrite rules for project type filtering
+ */
+function ricelipka_add_project_type_rewrite_rules() {
+    // Get valid project types for more specific matching
+    $valid_types = array(
+        'cultural',
+        'academic', 
+        'offices',
+        'retail_commercial',
+        'institutional',
+        'planning',
+        'exhibitions',
+        'research_installation'
+    );
+    
+    // Create a regex pattern for valid project types only
+    $types_pattern = '(' . implode('|', $valid_types) . ')';
+    
+    // Add rewrite rule for /projects/{project_type}/ (only valid types)
+    add_rewrite_rule(
+        '^projects/' . $types_pattern . '/?$',
+        'index.php?post_type=projects&project_type_filter=$matches[1]',
+        'top'
+    );
+    
+    // Add rewrite rule for /projects/{project_type}/page/{page_num}/
+    add_rewrite_rule(
+        '^projects/' . $types_pattern . '/page/([0-9]+)/?$',
+        'index.php?post_type=projects&project_type_filter=$matches[1]&paged=$matches[2]',
+        'top'
+    );
+    
+    // Individual project URLs will use the default WordPress rewrite:
+    // /projects/{project-slug}/ -> handled by WordPress automatically
+}
+add_action('init', 'ricelipka_add_project_type_rewrite_rules');
+
+/**
+ * Add custom query vars for project filtering
+ */
+function ricelipka_add_project_query_vars($vars) {
+    $vars[] = 'project_type_filter';
+    return $vars;
+}
+add_filter('query_vars', 'ricelipka_add_project_query_vars');
+
+/**
+ * Modify the main query for project type filtering
+ */
+function ricelipka_modify_projects_query($query) {
+    // Only modify the main query on the frontend for projects archive
+    if (!is_admin() && $query->is_main_query()) {
+        $project_type = get_query_var('project_type_filter');
+        
+        if ($project_type && $query->get('post_type') === 'projects') {
+            // Validate that the project type exists
+            $valid_types = array(
+                'cultural',
+                'academic', 
+                'offices',
+                'retail_commercial',
+                'institutional',
+                'planning',
+                'exhibitions',
+                'research_installation'
+            );
+            
+            if (in_array($project_type, $valid_types)) {
+                // Add meta query to filter by project type
+                $meta_query = array(
+                    array(
+                        'key' => 'project_type',
+                        'value' => $project_type,
+                        'compare' => '='
+                    )
+                );
+                
+                $query->set('meta_query', $meta_query);
+            } else {
+                // Invalid project type, show 404
+                $query->set_404();
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'ricelipka_modify_projects_query');
+
+/**
  * Theme activation hook
  */
 function ricelipka_theme_activation() {
     // Register custom post types
     ricelipka_register_custom_post_types();
+    
+    // Add rewrite rules
+    ricelipka_add_project_type_rewrite_rules();
     
     // Flush rewrite rules to ensure custom post type URLs work
     flush_rewrite_rules();
