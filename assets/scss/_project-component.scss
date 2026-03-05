@@ -152,7 +152,7 @@ $project-transition: opacity 0.3s ease;
 article.project-item,
 div.project-item,
 .home-projects-list .project-item,
-.projects-grid .project-item,
+.grid .project-item,
 .site-main .project-item {
   position: relative;
   width: 100%;
@@ -182,7 +182,7 @@ div.project-item,
 article.project-item:hover,
 div.project-item:hover,
 .home-projects-list .project-item:hover,
-.projects-grid .project-item:hover,
+.grid .project-item:hover,
 .site-main .project-item:hover {
   @extend %hover-effects;
   @extend %hover-overlay;

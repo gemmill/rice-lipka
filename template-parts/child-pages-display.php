@@ -11,10 +11,10 @@ $child_pages = ricelipka_get_page_child_pages($page_id);
 
 if ($child_pages && !empty($child_pages)) : ?>
     
-    <section class="page-child-pages-full">
+   
         
         <?php foreach ($child_pages as $child_page) : ?>
-            <article class="child-page-item-full">
+           <div class="column">
                 <header class="child-page-header">
                     <h2 class="child-page-title">
                         <?php echo get_the_title($child_page->ID); ?>
@@ -38,10 +38,9 @@ if ($child_pages && !empty($child_pages)) : ?>
                     echo $child_content;
                     ?>
                 </div>
-                
-            </article>
+           </div>
         <?php endforeach; ?>
         
-    </section>
+  
     
 <?php endif; ?>

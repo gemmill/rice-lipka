@@ -10,10 +10,26 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+
 .column {
   display: flex;
   flex-direction: column;
   flex: 1;
-  border: 1px solid #fc0;
   gap:1rem;
+}
+
+.grid {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  
+  // Responsive grid
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }

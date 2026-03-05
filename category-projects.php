@@ -50,7 +50,7 @@ get_header(); ?>
                 </div>
             </header>
             
-            <div class="posts-container projects-container projects-grid posts-grid">
+            <div class="posts-container projects-container grid posts-grid">
                 <?php while (have_posts()) : the_post(); ?>
                     
                     <?php

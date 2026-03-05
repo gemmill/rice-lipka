@@ -2,17 +2,3 @@
  * Project List Styles
  * Styles for project listings and grids
  */
-
-
-
-.projects-grid {
-  flex: 3;
-  gap: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  
-  // Each project item takes 1/3 of the width (3 items per row)
-  .project-item {
-    flex: 0 0 calc(33.333% - 0.667rem); // Account for gap
-  }
-}
