@@ -1,0 +1,19 @@
+/*
+ * Typography Styles
+ * Site-wide typography system with two font styles
+ */
+
+// Typography variables
+$heading: 2rem sans-serif;
+$body: 1rem sans-serif;
+
+// Base typography - override reset styles
+html, body {
+  font: $body;
+}
+
+// Heading styles - override reset styles
+h1, h2, h3, h4, h5, h6, .heading {
+  font: $heading !important;
+  margin: 0 !important;
+}

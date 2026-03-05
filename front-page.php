@@ -12,16 +12,13 @@ get_header(); ?>
     <?php get_template_part('template-parts/site-menu'); ?>
     
         <!-- Tagline -->
-        <div class="column">
+        <div class="column heading">
             <?php
             // Get site tagline/description
             $tagline = get_bloginfo('description');
             if ($tagline) {
                 echo '<p class="site-tagline">' . esc_html($tagline) . '</p>';
-            } else {
-                // Fallback tagline if none is set
-                echo '<p class="site-tagline">Architecture that responds to place, program, and purpose.</p>';
-            }
+            } 
             ?>
         </div>
 

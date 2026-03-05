@@ -11,13 +11,13 @@ get_header(); ?>
 <div class="layout">
     <?php get_template_part('template-parts/site-menu'); ?>
     
-    <div class="news-grid">
+    <div class="column">
         <?php if (have_posts()) : ?>
-         
+            <div class="news-grid">
                 <?php while (have_posts()) : the_post(); ?>
                     <?php get_template_part('template-parts/item-news'); ?>
                 <?php endwhile; ?>
-         
+            </div>
 
             <?php
             // Pagination

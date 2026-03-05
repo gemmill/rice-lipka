@@ -3,6 +3,8 @@
  * Styles for site navigation and menu components
  */
 
+@use 'typography';
+
 .menu {
   // Full width on small screens
   @media (max-width: 768px) {
@@ -12,6 +14,12 @@
   ul {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0;
     
     // small screens - horizontal menu
     @media (max-width: 769px) {
@@ -19,15 +27,35 @@
     }
   }
   
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    font: typography.$heading;
+    
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  
+  // Submenu links use body font
+  .submenu a {
+    font: typography.$body;
+  }
+  
   // Hide submenus by default
   .submenu {
     display: none;
   }
   
-  // Show submenus when parent menu item is active or hovered
+  // Show submenus when parent menu item is active or ancestor
   .menu-item.current-menu-item .submenu,
-  .menu-item.current-menu-ancestor .submenu,
-  .menu-item:hover .submenu {
+  .menu-item.current-menu-ancestor .submenu {
     display: block;
   }
 }

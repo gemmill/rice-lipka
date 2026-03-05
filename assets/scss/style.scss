@@ -8,6 +8,9 @@ Author: Rice+Lipka Architects
 // Import reset styles
 @use 'reset';
 
+// Import typography styles
+@use 'typography';
+
 // Import layout styles
 @use 'layout';
 
@@ -16,6 +19,9 @@ Author: Rice+Lipka Architects
 
 // Import project list styles
 @use 'project-list';
+
+// Import news styles
+@use 'news';
 
 // Import project component styles
 @use 'project-component';

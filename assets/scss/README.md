@@ -6,18 +6,22 @@ This theme uses SCSS for better CSS organization and maintainability with a mini
 
 - `style.scss` - Main stylesheet that imports only essential components
 - `_reset.scss` - CSS reset and base styles
+- `_typography.scss` - Site-wide typography system
 - `_layout.scss` - Basic layout utilities and structure
 - `_menu.scss` - Menu and navigation styles
 - `_project-list.scss` - Project listing and grid styles
+- `_news.scss` - News item component styles
 - `_project-component.scss` - Isolated project component styles
 
 ## Philosophy
 
 The theme follows a **minimal CSS approach** where only essential styles are included:
 - **Reset styles**: Modern CSS reset with sensible defaults
+- **Typography system**: Two font styles - heading (2rem bold) and body (1rem)
 - **Layout utilities**: Basic layout classes for structure
 - **Menu styles**: Navigation and menu component styles
 - **Project list styles**: Grid layouts for project listings
+- **News styles**: News item component styles
 - **Project component**: Completely isolated component styles
 - **No theme styles**: All complex layout, typography, and design styles have been removed to focus purely on functionality
 
@@ -45,6 +49,12 @@ Contains modern CSS reset with sensible defaults:
 - Media element defaults
 - Form element inheritance
 
+### Typography System (`_typography.scss`)
+Simple two-font system:
+- **$heading**: 2rem bold sans-serif (for h1-h6)
+- **$body**: 1rem sans-serif (for body text, paragraphs, links, etc.)
+- Consistent typography across all elements
+
 ### Layout Styles (`_layout.scss`)
 Basic layout utilities and structure:
 - `.layout` class with flexbox row layout and padding
@@ -56,9 +66,14 @@ Navigation and menu component styles:
 - `.menu ul` with responsive flexbox layout:
   - Column layout on mobile (default)
   - Row layout on medium screens and up (769px+)
+  - Consistent list styling (no bullets, margins, or padding)
+- `.menu a` with consistent link styling:
+  - Block display with padding
+  - Consistent color, font-size, and typography
+  - Hover effects
 - Submenu visibility controls:
   - Hidden by default
-  - Shown when parent menu item is active, ancestor, or hovered
+  - Shown only when parent menu item is active or ancestor (no hover)
 
 ### Project List Styles (`_project-list.scss`)
 Grid layouts for project listings:
@@ -68,6 +83,18 @@ Grid layouts for project listings:
   - `gap: 1rem` between items
   - `flex-wrap: wrap` for responsive wrapping
   - Project items sized to fit 3 per row
+
+### News Styles (`_news.scss`)
+News item component styles:
+- `.news-grid` class with 3-column flex grid (same structure as projects):
+  - `flex: 3` for container sizing
+  - `gap: 1rem` between items
+  - `flex-wrap: wrap` for responsive wrapping
+  - News items sized to fit 3 per row
+- `.news-item` class for news item containers
+- `.news-image-wrapper` with 3:2 aspect ratio for images
+- `.news-placeholder` for items without images
+- `.news-content` with date, title, and excerpt styling
 
 ### Project Component (`_project-component.scss`)
 The project component styles are completely isolated to ensure consistent display across all pages:
