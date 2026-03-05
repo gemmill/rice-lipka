@@ -48,11 +48,13 @@ flush_rewrite_rules();
             <li><code>/work/planning/</code> - Planning projects</li>
             <li><code>/work/exhibitions/</code> - Exhibition projects</li>
             <li><code>/work/research_installation/</code> - Research & Installation projects</li>
+            <li><code>/news/</code> - All news articles (regular posts)</li>
         </ul>
     </div>
     
     <p>
         <a href="<?php echo home_url('/work/'); ?>" class="button">View Projects Archive</a>
+        <a href="<?php echo home_url('/news/'); ?>" class="button">View News Archive</a>
         <a href="<?php echo admin_url(); ?>" class="button">Back to WordPress Admin</a>
     </p>
 </body>

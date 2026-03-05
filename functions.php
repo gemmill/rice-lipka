@@ -54,7 +54,6 @@ add_action('after_setup_theme', 'ricelipka_theme_setup');
  */
 function ricelipka_remove_excerpt_metabox() {
     remove_meta_box('postexcerpt', 'post', 'normal');
-    remove_meta_box('postexcerpt', 'news', 'normal');
     remove_meta_box('postexcerpt', 'projects', 'normal');
     remove_meta_box('postexcerpt', 'awards', 'normal');
     remove_meta_box('postexcerpt', 'people', 'normal');
@@ -375,28 +374,6 @@ add_action('init', 'ricelipka_restrict_single_category');
  * Register custom post types for content organization
  */
 function ricelipka_register_custom_post_types() {
-    // News Post Type
-    register_post_type('news', array(
-        'labels' => array(
-            'name' => 'News',
-            'singular_name' => 'News Article',
-            'add_new' => 'Add New Article',
-            'add_new_item' => 'Add New News Article',
-            'edit_item' => 'Edit News Article',
-            'new_item' => 'New News Article',
-            'view_item' => 'View News Article',
-            'search_items' => 'Search News',
-            'not_found' => 'No news articles found',
-            'not_found_in_trash' => 'No news articles found in trash'
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'menu_icon' => 'dashicons-admin-post',
-        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
-        'rewrite' => array('slug' => 'news'),
-        'show_in_rest' => true
-    ));
-
     // Projects Post Type
     register_post_type('projects', array(
         'labels' => array(
@@ -522,7 +499,8 @@ function ricelipka_add_project_type_rewrite_rules() {
         'institutional',
         'planning',
         'exhibitions',
-        'research_installation'
+        'research_installation',
+        'residential'
     );
     
     // Create a regex pattern for valid project types only
@@ -548,21 +526,44 @@ function ricelipka_add_project_type_rewrite_rules() {
 add_action('init', 'ricelipka_add_project_type_rewrite_rules');
 
 /**
+ * Add custom rewrite rules for news archive (regular posts)
+ */
+function ricelipka_add_news_rewrite_rules() {
+    // Add rewrite rule for /news/ -> show all posts
+    add_rewrite_rule(
+        '^news/?$',
+        'index.php?post_type=post&news_archive=1',
+        'top'
+    );
+    
+    // Add rewrite rule for /news/page/{page_num}/
+    add_rewrite_rule(
+        '^news/page/([0-9]+)/?$',
+        'index.php?post_type=post&news_archive=1&paged=$matches[1]',
+        'top'
+    );
+}
+add_action('init', 'ricelipka_add_news_rewrite_rules');
+add_action('init', 'ricelipka_add_project_type_rewrite_rules');
+
+/**
  * Add custom query vars for project filtering
  */
 function ricelipka_add_project_query_vars($vars) {
     $vars[] = 'project_type_filter';
+    $vars[] = 'news_archive';
     return $vars;
 }
 add_filter('query_vars', 'ricelipka_add_project_query_vars');
 
 /**
- * Modify the main query for project type filtering
+ * Modify the main query for project type filtering and news archive
  */
 function ricelipka_modify_projects_query($query) {
     // Only modify the main query on the frontend for projects archive
     if (!is_admin() && $query->is_main_query()) {
         $project_type = get_query_var('project_type_filter');
+        $news_archive = get_query_var('news_archive');
         
         if ($project_type && $query->get('post_type') === 'projects') {
             // Validate that the project type exists
@@ -574,7 +575,8 @@ function ricelipka_modify_projects_query($query) {
                 'institutional',
                 'planning',
                 'exhibitions',
-                'research_installation'
+                'research_installation',
+                'residential'
             );
             
             if (in_array($project_type, $valid_types)) {
@@ -593,9 +595,139 @@ function ricelipka_modify_projects_query($query) {
                 $query->set_404();
             }
         }
+        
+        // Handle news archive (regular posts)
+        if ($news_archive && $query->get('post_type') === 'post') {
+            $query->set('posts_per_page', 12);
+            $query->set('orderby', 'date');
+            $query->set('order', 'DESC');
+        }
     }
 }
 add_action('pre_get_posts', 'ricelipka_modify_projects_query');
+
+/**
+ * Template redirect for news archive
+ */
+function ricelipka_news_archive_template($template) {
+    if (get_query_var('news_archive')) {
+        $news_template = locate_template('news-archive.php');
+        if ($news_template) {
+            return $news_template;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'ricelipka_news_archive_template');
+
+/**
+ * Create custom navigation menu structure
+ */
+function ricelipka_create_custom_menu() {
+    $menu_items = array(
+        'work' => array(
+            'title' => 'Work',
+            'url' => home_url('/work/'),
+            'submenu' => array(
+                'cultural' => array(
+                    'title' => 'Cultural',
+                    'url' => home_url('/work/cultural/')
+                ),
+                'academic' => array(
+                    'title' => 'Academic',
+                    'url' => home_url('/work/academic/')
+                ),
+                'offices' => array(
+                    'title' => 'Offices',
+                    'url' => home_url('/work/offices/')
+                ),
+                'retail_commercial' => array(
+                    'title' => 'Retail & Commercial',
+                    'url' => home_url('/work/retail_commercial/')
+                ),
+                'institutional' => array(
+                    'title' => 'Institutional',
+                    'url' => home_url('/work/institutional/')
+                ),
+                'planning' => array(
+                    'title' => 'Planning',
+                    'url' => home_url('/work/planning/')
+                ),
+                'exhibitions' => array(
+                    'title' => 'Exhibitions',
+                    'url' => home_url('/work/exhibitions/')
+                ),
+                'research_installation' => array(
+                    'title' => 'Research & Installation',
+                    'url' => home_url('/work/research_installation/')
+                ),
+                'residential' => array(
+                    'title' => 'Residential',
+                    'url' => home_url('/work/residential/')
+                ),
+                'archive' => array(
+                    'title' => 'Archive',
+                    'url' => home_url('/work/')
+                )
+            )
+        ),
+        'news' => array(
+            'title' => 'News',
+            'url' => home_url('/news/')
+        ),
+        'about' => array(
+            'title' => 'About',
+            'url' => home_url('/about/')
+        ),
+        'contact' => array(
+            'title' => 'Contact',
+            'url' => home_url('/contact/')
+        )
+    );
+    
+    return $menu_items;
+}
+
+/**
+ * Display custom navigation menu
+ */
+function ricelipka_display_custom_menu() {
+    $menu_items = ricelipka_create_custom_menu();
+    $current_url = home_url($_SERVER['REQUEST_URI']);
+    
+    echo '<ul class="primary-menu">';
+    
+    foreach ($menu_items as $key => $item) {
+        $active_class = '';
+        $has_submenu = isset($item['submenu']) && !empty($item['submenu']);
+        
+        // Check if current page matches this menu item or its submenu
+        if (strpos($current_url, $item['url']) === 0) {
+            $active_class = ' current-menu-item';
+        }
+        
+        echo '<li class="menu-item' . $active_class . ($has_submenu ? ' has-submenu' : '') . '">';
+        echo '<a href="' . esc_url($item['url']) . '">' . esc_html($item['title']) . '</a>';
+        
+        if ($has_submenu) {
+            echo '<ul class="submenu">';
+            foreach ($item['submenu'] as $sub_key => $sub_item) {
+                $sub_active_class = '';
+                if ($current_url === $sub_item['url'] || strpos($current_url, $sub_item['url']) === 0) {
+                    $sub_active_class = ' current-menu-item';
+                }
+                echo '<li class="submenu-item' . $sub_active_class . '">';
+                echo '<a href="' . esc_url($sub_item['url']) . '">' . esc_html($sub_item['title']) . '</a>';
+                echo '</li>';
+            }
+            echo '</ul>';
+        }
+        
+        echo '</li>';
+    }
+    
+    echo '</ul>';
+}
 
 /**
  * Theme activation hook
@@ -606,6 +738,7 @@ function ricelipka_theme_activation() {
     
     // Add rewrite rules
     ricelipka_add_project_type_rewrite_rules();
+    ricelipka_add_news_rewrite_rules();
     
     // Flush rewrite rules to ensure custom post type URLs work
     flush_rewrite_rules();

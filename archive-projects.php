@@ -38,6 +38,7 @@ get_header(); ?>
                         'planning' => 'Planning',
                         'exhibitions' => 'Exhibitions',
                         'research_installation' => 'Research & Installation',
+                        'residential' => 'Residential',
                     );
                     
                     foreach ($project_types as $type_key => $type_label) {

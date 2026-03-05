@@ -43,6 +43,7 @@ function ricelipka_create_acf_field_groups() {
                     'planning' => 'Planning',
                     'exhibitions' => 'Exhibitions',
                     'research_installation' => 'Research & Installation',
+                    'residential' => 'Residential',
                 ),
                 'required' => 1,
             ),
@@ -348,6 +349,7 @@ function ricelipka_get_project_type_display($project_type) {
         'planning' => 'Planning',
         'exhibitions' => 'Exhibitions',
         'research_installation' => 'Research & Installation',
+        'residential' => 'Residential',
     );
     
     return isset($type_labels[$project_type]) ? $type_labels[$project_type] : ucfirst(str_replace('_', ' ', $project_type));

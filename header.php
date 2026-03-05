@@ -52,36 +52,7 @@
             </button>
 
             <nav id="site-navigation" class="main-navigation" aria-label="<?php _e('Primary navigation', 'ricelipka-theme'); ?>">
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'menu_id'        => 'primary-menu',
-                    'container'      => false,
-                    'menu_class'     => 'primary-menu',
-                    'fallback_cb'    => 'ricelipka_fallback_menu',
-                ));
-                ?>
+                <?php ricelipka_display_custom_menu(); ?>
             </nav>
         </div>
     </header>
-
-<?php
-/**
- * Fallback menu if no menu is assigned
- */
-function ricelipka_fallback_menu() {
-    echo '<ul class="primary-menu">';
-    echo '<li><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'ricelipka-theme') . '</a></li>';
-    
-    // Display category links
-    $categories = get_categories(array(
-        'slug' => array('news', 'projects', 'events', 'awards'),
-        'hide_empty' => false
-    ));
-    
-    foreach ($categories as $category) {
-        echo '<li><a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a></li>';
-    }
-    
-    echo '</ul>';
-}
