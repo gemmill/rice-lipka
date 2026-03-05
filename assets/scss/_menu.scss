@@ -32,6 +32,11 @@
     padding: 0;
   }
   
+  // Add spacing below first top-level menu item only
+  > ul > li:first-child {
+    margin-bottom: 1rem;
+  }
+  
   a {
     display: block;
     color: #000;
@@ -55,6 +60,15 @@
   .submenu {
     display: none;
     margin-left: 1rem; // indent submenu
+    
+    // Add spacing before first and after last submenu item
+    li:first-child {
+      margin-top: 0.25rem;
+    }
+    
+    li:last-child {
+      margin-bottom: 0.5rem;
+    }
   }
   
   // Show submenus when parent menu item is active or ancestor

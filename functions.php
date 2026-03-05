@@ -347,7 +347,6 @@ add_filter('excerpt_more', 'ricelipka_excerpt_more');
  */
 require_once get_template_directory() . '/inc/acf-blocks.php'; // Now contains classic editor functionality
 require_once get_template_directory() . '/inc/category-fields.php';
-require_once get_template_directory() . '/debug-about-fields.php'; // Debug file - remove in production
 require_once get_template_directory() . '/inc/category-navigation-widget.php';
 require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/seo.php';
@@ -355,11 +354,6 @@ require_once get_template_directory() . '/inc/acf-help-system.php';
 require_once get_template_directory() . '/inc/acf-field-validation.php';
 require_once get_template_directory() . '/inc/acf-help-documentation.php';
 require_once get_template_directory() . '/inc/chronological-ordering.php';
-
-// Include debug script for development
-if (defined('WP_DEBUG') && WP_DEBUG) {
-    require_once get_template_directory() . '/debug-acf-fields.php';
-}
 
 /**
  * Restrict posts to only one category selection
@@ -685,7 +679,29 @@ function ricelipka_create_custom_menu() {
         ),
         'about' => array(
             'title' => 'About',
-            'url' => home_url('/about/')
+            'url' => home_url('/about/'),
+            'submenu' => array(
+                'awards' => array(
+                    'title' => 'Awards',
+                    'url' => home_url('/awards/')
+                ),
+                'publications' => array(
+                    'title' => 'Publications',
+                    'url' => home_url('/publications/')
+                ),
+                'lectures' => array(
+                    'title' => 'Lectures',
+                    'url' => home_url('/lectures/')
+                ),
+                'exhibitions' => array(
+                    'title' => 'Exhibitions',
+                    'url' => home_url('/exhibitions/')
+                ),
+                'people' => array(
+                    'title' => 'People',
+                    'url' => home_url('/people/')
+                )
+            )
         ),
         'contact' => array(
             'title' => 'Contact',
