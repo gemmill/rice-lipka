@@ -814,3 +814,47 @@ function ricelipka_project_type_to_camel_case($project_type) {
     // Convert snake_case to camelCase (e.g., retail_commercial -> retailCommercial)
     return lcfirst(str_replace('_', '', ucwords($project_type, '_')));
 }
+/**
+ * Get a random color from site settings
+ */
+function ricelipka_get_random_site_color() {
+    // Make sure ACF is available
+    if (function_exists('get_field')) {
+        $colors_data = get_field('site_colors', 'option');
+        
+        if ($colors_data && is_array($colors_data)) {
+            $colors = array();
+            foreach ($colors_data as $color_item) {
+                if (isset($color_item['color']) && !empty($color_item['color'])) {
+                    $colors[] = $color_item['color'];
+                }
+            }
+            
+            if (!empty($colors)) {
+                return $colors[array_rand($colors)];
+            }
+        }
+    }
+    
+    // Fallback colors if no site colors are configured
+    $fallback_colors = array('#000000', '#333333', '#666666', '#990000', '#006600', '#000099');
+    return $fallback_colors[array_rand($fallback_colors)];
+}
+
+/**
+ * Add inline CSS with random site color for headings
+ */
+function ricelipka_add_random_color_css() {
+    $random_color = ricelipka_get_random_site_color();
+    
+    // Debug output (remove in production)
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        echo '<!-- Random color selected: ' . $random_color . ' -->';
+    }
+    
+    echo '<style type="text/css">';
+    echo 'body h1, body h2, body h3, body h4, body h5, body h6, body .heading { color: ' . esc_attr($random_color) . ' !important; }';
+    echo '.menu > ul > li > a { color: ' . esc_attr($random_color) . ' !important; }';
+    echo '</style>';
+}
+add_action('wp_head', 'ricelipka_add_random_color_css');
