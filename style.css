@@ -1,395 +1,1319 @@
 /*
 Theme Name: Rice+Lipka Architects
-Description: Custom WordPress theme for Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
 Version: 1.0.0
 Author: Rice+Lipka Architects
 */
 
-/* Modern CSS Reset */
-/* Based on Josh Comeau's CSS Reset with additions */
+/**
+ * Rice+Lipka Inspired Styles
+ * Minimal, typography-focused design with clean aesthetics
+ */
 
-/*
-  1. Use a more-intuitive box-sizing model.
-*/
+/* Reset and Base Styles */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/*
-  2. Remove default margin
-*/
 * {
   margin: 0;
 }
 
-/*
-  3. Allow percentage-based heights in the application
-*/
 html, body {
   height: 100%;
 }
 
-/*
-  Typographic tweaks!
-  4. Add accessible line-height
-  5. Improve text rendering
-*/
 body {
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  color: #000;
+  background: #fff;
 }
 
-/*
-  6. Improve media defaults
-*/
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 }
 
-/*
-  7. Remove built-in form typography styles
-*/
 input, button, textarea, select {
   font: inherit;
 }
 
-/*
-  8. Avoid text overflows
-*/
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
-/*
-  9. Create a root stacking context
-*/
-#root, #__next {
-  isolation: isolate;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
-/*
-  10. Remove list styles
-*/
-ul, ol {
-  list-style: none;
-  padding: 0;
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+  margin-bottom: 1rem;
 }
 
-/*
-  11. Remove default button styles
-*/
-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-/*
-  12. Remove default link styles
-*/
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
-/*
-  13. Remove default table styles
-*/
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+a:hover {
+  text-decoration: underline;
 }
 
-/*
-  14. Remove default fieldset styles
-*/
-fieldset {
+/* Layout - 4 Column Flexbox */
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-layout {
+  display: flex;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.site-sidebar {
+  flex: 0 0 25%;
+  min-width: 200px;
+  padding-right: 2rem;
+}
+
+.site-content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-content: start;
+}
+
+/* Single column content for specific pages */
+.site-main.single-column {
+  display: block;
+}
+
+/* Home Page Layout */
+.home .site-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+  align-content: start;
+  padding-top: 1rem;
+}
+
+.home-tagline {
+  grid-column: 1;
+}
+
+.home-projects {
+  grid-column: 2;
+}
+
+.home-news {
+  grid-column: 3;
+}
+
+.container {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.site-header {
+  background: #fff;
+  padding: 0;
+}
+
+.site-branding {
+  margin-bottom: 3rem;
+}
+
+.site-title {
+  font-size: 1.125rem;
+  font-weight: normal;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.site-title a {
+  color: #000;
+}
+
+/* Navigation - Sidebar Style */
+.main-navigation {
+  margin-top: 2rem;
+}
+
+.primary-menu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.menu-item {
+  position: relative;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item > a {
+  display: block;
+  color: #000;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 0;
+  transition: opacity 0.3s ease;
   border: none;
-  padding: 0;
 }
 
-/*
-  15. Remove default legend styles
-*/
-legend {
-  padding: 0;
-}
-
-/*
-  16. Remove default address styles
-*/
-address {
-  font-style: normal;
-}
-
-/*
-  17. Remove default cite styles
-*/
-cite {
-  font-style: normal;
-}
-
-/*
-  18. Remove default abbr styles
-*/
-abbr[title] {
+.menu-item > a:hover,
+.menu-item.current-menu-item > a {
+  opacity: 0.5;
   text-decoration: none;
 }
 
-/*
-  19. Remove default mark styles
-*/
-mark {
-  background: transparent;
-  color: inherit;
-}
-
-/*
-  20. Remove default small styles
-*/
-small {
-  font-size: inherit;
-}
-
-/*
-  21. Remove default sub and sup styles
-*/
-sub, sup {
-  font-size: inherit;
-  line-height: inherit;
+/* Nested Menu Display */
+.submenu {
   position: static;
-  vertical-align: baseline;
-}
-
-/*
-  22. Remove default summary styles
-*/
-summary {
-  display: block;
-}
-
-/*
-  23. Remove default details styles
-*/
-details {
-  display: block;
-}
-
-/*
-  24. Remove default hr styles
-*/
-hr {
+  background: transparent;
   border: none;
-  height: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1rem;
+  min-width: auto;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: auto;
 }
 
-/*
-  25. Remove default pre styles
-*/
-pre {
-  font-family: inherit;
-  font-size: inherit;
+/* Show submenu when parent or sibling is active */
+.menu-item.current-menu-item .submenu,
+.menu-item.current-menu-ancestor .submenu,
+.menu-item:hover .submenu,
+.menu-item.expanded .submenu,
+.submenu.show {
+  opacity: 1;
+  visibility: visible;
+  max-height: 500px;
+  padding-bottom: 1rem;
 }
 
-/*
-  26. Remove default code styles
-*/
-code, kbd, samp {
-  font-family: inherit;
-  font-size: inherit;
+.submenu-item {
+  border-bottom: 1px solid #f8f8f8;
 }
 
-/*
-  27. Remove default blockquote styles
-*/
-blockquote {
+.submenu-item:last-child {
+  border-bottom: none;
+}
+
+.submenu-item a {
+  display: block;
+  padding: 0.5rem 0;
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease;
+}
+
+.submenu-item a:hover,
+.submenu-item.current-menu-item a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Content Areas */
+.page-header {
+  grid-column: 1 / -1;
+  text-align: left;
+  padding: 0 0 2rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.archive-description {
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Grid Layouts - Adapted for 3-column content area */
+.projects-grid,
+.news-grid,
+.people-grid,
+.awards-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+/* Single column layouts for specific content */
+.single-project,
+.single-news,
+.page-content {
+  grid-column: 1 / -1;
+  max-width: none;
+  padding: 0;
+}
+
+/* Cards */
+.project-card,
+.news-card {
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover,
+.news-card:hover {
+  opacity: 0.7;
+}
+
+.project-thumbnail,
+.news-thumbnail {
+  margin-bottom: 1rem;
+}
+
+.project-thumbnail img,
+.news-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+.project-content,
+.news-content {
+  padding: 0;
+}
+
+.project-title,
+.news-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+}
+
+.project-title a,
+.news-title a {
+  color: #000;
+}
+
+.project-meta,
+.news-meta {
+  margin: 0.5rem 0;
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #000;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1px;
+  transition: opacity 0.3s ease;
+}
+
+.read-more:hover {
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+/* Filter Navigation - Adapted for sidebar layout */
+.project-type-filter {
+  grid-column: 1 / -1;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/*
-  28. Remove default dd styles
-*/
-dd {
+.filter-item a {
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease;
+}
+
+.filter-item a:hover,
+.filter-item.active a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Single Post/Project */
+.single-project,
+.single-news {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+.project-header,
+.news-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.project-header .project-title,
+.news-header .news-title {
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.project-featured-image,
+.news-featured-image {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.project-content,
+.single-news .news-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 3rem 0;
+}
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 3rem 0;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+}
+
+/* Footer */
+.site-footer {
+  margin-top: auto;
+  border-top: 1px solid #f0f0f0;
+  padding: 2rem 0;
+  background: #fff;
+}
+
+.footer-navigation {
+  text-align: left;
+}
+
+.footer-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  list-style: none;
   margin: 0;
-}
-
-/*
-  29. Remove default figure styles
-*/
-figure {
-  margin: 0;
-}
-
-/*
-  30. Remove default iframe border
-*/
-iframe {
-  border: none;
-}
-
-/*
-  31. Remove default focus outline (add your own)
-*/
-:focus {
-  outline: none;
-}
-
-/*
-  32. Remove default webkit appearance
-*/
-input[type="search"] {
-  -webkit-appearance: none;
-}
-
-/*
-  33. Remove default webkit search cancel button
-*/
-input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
-
-/*
-  34. Remove default webkit search decoration
-*/
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-/*
-  35. Remove default webkit number spinner
-*/
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/*
-  36. Remove default firefox number spinner
-*/
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-/*
-  37. Remove default webkit date input styles
-*/
-input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-/*
-  38. Remove default webkit time input styles
-*/
-input[type="time"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-/*
-  39. Remove default webkit datetime input styles
-*/
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-/*
-  40. Remove default webkit month input styles
-*/
-input[type="month"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-/*
-  41. Remove default webkit week input styles
-*/
-input[type="week"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-/*
-  42. Remove default webkit file input styles
-*/
-input[type="file"] {
-  border: none;
   padding: 0;
-  background: none;
 }
 
-/*
-  43. Remove default progress styles
-*/
-progress {
-  -webkit-appearance: none;
-  appearance: none;
+.footer-menu a {
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease;
 }
 
-/*
-  44. Remove default meter styles
-*/
-meter {
-  -webkit-appearance: none;
-  appearance: none;
+.footer-menu a:hover {
+  color: #000;
+  text-decoration: none;
 }
 
-/*
-  45. Remove default range input styles
-*/
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
+/* Home Page Styles */
+.home-tagline {
+  padding-top: 2rem;
+}
+
+.site-tagline {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+  font-style: italic;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 2rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Home Projects - Using standard project component */
+.home-projects-list {
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+/* Home News */
+.home-news-list {
+  margin-bottom: 2rem;
+}
+
+.home-news-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f8f8f8;
+  transition: opacity 0.3s ease;
+}
+
+.home-news-item:hover {
+  opacity: 0.8;
+}
+
+.home-news-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.home-news-item .news-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.home-news-item .news-title a {
+  color: #000;
+  transition: opacity 0.3s ease;
+}
+
+.home-news-item .news-title a:hover {
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.home-news-item .news-meta {
+  margin-bottom: 0.5rem;
+}
+
+.home-news-item .news-meta time {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.home-news-item .news-excerpt {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* View All Links */
+.view-all-projects,
+.view-all-news {
+  text-align: left;
+}
+
+.view-all-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #000;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1px;
+  transition: opacity 0.3s ease;
+}
+
+.view-all-link:hover {
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+/* No content messages */
+.no-projects,
+.no-news {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Project Item Component - New Design */
+.project-item {
+  position: relative;
+  width: 100%;
+}
+
+.project-container {
+  width: 100%;
+}
+
+.project-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.project-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.placeholder-content {
+  text-align: center;
+}
+
+.placeholder-text {
+  font-size: 3rem;
+  color: #999;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-item:hover .project-image,
+.project-item:hover .project-placeholder {
+  opacity: 0 !important;
+}
+
+.project-item:hover .project-overlay {
+  opacity: 1 !important;
+}
+
+/* Ensure hover works for all layout variations */
+.project-item-default:hover .project-image,
+.project-item-default:hover .project-placeholder,
+.project-item-compact:hover .project-image,
+.project-item-compact:hover .project-placeholder,
+.project-item-minimal:hover .project-image,
+.project-item-minimal:hover .project-placeholder {
+  opacity: 0 !important;
+}
+
+.project-item-default:hover .project-overlay,
+.project-item-compact:hover .project-overlay,
+.project-item-minimal:hover .project-overlay {
+  opacity: 1 !important;
+}
+
+.project-overlay .project-title {
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1.3;
+  color: #000 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  display: block;
+  visibility: visible;
+}
+
+/* Layout Variations */
+.project-item-compact {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.project-item-compact .project-image-wrapper {
+  flex: 0 0 120px;
+  aspect-ratio: 1/1;
+}
+
+.project-item-compact .project-overlay .project-title {
+  font-size: 0.875rem;
+}
+
+.project-item-compact .placeholder-text {
+  font-size: 2rem;
+}
+
+.project-item-minimal .project-image-wrapper {
+  aspect-ratio: 3/2;
+}
+
+.project-item-minimal .project-overlay .project-title {
+  font-size: 0.875rem;
+}
+
+.project-item-minimal .placeholder-text {
+  font-size: 2rem;
+}
+
+/* Project Category Classes (camelCase) - REMOVED BACKGROUNDS */
+
+/* Person Item Component */
+.person-item {
+  transition: opacity 0.3s ease;
+}
+
+.person-item:hover {
+  opacity: 0.8;
+}
+
+.person-image {
+  margin-bottom: 1rem;
+}
+
+.person-thumbnail-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.person-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+}
+
+.person-placeholder .placeholder-text {
+  font-size: 2rem;
+  color: #999;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.person-content {
+  padding: 0;
+}
+
+.person-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+  color: #000;
+}
+
+.person-meta {
+  margin-top: 0.5rem;
+}
+
+.person-role {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.person-excerpt {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.person-projects {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.projects-label {
+  font-weight: normal;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 0.5rem;
+}
+
+.more-projects {
+  color: #999;
+  font-style: italic;
+}
+
+/* Award Item Component */
+.award-item {
+  transition: opacity 0.3s ease;
+}
+
+.award-item:hover {
+  opacity: 0.8;
+}
+
+.award-image {
+  margin-bottom: 1rem;
+}
+
+.award-thumbnail-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.award-content {
+  padding: 0;
+}
+
+.award-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+  color: #000;
+}
+
+.award-meta {
+  margin-top: 0.5rem;
+}
+
+.award-year,
+.award-organization {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 1rem;
+  display: inline-block;
+}
+
+.award-excerpt {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.award-project {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.project-label {
+  font-weight: normal;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 0.5rem;
+}
+
+.project-link {
+  color: #000;
+  transition: opacity 0.3s ease;
+}
+
+.project-link:hover {
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.project-name {
+  color: #666;
+}
+
+/* Layout Variations for People and Awards */
+.person-item-compact,
+.award-item-compact {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.person-item-compact .person-image,
+.award-item-compact .award-image {
+  flex: 0 0 80px;
+  margin-bottom: 0;
+}
+
+.person-item-compact .person-placeholder {
+  width: 80px;
+  height: 80px;
+  aspect-ratio: auto;
+}
+
+.person-item-compact .placeholder-text {
+  font-size: 1.5rem;
+}
+
+.person-item-compact .person-content,
+.award-item-compact .award-content {
+  flex: 1;
+}
+
+.person-item-minimal .person-image,
+.award-item-minimal .award-image {
+  margin-bottom: 0.5rem;
+}
+
+.person-item-minimal .person-title,
+.award-item-minimal .award-title {
+  font-size: 0.8125rem;
+  margin-bottom: 0.25rem;
+}
+
+.person-item-minimal .person-meta,
+.award-item-minimal .award-meta {
+  margin-top: 0.25rem;
+}
+
+.person-item-minimal .person-role,
+.award-item-minimal .award-year,
+.award-item-minimal .award-organization {
+  font-size: 0.6875rem;
+}
+
+/* Navigation Links */
+.project-navigation,
+.news-navigation {
+  margin: 4rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid #ddd;
+}
+
+.nav-links {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-previous,
+.nav-next {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.nav-subtitle {
+  display: block;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.nav-title {
+  display: block;
+  color: #000;
+}
+
+.back-to-projects,
+.back-to-news {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #000;
+  color: #000;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.back-to-projects:hover,
+.back-to-news:hover {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 4rem 0;
+}
+
+.pagination a,
+.pagination span {
+  padding: 0.5rem 1rem;
+  color: #000;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+  border-color: #000;
+  text-decoration: none;
+}
+
+.pagination .current {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Mobile Responsive - Updated for 4-column layout */
+@media (max-width: 768px) {
+  .site-layout {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+  }
+  
+  .site-sidebar {
+    flex: none;
+    padding-right: 0;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 2rem;
+  }
+  
+  .site-branding {
+    margin-bottom: 2rem;
+  }
+  
+  .site-main {
+    display: block;
+  }
+  
+  /* Home page mobile layout */
+  .home .site-main {
+    display: block;
+  }
+  
+  .home-tagline,
+  .home-projects,
+  .home-news {
+    margin-bottom: 3rem;
+  }
+  
+  .home-tagline {
+    padding-top: 0;
+  }
+  
+  .primary-menu {
+    gap: 0;
+  }
+  
+  .submenu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    max-height: none;
+    padding: 0.5rem 0 1rem 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .projects-grid,
+  .news-grid,
+  .people-grid,
+  .awards-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .filter-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .page-header {
+    padding: 0 0 1rem 0;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .site-layout {
+    padding: 1.5rem;
+  }
+  
+  .site-sidebar {
+    flex: 0 0 30%;
+  }
+  
+  .site-main {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  /* Home page tablet layout */
+  .home .site-main {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .home-tagline,
+  .home-projects,
+  .home-news {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .site-header,
+  .project-navigation,
+  .news-navigation,
+  .pagination,
+  .project-type-filter {
+    display: none;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+}
+
+/* FIXED PROJECT HOVER EFFECTS - Override all previous styles */
+.project-item .project-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.project-item .project-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.project-item .project-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.project-item .project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
 }
 
-/*
-  46. Remove default range thumb styles
-*/
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
+.project-item .project-overlay .project-title {
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1.3;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: left;
 }
 
-input[type="range"]::-moz-range-thumb {
-  border: none;
-  background: transparent;
+/* HOVER EFFECTS - CRITICAL */
+.project-item:hover .project-image {
+  opacity: 0;
 }
 
-/*
-  47. Remove default range track styles
-*/
-input[type="range"]::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
+.project-item:hover .project-placeholder {
+  opacity: 0;
 }
 
-input[type="range"]::-moz-range-track {
-  background: transparent;
-  border: none;
+.project-item:hover .project-overlay {
+  opacity: 1;
 }
 
-/*
-  48. Remove default checkbox and radio styles
-*/
-input[type="checkbox"],
-input[type="radio"] {
-  -webkit-appearance: none;
-  appearance: none;
+/* Project category backgrounds - REMOVED */
+/* FORCE TOP-LEFT ALIGNMENT - Override all previous styles */
+.project-item .project-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  z-index: 2 !important;
 }
 
-/*
-  49. Remove default select styles
-*/
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  border: none;
+.project-item .project-overlay .project-title {
+  font-size: 1rem !important;
+  font-weight: normal !important;
+  margin: 0 !important;
+  line-height: 1.3 !important;
+  color: #000 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  text-align: left !important;
+  align-self: flex-start !important;
+  justify-self: flex-start !important;
 }
 
-/*
-  50. Remove default textarea resize
-*/
-textarea {
-  resize: none;
+/* Ensure hover still works */
+.project-item:hover .project-overlay {
+  opacity: 1 !important;
+}
+/* ABSOLUTE OVERRIDE - Force text to top-left with maximum specificity */
+article.project-item .project-image-wrapper .project-overlay {
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+article.project-item .project-image-wrapper .project-overlay .project-title {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  display: block !important;
+  width: auto !important;
+  background: none !important;
+  color: #000 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Remove any flexbox centering */
+article.project-item .project-overlay {
+  display: block !important;
+  justify-content: unset !important;
+  align-items: unset !important;
+  align-content: unset !important;
+  flex-direction: unset !important;
 }

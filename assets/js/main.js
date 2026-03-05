@@ -231,10 +231,112 @@
     }
 
     /**
+     * Enhanced navigation functionality for 4-column layout
+     */
+    function initNavigationEnhancements() {
+        const $menuItems = $('.menu-item.has-submenu');
+        const $submenus = $('.submenu');
+        
+        // Handle hover states for desktop
+        if ($(window).width() > 768) {
+            $menuItems.on('mouseenter', function() {
+                $(this).find('.submenu').addClass('show');
+            }).on('mouseleave', function() {
+                $(this).find('.submenu').removeClass('show');
+            });
+        }
+        
+        // Handle click states for mobile and accessibility
+        $menuItems.find('> a').on('click', function(e) {
+            if ($(window).width() <= 768) {
+                e.preventDefault();
+                const $submenu = $(this).siblings('.submenu');
+                const $parentItem = $(this).parent();
+                
+                // Toggle current submenu
+                $submenu.toggleClass('show');
+                $parentItem.toggleClass('expanded');
+                
+                // Close other submenus
+                $menuItems.not($parentItem).find('.submenu').removeClass('show');
+                $menuItems.not($parentItem).removeClass('expanded');
+            }
+        });
+        
+        // Handle keyboard navigation
+        $('.primary-menu a').on('keydown', function(e) {
+            const $currentItem = $(this).parent();
+            const $currentMenu = $currentItem.parent();
+            
+            switch(e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if ($currentItem.hasClass('has-submenu') && !$currentItem.find('.submenu').hasClass('show')) {
+                        $currentItem.find('.submenu').addClass('show');
+                        $currentItem.find('.submenu a').first().focus();
+                    } else {
+                        const $nextItem = $currentItem.next();
+                        if ($nextItem.length) {
+                            $nextItem.find('> a').focus();
+                        }
+                    }
+                    break;
+                    
+                case 'ArrowUp':
+                    e.preventDefault();
+                    const $prevItem = $currentItem.prev();
+                    if ($prevItem.length) {
+                        $prevItem.find('> a').focus();
+                    }
+                    break;
+                    
+                case 'ArrowRight':
+                    e.preventDefault();
+                    if ($currentItem.hasClass('has-submenu')) {
+                        $currentItem.find('.submenu').addClass('show');
+                        $currentItem.find('.submenu a').first().focus();
+                    }
+                    break;
+                    
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    if ($currentMenu.hasClass('submenu')) {
+                        $currentMenu.removeClass('show');
+                        $currentMenu.siblings('a').focus();
+                    }
+                    break;
+                    
+                case 'Escape':
+                    e.preventDefault();
+                    $submenus.removeClass('show');
+                    $menuItems.removeClass('expanded');
+                    break;
+            }
+        });
+        
+        // Close submenus when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.main-navigation').length) {
+                $submenus.removeClass('show');
+                $menuItems.removeClass('expanded');
+            }
+        });
+        
+        // Handle window resize
+        $(window).on('resize', function() {
+            if ($(window).width() > 768) {
+                $submenus.removeClass('show');
+                $menuItems.removeClass('expanded');
+            }
+        });
+    }
+
+    /**
      * Initialize all functionality when document is ready
      */
     $(document).ready(function() {
         initMobileMenu();
+        initNavigationEnhancements();
         initSmoothScrolling();
         initLazyLoading();
         initFormEnhancements();
@@ -242,6 +344,9 @@
         initSearchEnhancements();
         initAccessibility();
         initPerformanceOptimizations();
+        
+        // Add category-specific functionality
+        initCategoryEnhancements();
     });
 
     /**

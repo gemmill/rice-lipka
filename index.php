@@ -8,8 +8,6 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main">
-    <div class="container">
         <?php if (have_posts()) : ?>
             
             <?php if (is_home() && !is_front_page()) : ?>
@@ -89,8 +87,6 @@ get_header(); ?>
             </section>
             
         <?php endif; ?>
-    </div>
-</main>
 
 <?php
 get_footer();

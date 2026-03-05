@@ -411,6 +411,7 @@ function ricelipka_register_custom_post_types() {
             'not_found_in_trash' => 'No awards found in trash'
         ),
         'public' => true,
+        'publicly_queryable' => false, // Disable single pages
         'has_archive' => true,
         'menu_icon' => 'dashicons-awards',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
@@ -433,6 +434,7 @@ function ricelipka_register_custom_post_types() {
             'not_found_in_trash' => 'No people found in trash'
         ),
         'public' => true,
+        'publicly_queryable' => false, // Disable single pages
         'has_archive' => true,
         'menu_icon' => 'dashicons-groups',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
@@ -689,33 +691,48 @@ function ricelipka_create_custom_menu() {
 }
 
 /**
- * Display custom navigation menu
+ * Display custom navigation menu with enhanced nested menu support
  */
 function ricelipka_display_custom_menu() {
     $menu_items = ricelipka_create_custom_menu();
     $current_url = home_url($_SERVER['REQUEST_URI']);
     
+    // Remove trailing slash for consistent comparison
+    $current_url = rtrim($current_url, '/');
+    
     echo '<ul class="primary-menu">';
     
     foreach ($menu_items as $key => $item) {
         $active_class = '';
+        $ancestor_class = '';
         $has_submenu = isset($item['submenu']) && !empty($item['submenu']);
         
-        // Check if current page matches this menu item or its submenu
-        if (strpos($current_url, $item['url']) === 0) {
+        // Clean item URL for comparison
+        $item_url = rtrim($item['url'], '/');
+        
+        // Check if current page matches this menu item exactly
+        if ($current_url === $item_url) {
             $active_class = ' current-menu-item';
         }
+        // Check if current page is under this menu section (ancestor)
+        elseif ($has_submenu && strpos($current_url, $item_url) === 0) {
+            $ancestor_class = ' current-menu-ancestor';
+        }
         
-        echo '<li class="menu-item' . $active_class . ($has_submenu ? ' has-submenu' : '') . '">';
+        echo '<li class="menu-item' . $active_class . $ancestor_class . ($has_submenu ? ' has-submenu' : '') . '">';
         echo '<a href="' . esc_url($item['url']) . '">' . esc_html($item['title']) . '</a>';
         
         if ($has_submenu) {
             echo '<ul class="submenu">';
             foreach ($item['submenu'] as $sub_key => $sub_item) {
                 $sub_active_class = '';
-                if ($current_url === $sub_item['url'] || strpos($current_url, $sub_item['url']) === 0) {
+                $sub_item_url = rtrim($sub_item['url'], '/');
+                
+                // Check for exact match or if current URL starts with submenu URL
+                if ($current_url === $sub_item_url || strpos($current_url, $sub_item_url . '/') === 0) {
                     $sub_active_class = ' current-menu-item';
                 }
+                
                 echo '<li class="submenu-item' . $sub_active_class . '">';
                 echo '<a href="' . esc_url($sub_item['url']) . '">' . esc_html($sub_item['title']) . '</a>';
                 echo '</li>';
@@ -744,3 +761,50 @@ function ricelipka_theme_activation() {
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'ricelipka_theme_activation');
+
+/**
+ * Add body classes for better styling control
+ */
+function ricelipka_custom_body_classes($classes) {
+    // Add class for front page
+    if (is_front_page()) {
+        $classes[] = 'home';
+    }
+    
+    // Add class for specific post types
+    if (is_singular()) {
+        $post_type = get_post_type();
+        $classes[] = 'single-' . $post_type;
+    }
+    
+    return $classes;
+}
+add_filter('body_class', 'ricelipka_custom_body_classes');
+
+/**
+ * Redirect single people and awards pages to their archives
+ */
+function ricelipka_redirect_single_pages() {
+    if (is_singular(array('people', 'awards'))) {
+        $post_type = get_post_type();
+        $archive_url = get_post_type_archive_link($post_type);
+        
+        if ($archive_url) {
+            wp_redirect($archive_url, 301);
+            exit;
+        }
+    }
+}
+add_action('template_redirect', 'ricelipka_redirect_single_pages');
+
+/**
+ * Convert project type to camelCase for CSS classes
+ */
+function ricelipka_project_type_to_camel_case($project_type) {
+    if (empty($project_type)) {
+        return '';
+    }
+    
+    // Convert snake_case to camelCase (e.g., retail_commercial -> retailCommercial)
+    return lcfirst(str_replace('_', '', ucwords($project_type, '_')));
+}

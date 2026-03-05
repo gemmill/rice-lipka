@@ -8,8 +8,6 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main">
-    <div class="container">
         <header class="page-header">
             <?php
             // Check if we're filtering by project type
@@ -79,7 +77,5 @@ get_header(); ?>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-    </div>
-</main>
 
 <?php get_footer(); ?>

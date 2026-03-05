@@ -8,12 +8,10 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main page-template">
-    
     <?php while (have_posts()) : the_post(); ?>
         
         <!-- Parent Page Content -->
-        <article id="post-<?php the_ID(); ?>" <?php post_class('parent-page-content'); ?>>
+        <article id="post-<?php the_ID(); ?>" <?php post_class('parent-page-content single-column'); ?>>
             
             <header class="entry-header">
                 <h1 class="entry-title"><?php the_title(); ?></h1>
@@ -37,7 +35,7 @@ get_header(); ?>
         
         if ($child_pages && !empty($child_pages)) : ?>
             
-            <section class="child-pages-full-content">
+            <section class="child-pages-full-content single-column">
                 
                 <?php foreach ($child_pages as $child_page) : ?>
                     
@@ -76,8 +74,6 @@ get_header(); ?>
         <?php endif; ?>
         
     <?php endwhile; ?>
-    
-</main>
 
 <?php
 get_footer();

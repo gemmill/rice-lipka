@@ -23,7 +23,8 @@
     <a class="skip-link screen-reader-text" href="#main"><?php _e('Skip to content', 'ricelipka-theme'); ?></a>
 
     <header id="masthead" class="site-header">
-        <div class="container">
+    <div class="site-layout">
+        <div class="site-sidebar">
             <div class="site-branding">
                 <?php
                 if (has_custom_logo()) {
@@ -42,17 +43,11 @@
                 } ?>
             </div>
 
-            <button class="mobile-menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e('Toggle navigation menu', 'ricelipka-theme'); ?>">
-                <span class="hamburger-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-                <span class="sr-only"><?php _e('Menu', 'ricelipka-theme'); ?></span>
-            </button>
-
             <nav id="site-navigation" class="main-navigation" aria-label="<?php _e('Primary navigation', 'ricelipka-theme'); ?>">
                 <?php ricelipka_display_custom_menu(); ?>
             </nav>
         </div>
+        
+        <div class="site-content-wrapper">
+            <main id="main" class="site-main">
     </header>
