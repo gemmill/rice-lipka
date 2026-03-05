@@ -36,7 +36,8 @@
     display: block;
     color: #000;
     text-decoration: none;
-    font: typography.$heading;
+    font: typography.$heading-font;
+    text-transform: typography.$heading-transform;
     
     &:hover {
       opacity: 0.7;
@@ -46,11 +47,14 @@
   // Submenu links use body font
   .submenu a {
     font: typography.$body;
+    font-weight: 600; // semi-bold
+    text-transform: none; // override uppercase from parent
   }
   
   // Hide submenus by default
   .submenu {
     display: none;
+    margin-left: 1rem; // indent submenu
   }
   
   // Show submenus when parent menu item is active or ancestor

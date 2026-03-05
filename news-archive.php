@@ -11,7 +11,7 @@ get_header(); ?>
 <div class="layout">
     <?php get_template_part('template-parts/site-menu'); ?>
     
-    <div class="news-grid">
+    <div class="grid">
         <?php if (have_posts()) : ?>
          
                 <?php while (have_posts()) : the_post(); ?>

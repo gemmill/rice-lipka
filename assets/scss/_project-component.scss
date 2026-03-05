@@ -4,12 +4,7 @@
  * to ensure consistent display across all pages
  */
 
-// Variables
-$project-bg-color: #f5f5f5;
-$project-border-color: #e0e0e0;
-$project-text-color: #000;
-$project-font-size: 1rem;
-$project-line-height: 1.3;
+
 $project-transition: opacity 0.3s ease;
 
 // Reset any inherited styles
@@ -49,8 +44,6 @@ $project-transition: opacity 0.3s ease;
     width: 100%;
     aspect-ratio: 3/2;
     overflow: hidden;
-    background: $project-bg-color;
-    background-color: $project-bg-color;
     border: none;
     padding: 0;
     margin: 0;
@@ -80,9 +73,6 @@ $project-transition: opacity 0.3s ease;
     left: 0;
     width: 100%;
     height: 100%;
-    background: $project-bg-color;
-    background-color: $project-bg-color;
-    border: 1px solid $project-border-color;
     opacity: 1;
     transition: $project-transition;
     z-index: 1;
@@ -125,12 +115,7 @@ $project-transition: opacity 0.3s ease;
     width: auto;
     background: none;
     background-color: transparent;
-    color: $project-text-color;
-    font-size: $project-font-size;
-    font-weight: normal;
-    line-height: $project-line-height;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
     border: none;
     box-shadow: none;
   }
@@ -149,11 +134,7 @@ $project-transition: opacity 0.3s ease;
 }
 
 // Override any potential conflicts from other stylesheets
-article.project-item,
-div.project-item,
-.home-projects-list .project-item,
-.grid .project-item,
-.site-main .project-item {
+.project-item {
   position: relative;
   width: 100%;
   background: none;
@@ -166,24 +147,13 @@ div.project-item,
 }
 
 // Ensure hover works in all contexts
-%hover-effects {
+.project-item:hover {
   .project-image,
   .project-placeholder {
     opacity: 0;
   }
-}
 
-%hover-overlay {
   .project-overlay {
     opacity: 1;
   }
-}
-
-article.project-item:hover,
-div.project-item:hover,
-.home-projects-list .project-item:hover,
-.grid .project-item:hover,
-.site-main .project-item:hover {
-  @extend %hover-effects;
-  @extend %hover-overlay;
 }

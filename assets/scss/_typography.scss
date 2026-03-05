@@ -3,17 +3,31 @@
  * Site-wide typography system with two font styles
  */
 
+// Custom webfont
+@font-face {
+  font-family: FGEC;
+  src: url(assets/fonts/frankgotbtextcon-webfont.eot);
+  src: local("☺"), 
+       url(assets/fonts/frankgotbtextcon-webfont.woff) format("woff"), 
+       url(assets/fonts/frankgotbtextcon-webfont.ttf) format("truetype"), 
+       url(assets/fonts/frankgotbtextcon-webfont.svg#webfontqpXDLdbu) format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+
 // Typography variables
-$heading: 2rem sans-serif;
+$heading-font: bold 2rem/1em FGEC, sans-serif;
+$heading-transform: uppercase;
 $body: 1rem sans-serif;
 
 // Base typography - override reset styles
 html, body {
   font: $body;
 }
-
 // Heading styles - override reset styles
 h1, h2, h3, h4, h5, h6, .heading {
-  font: $heading !important;
+  font: $heading-font;
+  text-transform: $heading-transform;
+  margin: 0 !important;
   margin: 0 !important;
 }

@@ -3,18 +3,6 @@
  * Styles for news item components
  */
 
-.news-grid {
-  flex: 3;
-  gap: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  
-  // Each news item takes 1/3 of the width (3 items per row)
-  .news-item {
-    flex: 0 0 calc(33.333% - 0.667rem); // Account for gap
-  }
-}
-
 .news-item {
   display: flex;
   flex-direction: column;
@@ -52,5 +40,4 @@
     flex-direction: column;
     gap: 0.5rem;
   }
-
 }
