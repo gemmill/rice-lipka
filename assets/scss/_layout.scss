@@ -1,0 +1,19 @@
+/*
+ * Layout Styles
+ * Basic layout utilities and structure
+ */
+
+.layout {
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 1px solid #fc0;
+  gap:1rem;
+}

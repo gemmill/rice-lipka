@@ -8,8 +8,11 @@
 
 get_header(); ?>
 
-        <!-- Column 1: Tagline -->
-        <div class="home-tagline">
+<div class="layout">
+    <?php get_template_part('template-parts/site-menu'); ?>
+    
+        <!-- Tagline -->
+        <div class="column">
             <?php
             // Get site tagline/description
             $tagline = get_bloginfo('description');
@@ -23,9 +26,8 @@ get_header(); ?>
         </div>
 
         <!-- Column 2: Recent Projects -->
-        <div class="home-projects">
-            <h2 class="section-title">Recent Work</h2>
-            
+        <div class="column">
+        
             <?php
             // Debug: Check if we're on the right template
             if (defined('WP_DEBUG') && WP_DEBUG) {
@@ -47,15 +49,11 @@ get_header(); ?>
             }
             
             if ($projects_query->have_posts()) : ?>
-                <div class="home-projects-list">
+             
                     <?php while ($projects_query->have_posts()) : $projects_query->the_post(); ?>
                         <?php get_template_part('template-parts/item-project'); ?>
                     <?php endwhile; ?>
-                </div>
-                
-                <div class="view-all-projects">
-                    <a href="<?php echo home_url('/work/'); ?>" class="view-all-link">View All Projects</a>
-                </div>
+          
                 
             <?php else : ?>
                 <p class="no-projects">No projects available.</p>
@@ -67,8 +65,8 @@ get_header(); ?>
             <?php wp_reset_postdata(); ?>
         </div>
 
-        <!-- Column 3: Recent News -->
-        <div class="home-news">
+        <!--  Recent News -->
+        <div class="column">
             <h2 class="section-title">Recent News</h2>
             
             <?php
@@ -114,6 +112,7 @@ get_header(); ?>
             
             <?php wp_reset_postdata(); ?>
         </div>
+</div>
 
 <?php
 get_footer();
