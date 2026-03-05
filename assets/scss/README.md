@@ -8,6 +8,7 @@ This theme uses SCSS for better CSS organization and maintainability with a mini
 - `_reset.scss` - CSS reset and base styles
 - `_layout.scss` - Basic layout utilities and structure
 - `_menu.scss` - Menu and navigation styles
+- `_project-list.scss` - Project listing and grid styles
 - `_project-component.scss` - Isolated project component styles
 
 ## Philosophy
@@ -16,6 +17,7 @@ The theme follows a **minimal CSS approach** where only essential styles are inc
 - **Reset styles**: Modern CSS reset with sensible defaults
 - **Layout utilities**: Basic layout classes for structure
 - **Menu styles**: Navigation and menu component styles
+- **Project list styles**: Grid layouts for project listings
 - **Project component**: Completely isolated component styles
 - **No theme styles**: All complex layout, typography, and design styles have been removed to focus purely on functionality
 
@@ -53,7 +55,19 @@ Navigation and menu component styles:
 - `.menu` class for menu containers
 - `.menu ul` with responsive flexbox layout:
   - Column layout on mobile (default)
-  - Row layout on medium screens and up (768px+)
+  - Row layout on medium screens and up (769px+)
+- Submenu visibility controls:
+  - Hidden by default
+  - Shown when parent menu item is active, ancestor, or hovered
+
+### Project List Styles (`_project-list.scss`)
+Grid layouts for project listings:
+- `.project-list` class for project list containers
+- `.project-grid` class with 3-column flex grid:
+  - `flex: 3` for container sizing
+  - `gap: 1rem` between items
+  - `flex-wrap: wrap` for responsive wrapping
+  - Project items sized to fit 3 per row
 
 ### Project Component (`_project-component.scss`)
 The project component styles are completely isolated to ensure consistent display across all pages:

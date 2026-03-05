@@ -567,34 +567,40 @@ function ricelipka_modify_projects_query($query) {
         $project_type = get_query_var('project_type_filter');
         $news_archive = get_query_var('news_archive');
         
-        if ($project_type && $query->get('post_type') === 'projects') {
-            // Validate that the project type exists
-            $valid_types = array(
-                'cultural',
-                'academic', 
-                'offices',
-                'retail_commercial',
-                'institutional',
-                'planning',
-                'exhibitions',
-                'research_installation',
-                'residential'
-            );
+        // Handle projects archive
+        if ($query->get('post_type') === 'projects') {
+            // Set posts per page for projects
+            $query->set('posts_per_page', 15);
             
-            if (in_array($project_type, $valid_types)) {
-                // Add meta query to filter by project type
-                $meta_query = array(
-                    array(
-                        'key' => 'project_type',
-                        'value' => $project_type,
-                        'compare' => '='
-                    )
+            if ($project_type) {
+                // Validate that the project type exists
+                $valid_types = array(
+                    'cultural',
+                    'academic', 
+                    'offices',
+                    'retail_commercial',
+                    'institutional',
+                    'planning',
+                    'exhibitions',
+                    'research_installation',
+                    'residential'
                 );
                 
-                $query->set('meta_query', $meta_query);
-            } else {
-                // Invalid project type, show 404
-                $query->set_404();
+                if (in_array($project_type, $valid_types)) {
+                    // Add meta query to filter by project type
+                    $meta_query = array(
+                        array(
+                            'key' => 'project_type',
+                            'value' => $project_type,
+                            'compare' => '='
+                        )
+                    );
+                    
+                    $query->set('meta_query', $meta_query);
+                } else {
+                    // Invalid project type, show 404
+                    $query->set_404();
+                }
             }
         }
         

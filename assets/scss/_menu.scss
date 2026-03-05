@@ -4,15 +4,30 @@
  */
 
 .menu {
-  // Menu container styles can be added here
+  // Full width on small screens
+  @media (max-width: 768px) {
+    min-width: 100%;
+  }
   
   ul {
     display: flex;
     flex-direction: column;
     
-    // Medium screens and up - horizontal menu
-    @media (max-width: 768px) {
+    // small screens - horizontal menu
+    @media (max-width: 769px) {
       flex-direction: row;
     }
+  }
+  
+  // Hide submenus by default
+  .submenu {
+    display: none;
+  }
+  
+  // Show submenus when parent menu item is active or hovered
+  .menu-item.current-menu-item .submenu,
+  .menu-item.current-menu-ancestor .submenu,
+  .menu-item:hover .submenu {
+    display: block;
   }
 }

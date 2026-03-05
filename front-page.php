@@ -67,7 +67,6 @@ get_header(); ?>
 
         <!--  Recent News -->
         <div class="column">
-            <h2 class="section-title">Recent News</h2>
             
             <?php
             // Query for 5 most recent news posts (regular posts)
@@ -80,7 +79,7 @@ get_header(); ?>
             ));
             
             if ($news_query->have_posts()) : ?>
-                <div class="home-news-list">
+    
                     <?php while ($news_query->have_posts()) : $news_query->the_post(); ?>
                         <article class="home-news-item">
                             <div class="news-content">
@@ -100,11 +99,7 @@ get_header(); ?>
                             </div>
                         </article>
                     <?php endwhile; ?>
-                </div>
                 
-                <div class="view-all-news">
-                    <a href="<?php echo home_url('/news/'); ?>" class="view-all-link">View All News</a>
-                </div>
                 
             <?php else : ?>
                 <p class="no-news">No news available.</p>
