@@ -49,11 +49,7 @@ get_header(); ?>
             if ($projects_query->have_posts()) : ?>
                 <div class="home-projects-list">
                     <?php while ($projects_query->have_posts()) : $projects_query->the_post(); ?>
-                        <?php get_template_part('template-parts/item-project', null, array(
-                            'class' => 'project-item',
-                            'layout' => 'default',
-                            'image_size' => 'medium'
-                        )); ?>
+                        <?php get_template_part('template-parts/item-project'); ?>
                     <?php endwhile; ?>
                 </div>
                 

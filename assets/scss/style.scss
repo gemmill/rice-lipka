@@ -4,182 +4,15 @@ Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
 Version: 1.0.0
 Author: Rice+Lipka Architects
 */
-/*
- * PROJECT COMPONENT - ISOLATED STYLES
- * This file contains ONLY styles for the project component
- * to ensure consistent display across all pages
- */
-/* Reset any inherited styles */
-.project-item,
-.project-item * {
-  box-sizing: border-box;
-}
 
-/* Base component structure */
-.project-item {
-  position: relative !important;
-  width: 100% !important;
-  background: none !important;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-}
-
-.project-link {
-  display: block !important;
-  text-decoration: none !important;
-  color: inherit !important;
-  background: none !important;
-  background-color: transparent !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 100% !important;
-}
-
-.project-image-wrapper {
-  position: relative !important;
-  width: 100% !important;
-  aspect-ratio: 3/2 !important;
-  overflow: hidden !important;
-  background: #f5f5f5 !important;
-  background-color: #f5f5f5 !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: block !important;
-}
-
-.project-image {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  opacity: 1 !important;
-  transition: opacity 0.3s ease !important;
-  z-index: 1 !important;
-  background: none !important;
-  border: none !important;
-  display: block !important;
-}
-
-.project-placeholder {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: #f5f5f5 !important;
-  background-color: #f5f5f5 !important;
-  border: 1px solid #e0e0e0 !important;
-  opacity: 1 !important;
-  transition: opacity 0.3s ease !important;
-  z-index: 1 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: block !important;
-}
-
-.project-overlay {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: none !important;
-  background-color: transparent !important;
-  display: block !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  opacity: 0 !important;
-  transition: opacity 0.3s ease !important;
-  z-index: 2 !important;
-  text-align: left !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.project-title {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: left !important;
-  display: block !important;
-  width: auto !important;
-  background: none !important;
-  background-color: transparent !important;
-  color: #000 !important;
-  font-size: 1rem !important;
-  font-weight: normal !important;
-  line-height: 1.3 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* Hover effects */
-.project-item:hover .project-image,
-.project-item:hover .project-placeholder {
-  opacity: 0 !important;
-}
-
-.project-item:hover .project-overlay {
-  opacity: 1 !important;
-}
-
-/* Override any potential conflicts from other stylesheets */
-article.project-item,
-div.project-item,
-.home-projects-list .project-item,
-.projects-grid .project-item,
-.site-main .project-item {
-  position: relative !important;
-  width: 100% !important;
-  background: none !important;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-}
-
-/* Ensure hover works in all contexts */
-article.project-item:hover .project-image,
-article.project-item:hover .project-placeholder,
-div.project-item:hover .project-image,
-div.project-item:hover .project-placeholder,
-.home-projects-list .project-item:hover .project-image,
-.home-projects-list .project-item:hover .project-placeholder,
-.projects-grid .project-item:hover .project-image,
-.projects-grid .project-item:hover .project-placeholder,
-.site-main .project-item:hover .project-image,
-.site-main .project-item:hover .project-placeholder {
-  opacity: 0 !important;
-}
-
-article.project-item:hover .project-overlay,
-div.project-item:hover .project-overlay,
-.home-projects-list .project-item:hover .project-overlay,
-.projects-grid .project-item:hover .project-overlay,
-.site-main .project-item:hover .project-overlay {
-  opacity: 1 !important;
-}
+// Import project component styles
+@use 'project-component';
 
 /**
  * Rice+Lipka Inspired Styles
  * Minimal, typography-focused design with clean aesthetics
  */
+
 /* Reset and Base Styles */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -222,29 +55,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem;
 }
 
-h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-}
-
-h4 {
-  font-size: 1.125rem;
-}
-
-h5 {
-  font-size: 1rem;
-}
-
-h6 {
-  font-size: 0.875rem;
-}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
 
 p {
   margin-bottom: 1rem;
@@ -444,7 +260,7 @@ a:hover {
 
 /* Content Areas */
 .page-header {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
   text-align: left;
   padding: 0 0 2rem 0;
   margin-bottom: 2rem;
@@ -472,7 +288,7 @@ a:hover {
 .news-grid,
 .people-grid,
 .awards-grid {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
@@ -483,7 +299,7 @@ a:hover {
 .single-project,
 .single-news,
 .page-content {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
   max-width: none;
   padding: 0;
 }
@@ -547,6 +363,8 @@ a:hover {
   opacity: 0.5;
   text-decoration: none;
 }
+
+
 
 .filter-list {
   display: flex;
@@ -764,7 +582,10 @@ a:hover {
   font-style: italic;
 }
 
+
+
 /* Project Category Classes (camelCase) - REMOVED BACKGROUNDS */
+
 /* Person Item Component */
 .person-item {
   transition: opacity 0.3s ease;
@@ -1038,33 +859,41 @@ a:hover {
     padding: 1rem;
     gap: 2rem;
   }
+  
   .site-sidebar {
     flex: none;
     padding-right: 0;
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 2rem;
   }
+  
   .site-branding {
     margin-bottom: 2rem;
   }
+  
   .site-main {
     display: block;
   }
+  
   /* Home page mobile layout */
   .home .site-main {
     display: block;
   }
+  
   .home-tagline,
   .home-projects,
   .home-news {
     margin-bottom: 3rem;
   }
+  
   .home-tagline {
     padding-top: 0;
   }
+  
   .primary-menu {
     gap: 0;
   }
+  
   .submenu {
     position: static;
     opacity: 1;
@@ -1073,6 +902,7 @@ a:hover {
     padding: 0.5rem 0 1rem 1rem;
     margin-top: 0.5rem;
   }
+  
   .projects-grid,
   .news-grid,
   .people-grid,
@@ -1080,36 +910,44 @@ a:hover {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  
   .filter-list {
     flex-direction: column;
     gap: 1rem;
   }
+  
   .page-header {
     padding: 0 0 1rem 0;
     margin-bottom: 1rem;
   }
 }
+
 @media (max-width: 1024px) and (min-width: 769px) {
   .site-layout {
     padding: 1.5rem;
   }
+  
   .site-sidebar {
     flex: 0 0 30%;
   }
+  
   .site-main {
     grid-template-columns: 1fr 1fr;
   }
+  
   /* Home page tablet layout */
   .home .site-main {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  
   .home-tagline,
   .home-projects,
   .home-news {
     margin-bottom: 2rem;
   }
 }
+
 /* Print Styles */
 @media print {
   .site-header,
@@ -1117,15 +955,23 @@ a:hover {
   .pagination {
     display: none;
   }
+  
   body {
     font-size: 12pt;
     line-height: 1.4;
   }
+  
   .container {
     max-width: none;
     padding: 0;
   }
 }
+
+
+
+
+
+
 /* REMOVE HORIZONTAL TEXT CENTERING - All text should be left aligned */
 .page-header,
 .page-header *,
@@ -1183,5 +1029,3 @@ h1, h2, h3, h4, h5, h6 {
   align-items: flex-start !important;
   align-content: flex-start !important;
 }
-
-/*# sourceMappingURL=style.css.map */
