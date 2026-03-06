@@ -5,6 +5,9 @@ Version: 1.0.0
 Author: Rice+Lipka Architects
 */
 
+// Import variables first
+@use 'variables';
+
 // Import reset styles
 @use 'reset';
 
@@ -14,6 +17,9 @@ Author: Rice+Lipka Architects
 // Import link styles
 @use 'links';
 
+// Import image styles
+@use 'images';
+
 // Import layout styles
 @use 'layout';
 
@@ -22,6 +28,9 @@ Author: Rice+Lipka Architects
 
 // Import news styles
 @use 'news';
+
+// Import awards styles
+@use 'awards';
 
 // Import project component styles
 @use 'project-component';

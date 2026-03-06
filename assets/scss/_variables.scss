@@ -1,0 +1,14 @@
+/*
+ * Variables
+ * Global variables for consistent spacing, colors, and other design tokens
+ */
+
+// Base spacing unit
+$base-unit: 1rem;
+
+// Spacing scale based on base unit
+$spacing-xs: $base-unit * 0.25;  // 0.25rem
+$spacing-sm: $base-unit * 0.5;   // 0.5rem
+$spacing-md: $base-unit * 1;     // 1rem
+$spacing-lg: $base-unit * 2;     // 2rem
+$spacing-xl: $base-unit * 3;     // 3rem

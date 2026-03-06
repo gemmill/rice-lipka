@@ -8,26 +8,30 @@
 
 get_header(); ?>
 
-        <header class="page-header">
-            <h1 class="page-title">Awards</h1>
-            <div class="archive-description">
-                <p>Recognition and achievements</p>
-            </div>
-        </header>
-
+<div class="layout">
+    <?php get_template_part('template-parts/site-menu'); ?>
+    
+    <div class="grid">
         <?php if (have_posts()) : ?>
-            <div class="awards-grid">
-                <?php while (have_posts()) : the_post(); ?>
-                    <?php get_template_part('template-parts/item-award', null, array(
-                        'class' => 'award-card',
-                        'layout' => 'default',
-                        'image_size' => 'medium',
-                        'show_meta' => true,
-                        'show_excerpt' => true
-                    )); ?>
-                <?php endwhile; ?>
+            <?php while (have_posts()) : the_post(); ?>
+                <?php get_template_part('template-parts/item-award', null, array(
+                    'class' => 'award-card',
+                    'layout' => 'default',
+                    'image_size' => 'medium',
+                    'show_meta' => true,
+                    'show_excerpt' => true
+                )); ?>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <div class="no-awards">
+                <h2><?php _e('No awards found', 'ricelipka-theme'); ?></h2>
+                <p><?php _e('No awards have been added yet.', 'ricelipka-theme'); ?></p>
             </div>
-
+        <?php endif; ?>
+    </div>
+    
+    <?php if (have_posts()) : ?>
+        <div class="pagination-wrapper">
             <?php
             // Pagination
             the_posts_pagination(array(
@@ -36,12 +40,8 @@ get_header(); ?>
                 'next_text' => __('Next', 'ricelipka-theme'),
             ));
             ?>
-
-        <?php else : ?>
-            <div class="no-awards">
-                <h2><?php _e('No awards found', 'ricelipka-theme'); ?></h2>
-                <p><?php _e('No awards have been added yet.', 'ricelipka-theme'); ?></p>
-            </div>
-        <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
 
 <?php get_footer(); ?>

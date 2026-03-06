@@ -41,8 +41,20 @@
             $active_class = ' current-menu-item';
         }
         // Check if current page is under this menu section (ancestor)
-        elseif ($has_submenu && strpos($current_url, $item_url) === 0) {
-            $ancestor_class = ' current-menu-ancestor';
+        elseif ($has_submenu) {
+            // Check if current URL starts with parent URL
+            if (strpos($current_url, $item_url) === 0) {
+                $ancestor_class = ' current-menu-ancestor';
+            } else {
+                // Check if current URL matches any submenu item
+                foreach ($item['submenu'] as $sub_item) {
+                    $sub_item_url = rtrim($sub_item['url'], '/');
+                    if ($current_url === $sub_item_url || strpos($current_url, $sub_item_url . '/') === 0) {
+                        $ancestor_class = ' current-menu-ancestor';
+                        break;
+                    }
+                }
+            }
         }
         
         echo '<li class="menu-item' . $active_class . $ancestor_class . ($has_submenu ? ' has-submenu' : '') . '">';

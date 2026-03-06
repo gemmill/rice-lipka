@@ -1,0 +1,12 @@
+/*
+ * Awards Styles
+ * Styles for award components and listings
+ */
+
+@use 'variables';
+
+.award {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-sm;
+}

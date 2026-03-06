@@ -4,6 +4,7 @@
  */
 
 @use 'typography';
+@use 'variables';
 
 .menu {
   // Full width on small screens
@@ -34,7 +35,7 @@
   
   // Add spacing below first top-level menu item only
   > ul > li:first-child {
-    margin-bottom: 1rem;
+    margin-bottom: variables.$spacing-md;
   }
   
   a {
@@ -59,15 +60,15 @@
   // Hide submenus by default
   .submenu {
     display: none;
-    margin-left: 1rem; // indent submenu
+    margin-left: variables.$spacing-md; // indent submenu
     
     // Add spacing before first and after last submenu item
     li:first-child {
-      margin-top: 0.25rem;
+      margin-top: variables.$spacing-xs;
     }
     
     li:last-child {
-      margin-bottom: 0.5rem;
+      margin-bottom: variables.$spacing-sm;
     }
   }
   

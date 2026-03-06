@@ -3,26 +3,28 @@
  * Basic layout utilities and structure
  */
 
+@use 'variables';
+
 .layout {
-  padding: 2rem;
+  padding: variables.$spacing-lg;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: variables.$spacing-md;
 }
 
 .column {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap:1rem;
+  gap: variables.$spacing-md;
 }
 
 .grid {
   flex: 3;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: variables.$spacing-lg;
   
   // Responsive grid
   @media (max-width: 768px) {

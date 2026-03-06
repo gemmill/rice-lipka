@@ -3,6 +3,8 @@
  * Styles for news item components
  */
 
+@use 'variables';
+
 .news-item {
   display: flex;
   flex-direction: column;
@@ -11,7 +13,7 @@
     display: block;
     text-decoration: none;
     color: inherit;
-    margin-bottom: 1rem;
+    margin-bottom: variables.$spacing-md;
   }
   
   .news-image-wrapper {
@@ -38,6 +40,6 @@
   .news-content {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: variables.$spacing-sm;
   }
 }

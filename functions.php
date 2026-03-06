@@ -405,7 +405,7 @@ function ricelipka_register_custom_post_types() {
             'not_found_in_trash' => 'No awards found in trash'
         ),
         'public' => true,
-        'publicly_queryable' => false, // Disable single pages
+        'publicly_queryable' => true, // Enable archive queries
         'has_archive' => true,
         'menu_icon' => 'dashicons-awards',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
@@ -428,7 +428,7 @@ function ricelipka_register_custom_post_types() {
             'not_found_in_trash' => 'No people found in trash'
         ),
         'public' => true,
-        'publicly_queryable' => false, // Disable single pages
+        'publicly_queryable' => true, // Enable archive queries
         'has_archive' => true,
         'menu_icon' => 'dashicons-groups',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
@@ -874,3 +874,13 @@ function ricelipka_add_random_color_css() {
     echo '</style>';
 }
 add_action('wp_head', 'ricelipka_add_random_color_css');
+/**
+ * Modify posts per page for awards archive
+ */
+function ricelipka_modify_awards_query($query) {
+    // Only modify the main query on the frontend for awards archive
+    if (!is_admin() && $query->is_main_query() && is_post_type_archive('awards')) {
+        $query->set('posts_per_page', 96);
+    }
+}
+add_action('pre_get_posts', 'ricelipka_modify_awards_query');
