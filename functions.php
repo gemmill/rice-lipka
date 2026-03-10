@@ -483,9 +483,16 @@ add_action('init', 'ricelipka_disable_comments');
 
 
 /**
- * Add custom rewrite rules for project type filtering
+ * Add custom rewrite rules for project type filtering and work archive
  */
 function ricelipka_add_project_type_rewrite_rules() {
+    // Add rewrite rule for /work/archive/
+    add_rewrite_rule(
+        '^work/archive/?$',
+        'index.php?pagename=work-archive',
+        'top'
+    );
+    
     // Get valid project types for more specific matching
     $valid_types = array(
         'cultural',
@@ -609,7 +616,7 @@ function ricelipka_modify_projects_query($query) {
 add_action('pre_get_posts', 'ricelipka_modify_projects_query');
 
 /**
- * Template redirect for news archive
+ * Template redirect for news archive and work archive
  */
 function ricelipka_news_archive_template($template) {
     if (get_query_var('news_archive')) {
@@ -618,6 +625,16 @@ function ricelipka_news_archive_template($template) {
             return $news_template;
         }
     }
+    
+    // Handle work archive template
+    global $wp_query;
+    if (isset($wp_query->query_vars['pagename']) && $wp_query->query_vars['pagename'] === 'work-archive') {
+        $archive_template = locate_template('page-work-archive.php');
+        if ($archive_template) {
+            return $archive_template;
+        }
+    }
+    
     return $template;
 }
 add_filter('template_include', 'ricelipka_news_archive_template');
@@ -669,7 +686,7 @@ function ricelipka_create_custom_menu() {
                 ),
                 'archive' => array(
                     'title' => 'Archive',
-                    'url' => home_url('/work/')
+                    'url' => home_url('/work/archive/')
                 )
             )
         ),

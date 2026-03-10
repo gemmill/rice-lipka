@@ -16,4 +16,5 @@ flush_rewrite_rules();
 echo "Rewrite rules flushed successfully!\n";
 echo "People archive should now be accessible at: " . home_url('/people/') . "\n";
 echo "Awards archive should be accessible at: " . home_url('/awards/') . "\n";
+echo "Work archive should be accessible at: " . home_url('/work/archive/') . "\n";
 ?>

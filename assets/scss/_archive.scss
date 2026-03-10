@@ -1,0 +1,100 @@
+// Archive Styles
+// Styles for archive pages and table layouts
+
+@use 'variables';
+
+// Work Archive Table Styles
+.not-grid {
+  grid-column: 1 / -1; // Span all grid columns
+  width: 100%;
+}
+
+ .projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: variables.$spacing-sm;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    
+    &.sortable:hover {
+      background-color: #f5f5f5;
+    }
+    
+    &.sort-asc::after {
+      content: ' ↑';
+      position: absolute;
+      right: variables.$spacing-xs;
+    }
+    
+    &.sort-desc::after {
+      content: ' ↓';
+      position: absolute;
+      right: variables.$spacing-xs;
+    }
+    
+    &.thumbnail-header {
+      cursor: default;
+      
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+  
+  .thumbnail-cell {
+    width: 80px;
+    padding: variables.$spacing-xs;
+  }
+  
+  .project-thumbnail {
+    width: 60px;
+    height: 40px; // 3:2 aspect ratio
+    overflow: hidden;
+    position: relative;
+    
+    .project-thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .project-placeholder {
+      width: 100%;
+      height: 100%;
+      background-color: #f0f0f0;
+      
+      .placeholder-content {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  
+  .project-link {
+    text-decoration: none;
+    color: inherit;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .year-cell {
+    width: 80px;
+  }
+  
+  .client-cell,
+  .location-cell,
+  .category-cell {
+    width: auto;
+  }
+}
