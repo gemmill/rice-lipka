@@ -831,9 +831,13 @@ function ricelipka_project_type_to_camel_case($project_type) {
     return lcfirst(str_replace('_', '', ucwords($project_type, '_')));
 }
 /**
- * Get a random color from site settings
+ * Get a persistent random color from site settings (changes every 30 minutes)
  */
 function ricelipka_get_random_site_color() {
+    // Create a time-based salt that changes every 30 minutes
+    $time_slot = floor(time() / (30 * 60)); // 30 minutes = 1800 seconds
+    $salt = 'ricelipka_color_' . $time_slot;
+    
     // Make sure ACF is available
     if (function_exists('get_field')) {
         $colors_data = get_field('site_colors', 'option');
@@ -847,25 +851,31 @@ function ricelipka_get_random_site_color() {
             }
             
             if (!empty($colors)) {
-                return $colors[array_rand($colors)];
+                // Use the salt to seed the random selection for consistency
+                $color_index = abs(crc32($salt)) % count($colors);
+                return $colors[$color_index];
             }
         }
     }
     
     // Fallback colors if no site colors are configured
     $fallback_colors = array('#000000', '#333333', '#666666', '#990000', '#006600', '#000099');
-    return $fallback_colors[array_rand($fallback_colors)];
+    $color_index = abs(crc32($salt)) % count($fallback_colors);
+    return $fallback_colors[$color_index];
 }
 
 /**
- * Add inline CSS with random site color for headings
+ * Add inline CSS with persistent random site color for headings
  */
 function ricelipka_add_random_color_css() {
     $random_color = ricelipka_get_random_site_color();
     
     // Debug output (remove in production)
     if (defined('WP_DEBUG') && WP_DEBUG) {
-        echo '<!-- Random color selected: ' . $random_color . ' -->';
+        $time_slot = floor(time() / (30 * 60));
+        $next_change = ($time_slot + 1) * (30 * 60);
+        $minutes_until_change = ceil(($next_change - time()) / 60);
+        echo '<!-- Random color selected: ' . $random_color . ' (changes in ' . $minutes_until_change . ' minutes) -->';
     }
     
     echo '<style type="text/css">';
