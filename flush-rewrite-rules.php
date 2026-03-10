@@ -1,21 +1,19 @@
 <?php
 /**
- * Flush WordPress rewrite rules
- * Run this file once to update permalink structure for custom post types
+ * Flush Rewrite Rules Script
+ * 
+ * Run this script to flush WordPress rewrite rules and ensure
+ * custom post type archives work properly.
  */
 
 // Load WordPress
+require_once('../../../wp-config.php');
 require_once('../../../wp-load.php');
-
-// Check if user has admin privileges
-if (!current_user_can('manage_options')) {
-    die('Access denied. You must be an administrator to run this script.');
-}
 
 // Flush rewrite rules
 flush_rewrite_rules();
 
-echo "Rewrite rules have been flushed successfully!\n";
-echo "The /people/ and /awards/ URLs should now work properly.\n";
-echo "You can delete this file after running it.\n";
+echo "Rewrite rules flushed successfully!\n";
+echo "People archive should now be accessible at: " . home_url('/people/') . "\n";
+echo "Awards archive should be accessible at: " . home_url('/awards/') . "\n";
 ?>

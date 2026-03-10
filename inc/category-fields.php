@@ -232,36 +232,18 @@ function ricelipka_create_acf_field_groups() {
         'title' => 'People Fields',
         'fields' => array(
             array(
-                'key' => 'field_person_role',
-                'label' => 'Role',
-                'name' => 'person_role',
-                'type' => 'select',
-                'instructions' => 'Select the person\'s role or position',
-                'choices' => array(
-                    'principal' => 'Principal',
-                    'associate' => 'Associate',
-                    'architect' => 'Architect',
-                    'designer' => 'Designer',
-                    'project_manager' => 'Project Manager',
-                    'intern' => 'Intern',
-                    'consultant' => 'Consultant',
-                    'collaborator' => 'Collaborator',
-                    'client' => 'Client',
-                    'contractor' => 'Contractor',
-                ),
-                'required' => 1,
-                'allow_null' => 0,
+                'key' => 'field_person_title',
+                'label' => 'Title',
+                'name' => 'person_title',
+                'type' => 'text',
+                'required' => 0,
             ),
             array(
                 'key' => 'field_person_associations',
-                'label' => 'Project Associations',
+                'label' => 'Associations',
                 'name' => 'person_associations',
-                'type' => 'post_object',
-                'instructions' => 'Select projects this person is associated with',
-                'post_type' => array('projects'),
-                'return_format' => 'object',
-                'multiple' => 1,
-                'allow_null' => 1,
+                'type' => 'text',
+                'required' => 0,
             ),
         ),
         'location' => array(
@@ -392,7 +374,7 @@ function ricelipka_get_post_type_fields($post_id = null) {
 
         case 'people':
             $fields = array(
-                'person_role' => get_field('person_role', $post_id),
+                'person_title' => get_field('person_title', $post_id),
                 'person_associations' => get_field('person_associations', $post_id),
             );
             break;
