@@ -307,6 +307,17 @@ function ricelipka_theme_scripts() {
         true
     );
     
+    // Enqueue archive table JavaScript on work archive page
+    if (is_page_template('page-work-archive.php') || (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/work/archive') !== false)) {
+        wp_enqueue_script(
+            'ricelipka-archive-table',
+            get_template_directory_uri() . '/assets/js/archive-table.js',
+            array(),
+            wp_get_theme()->get('Version'),
+            true
+        );
+    }
+    
     // Localize script for AJAX and performance optimization
     wp_localize_script('ricelipka-theme-script', 'ricelipka_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php'),
