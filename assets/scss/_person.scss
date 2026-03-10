@@ -1,0 +1,15 @@
+// Person Component Styles
+// Styles for person items and people archive
+
+@use 'variables';
+
+
+    .item-person {
+        display: flex;
+        flex-direction: column;
+      gap: variables.$spacing-sm;
+
+      .person-meta {
+        font-weight:bold;
+      }
+    }
