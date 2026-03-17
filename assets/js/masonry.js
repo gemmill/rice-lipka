@@ -69,6 +69,8 @@ class Masonry {
         
         if (this.items.length === 0) {
             console.log('No masonry items found');
+            // Still show container even if no items
+            this.container.classList.add('masonry-loaded');
             return;
         }
         
@@ -84,6 +86,9 @@ class Masonry {
         // Set container height
         const maxHeight = Math.max(...this.columnHeights);
         this.container.style.height = `${maxHeight}px`;
+        
+        // Show container after layout is complete
+        this.container.classList.add('masonry-loaded');
         
         console.log(`Container height: ${maxHeight}px`);
     }

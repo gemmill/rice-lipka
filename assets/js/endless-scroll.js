@@ -146,12 +146,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     });
     
-    // Test button
-    const btn = document.createElement('button');
-    btn.textContent = 'Load More (Test)';
-    btn.style.cssText = 'position:fixed;top:10px;right:10px;z-index:9999;background:red;color:white;padding:10px';
-    btn.onclick = loadMore;
-    document.body.appendChild(btn);
-    
     console.log('Endless scroll ready');
 });
