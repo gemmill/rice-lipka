@@ -12,22 +12,21 @@ get_header(); ?>
     <?php get_template_part('template-parts/site-menu'); ?>
     
     <div class="grid">
-        <?php if (have_posts()) : ?>
-          
+        <div id="projects-masonry" class="masonry">
+            <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : the_post(); ?>
-                    <?php get_template_part('template-parts/content', 'projects-archive'); ?>
+                    <div class="masonry-item">
+                        <?php get_template_part('template-parts/item-project'); ?>
+                    </div>
                 <?php endwhile; ?>
-
-            <?php
-            // Pagination
-            the_posts_pagination(array(
-                'mid_size' => 2,
-                'prev_text' => __('Previous', 'ricelipka-theme'),
-                'next_text' => __('Next', 'ricelipka-theme'),
-            ));
-            ?>
-
-        <?php else : ?>
+            <?php endif; ?>
+        </div>
+        
+        <div id="projects-loading" class="projects-loading" style="display: none;">
+            <p>Loading more projects...</p>
+        </div>
+        
+        <?php if (!have_posts()) : ?>
             <div class="no-projects">
                 <h2><?php _e('No projects found', 'ricelipka-theme'); ?></h2>
                 <?php 

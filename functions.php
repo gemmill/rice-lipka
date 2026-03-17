@@ -322,6 +322,7 @@ function ricelipka_theme_scripts() {
     if (get_query_var('news_archive') || 
         (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false) ||
         is_post_type_archive('awards') ||
+        is_post_type_archive('projects') ||
         is_page_template('page-about.php')) {
         
         wp_enqueue_script(
@@ -617,7 +618,7 @@ function ricelipka_modify_projects_query($query) {
         // Handle projects archive
         if ($query->get('post_type') === 'projects') {
             // Set posts per page for projects
-            $query->set('posts_per_page', 15);
+            $query->set('posts_per_page', 18);
             
             if ($project_type) {
                 // Validate that the project type exists
@@ -1069,3 +1070,47 @@ function ricelipka_load_more_awards() {
 }
 add_action('wp_ajax_load_more_awards', 'ricelipka_load_more_awards');
 add_action('wp_ajax_nopriv_load_more_awards', 'ricelipka_load_more_awards');
+/**
+ * AJAX handler for loading more projects
+ */
+function ricelipka_load_more_projects() {
+    // Verify nonce for security
+    if (!wp_verify_nonce($_POST['nonce'], 'ricelipka_nonce')) {
+        wp_die('Security check failed');
+    }
+    
+    $page = intval($_POST['page']);
+    
+    $args = array(
+        'post_type' => 'projects',
+        'post_status' => 'publish',
+        'posts_per_page' => 18,
+        'paged' => $page,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+    
+    $projects_query = new WP_Query($args);
+    
+    if ($projects_query->have_posts()) {
+        ob_start();
+        
+        while ($projects_query->have_posts()) {
+            $projects_query->the_post();
+            get_template_part('template-parts/item-project');
+        }
+        
+        $html = ob_get_clean();
+        wp_reset_postdata();
+        
+        wp_send_json_success(array(
+            'html' => $html,
+            'max_pages' => $projects_query->max_num_pages,
+            'current_page' => $page
+        ));
+    } else {
+        wp_send_json_error('No more projects found');
+    }
+}
+add_action('wp_ajax_load_more_projects', 'ricelipka_load_more_projects');
+add_action('wp_ajax_nopriv_load_more_projects', 'ricelipka_load_more_projects');

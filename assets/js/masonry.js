@@ -174,6 +174,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('No about masonry container found');
     }
     
+    // Initialize projects masonry
+    const projectsMasonryContainer = document.getElementById('projects-masonry');
+    if (projectsMasonryContainer) {
+        console.log('Initializing projects masonry...');
+        setTimeout(() => {
+            window.projectsMasonryInstance = new Masonry(projectsMasonryContainer, {
+                itemSelector: '.masonry-item',
+                gutter: 32
+            });
+        }, 100);
+    }
+    
     // Set global instance for backwards compatibility
-    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance;
+    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance || window.projectsMasonryInstance;
 });

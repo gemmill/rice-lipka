@@ -28,6 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
             wrapperClass: 'masonry-item'
         };
         console.log('Detected news page');
+    } else if (document.getElementById('projects-masonry')) {
+        config = {
+            ajaxAction: 'load_more_projects',
+            containerId: 'projects-masonry',
+            loadingId: 'projects-loading',
+            itemSelector: '.project-item',
+            wrapperClass: 'masonry-item'
+        };
+        console.log('Detected projects page');
     } else if (document.getElementById('awards-masonry')) {
         config = {
             ajaxAction: 'load_more_awards',
@@ -102,6 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.awardsMasonryInstance.refresh();
                 } else if (window.newsMasonryInstance) {
                     window.newsMasonryInstance.refresh();
+                } else if (window.projectsMasonryInstance) {
+                    window.projectsMasonryInstance.refresh();
                 }
                 
                 currentPage = nextPage;
