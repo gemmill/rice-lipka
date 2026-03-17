@@ -63,7 +63,7 @@ get_header(); ?>
                         </div>
                     </td>
                     <td class="project-cell">
-                        <a href="<?php the_permalink(); ?>" class="project-link">
+                        <a href="<?php the_permalink(); ?>" class="project-link heading">
                             <?php the_title(); ?>
                         </a>
                     </td>

@@ -6,14 +6,10 @@
 @use 'variables';
 
 .news-item {
-  display: flex;
-  flex-direction: column;
-  
   .news-link {
     display: block;
     text-decoration: none;
     color: inherit;
-    margin-bottom: variables.$spacing-md;
   }
   
   .news-image-wrapper {
@@ -22,6 +18,7 @@
     aspect-ratio: 3/2;
     overflow: hidden;
     background: #f5f5f5;
+    margin-bottom: variables.$spacing-sm;
   }
   
   .news-image {
@@ -42,4 +39,10 @@
     flex-direction: column;
     gap: variables.$spacing-sm;
   }
+}
+
+.news-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: variables.$spacing-lg;
 }

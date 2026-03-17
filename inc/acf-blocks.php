@@ -157,33 +157,8 @@ function ricelipka_classic_editor_styles() {
     }
     
     /* Custom content styles */
-    .project-highlight {
-        background: #f0f6fc;
-        border-left: 4px solid #0073aa;
-        padding: 1rem;
-        margin: 1rem 0;
-    }
-    
-    .news-excerpt {
-        font-style: italic;
-        color: #666;
-        font-size: 1.1em;
-        line-height: 1.4;
-    }
-    
-    .event-date {
-        background: #0073aa;
-        color: white;
-        padding: 2px 8px;
-        border-radius: 3px;
-        font-weight: bold;
-    }
-    
-    .award-title {
-        color: #d63638;
-        border-bottom: 2px solid #d63638;
-        padding-bottom: 0.5rem;
-    }
+
+
     </style>
     <?php
 }
@@ -316,75 +291,7 @@ function ricelipka_frontend_classic_styles() {
     ?>
     <style>
     /* Frontend styles for classic editor content */
-    .project-highlight {
-        background: #f0f6fc;
-        border-left: 4px solid #0073aa;
-        padding: 1rem;
-        margin: 1rem 0;
-        border-radius: 0 4px 4px 0;
-    }
-    
-    .news-excerpt {
-        font-style: italic;
-        color: #666;
-        font-size: 1.1em;
-        line-height: 1.4;
-        margin: 1rem 0;
-    }
-    
-    .event-date {
-        background: #0073aa;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 3px;
-        font-weight: bold;
-        display: inline-block;
-        margin: 0.5rem 0;
-    }
-    
-    .award-title {
-        color: #d63638;
-        border-bottom: 2px solid #d63638;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .ricelipka-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin: 2rem 0;
-    }
-    
-    .ricelipka-gallery .gallery-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 4px;
-    }
-    
-    .ricelipka-gallery .gallery-item img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-    
-    .ricelipka-gallery .gallery-item:hover img {
-        transform: scale(1.05);
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .ricelipka-gallery {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 0.5rem;
-        }
-        
-        .project-highlight {
-            padding: 0.75rem;
-            margin: 0.75rem 0;
-        }
-    }
+  
     </style>
     <?php
 }

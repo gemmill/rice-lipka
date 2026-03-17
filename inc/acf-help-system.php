@@ -523,14 +523,6 @@ class RiceLipka_ACF_Help_System {
             color: #0073aa;
         }
         
-        .acf-tutorial-tip {
-            background: #f0f6fc;
-            border-left: 4px solid #0073aa;
-            padding: 12px;
-            margin-top: 15px;
-            font-style: italic;
-        }
-        
         .acf-tutorial-footer {
             background: #f9f9f9;
             padding: 15px 20px;

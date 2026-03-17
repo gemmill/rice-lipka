@@ -11,24 +11,22 @@ get_header(); ?>
 <div class="layout">
     <?php get_template_part('template-parts/site-menu'); ?>
     
-    <div class="column">
-        <?php if (have_posts()) : ?>
-            <div class="news-grid">
+    <div class="grid">
+        <div id="news-masonry" class="masonry">
+            <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : the_post(); ?>
-                    <?php get_template_part('template-parts/item-news'); ?>
+                    <div class="masonry-item">
+                        <?php get_template_part('template-parts/item-news'); ?>
+                    </div>
                 <?php endwhile; ?>
-            </div>
-
-            <?php
-            // Pagination
-            the_posts_pagination(array(
-                'mid_size' => 2,
-                'prev_text' => __('Previous', 'ricelipka-theme'),
-                'next_text' => __('Next', 'ricelipka-theme'),
-            ));
-            ?>
-
-        <?php else : ?>
+            <?php endif; ?>
+        </div>
+        
+        <div id="news-loading" class="news-loading" style="display: none;">
+            <p>Loading more news...</p>
+        </div>
+        
+        <?php if (!have_posts()) : ?>
             <div class="no-news">
                 <h2><?php _e('No news found', 'ricelipka-theme'); ?></h2>
                 <p><?php _e('No news articles have been published yet.', 'ricelipka-theme'); ?></p>
@@ -36,5 +34,24 @@ get_header(); ?>
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+// Configuration for endless scroll
+window.endlessScrollConfig = {
+    ajaxAction: 'load_more_news',
+    containerId: 'news-masonry',
+    loadingId: 'news-loading',
+    itemSelector: '.news-item',
+    wrapperClass: 'masonry-item'
+};
+
+// Pass data to JavaScript
+window.endlessScrollData = {
+    ajaxUrl: '<?php echo admin_url('admin-ajax.php'); ?>',
+    currentPage: <?php echo get_query_var('paged') ? get_query_var('paged') : 1; ?>,
+    maxPages: <?php echo $wp_query->max_num_pages; ?>,
+    nonce: '<?php echo wp_create_nonce('ricelipka_nonce'); ?>'
+};
+</script>
 
 <?php get_footer(); ?>

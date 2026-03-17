@@ -2,6 +2,7 @@
 // Styles for archive pages and table layouts
 
 @use 'variables';
+@use 'typography';
 
 // Work Archive Table Styles
 .not-grid {
@@ -14,16 +15,25 @@
   border-collapse: collapse;
   
   th, td {
-    padding: variables.$spacing-sm;
     text-align: left;
+    vertical-align: top;
     border-bottom: 1px solid #eee;
   }
   
   th {
+    padding: 0 0 variables.$spacing-sm 0;
     font-weight: bold;
     cursor: pointer;
     user-select: none;
     position: relative;
+    
+    &:first-child {
+      padding-left: 0;
+    }
+    
+    &:last-child {
+      padding-right: 0;
+    }
     
     &.sortable:hover {
       background-color: #f5f5f5;
@@ -50,14 +60,25 @@
     }
   }
   
+  td {
+    padding: variables.$spacing-sm;
+    
+    &:first-child {
+      padding-left: 0;
+    }
+    
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+  
   .thumbnail-cell {
-    width: 80px;
-    padding: variables.$spacing-xs;
+    width: 10rem;
   }
   
   .project-thumbnail {
-    width: 60px;
-    height: 40px; // 3:2 aspect ratio
+    width: 10rem;
+    height: 6.67rem; // 3:2 aspect ratio (10rem ÷ 1.5)
     overflow: hidden;
     position: relative;
     
@@ -96,5 +117,44 @@
   .location-cell,
   .category-cell {
     width: auto;
+  }
+  
+  // Responsive: Hide thumbnail, location, and category columns on small screens
+  @media (max-width: 768px) {
+    .thumbnail-header,
+    .thumbnail-cell,
+    th[data-sort="location"],
+    .location-cell,
+    th[data-sort="category"],
+    .category-cell {
+      display: none;
+    }
+    
+    // Adjust remaining column widths for mobile
+    .year-cell {
+      width: 60px;
+    }
+    
+    .project-cell {
+      width: auto;
+    }
+    
+    .client-cell {
+      width: auto;
+    }
+    
+    // Override heading styles on small viewports - use body font
+    .project-link.heading {
+      font: typography.$body;
+      text-transform: none;
+    }
+  }
+  
+  // Medium and higher viewports: Apply heading font to project column
+  @media (min-width: 769px) {
+    .project-link.heading {
+      font: typography.$heading-font;
+      text-transform: typography.$heading-transform;
+    }
   }
 }

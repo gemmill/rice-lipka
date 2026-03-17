@@ -35,3 +35,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+// Masonry Layout System
+.masonry {
+  grid-column: 1 / -1; // Span all grid columns when inside grid
+  position: relative;
+  width: 100%;
+}
+
+.masonry-item {
+  // Items will be positioned by JavaScript
+  // No default styles needed - JS handles everything
+}
