@@ -158,6 +158,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
     
+    // Initialize about page masonry
+    const aboutMasonryContainer = document.getElementById('about-masonry');
+    if (aboutMasonryContainer) {
+        console.log('Initializing about masonry...');
+        console.log('About container found, items:', aboutMasonryContainer.querySelectorAll('.masonry-item').length);
+        setTimeout(() => {
+            window.aboutMasonryInstance = new Masonry(aboutMasonryContainer, {
+                itemSelector: '.masonry-item',
+                gutter: 32
+            });
+            console.log('About masonry initialized');
+        }, 100);
+    } else {
+        console.log('No about masonry container found');
+    }
+    
     // Set global instance for backwards compatibility
-    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance;
+    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance;
 });

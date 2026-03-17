@@ -11,36 +11,36 @@ $child_pages = ricelipka_get_page_child_pages($page_id);
 
 if ($child_pages && !empty($child_pages)) : ?>
     
-   
-        
+    <div id="about-masonry" class="masonry">
         <?php foreach ($child_pages as $child_page) : ?>
-           <div class="column">
-                <header class="child-page-header">
-                    <h2 class="child-page-title">
-                        <?php echo get_the_title($child_page->ID); ?>
-                    </h2>
-                </header>
-                
-                <?php if (has_post_thumbnail($child_page->ID)) : ?>
-                    <div class="child-page-thumbnail">
-                        <?php echo get_the_post_thumbnail($child_page->ID, 'large'); ?>
+           <div class="masonry-item">
+                <div class="child-page-item">
+                    <header class="child-page-header">
+                        <h2 class="child-page-title">
+                            <?php echo get_the_title($child_page->ID); ?>
+                        </h2>
+                    </header>
+                    
+                    <?php if (has_post_thumbnail($child_page->ID)) : ?>
+                        <div class="child-page-thumbnail">
+                            <?php echo get_the_post_thumbnail($child_page->ID, 'large'); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="child-page-content">
+                        <?php 
+                        // Get the full content of the child page
+                        $child_content = get_post_field('post_content', $child_page->ID);
+                        
+                        // Apply WordPress content filters (shortcodes, etc.)
+                        $child_content = apply_filters('the_content', $child_content);
+                        
+                        echo $child_content;
+                        ?>
                     </div>
-                <?php endif; ?>
-                
-                <div class="child-page-content">
-                    <?php 
-                    // Get the full content of the child page
-                    $child_content = get_post_field('post_content', $child_page->ID);
-                    
-                    // Apply WordPress content filters (shortcodes, etc.)
-                    $child_content = apply_filters('the_content', $child_content);
-                    
-                    echo $child_content;
-                    ?>
                 </div>
            </div>
         <?php endforeach; ?>
-        
-  
+    </div>
     
 <?php endif; ?>

@@ -321,7 +321,8 @@ function ricelipka_theme_scripts() {
     // Enqueue masonry and endless scroll JavaScript on archives that need it
     if (get_query_var('news_archive') || 
         (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false) ||
-        is_post_type_archive('awards')) {
+        is_post_type_archive('awards') ||
+        is_page_template('page-about.php')) {
         
         wp_enqueue_script(
             'ricelipka-masonry',
@@ -331,22 +332,25 @@ function ricelipka_theme_scripts() {
             true
         );
         
-        wp_enqueue_script(
-            'ricelipka-endless-scroll',
-            get_template_directory_uri() . '/assets/js/endless-scroll.js',
-            array('ricelipka-masonry'),
-            wp_get_theme()->get('Version'),
-            true
-        );
-        
-        // Pass data to endless scroll script
-        global $wp_query;
-        wp_localize_script('ricelipka-endless-scroll', 'endlessScrollData', array(
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'currentPage' => get_query_var('paged') ? get_query_var('paged') : 1,
-            'maxPages' => $wp_query->max_num_pages,
-            'nonce' => wp_create_nonce('ricelipka_nonce')
-        ));
+        // Only enqueue endless scroll for archives, not about page
+        if (!is_page_template('page-about.php')) {
+            wp_enqueue_script(
+                'ricelipka-endless-scroll',
+                get_template_directory_uri() . '/assets/js/endless-scroll.js',
+                array('ricelipka-masonry'),
+                wp_get_theme()->get('Version'),
+                true
+            );
+            
+            // Pass data to endless scroll script
+            global $wp_query;
+            wp_localize_script('ricelipka-endless-scroll', 'endlessScrollData', array(
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'currentPage' => get_query_var('paged') ? get_query_var('paged') : 1,
+                'maxPages' => $wp_query->max_num_pages,
+                'nonce' => wp_create_nonce('ricelipka_nonce')
+            ));
+        }
     }
     
     // Localize script for AJAX and performance optimization

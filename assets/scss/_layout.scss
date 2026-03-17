@@ -47,3 +47,86 @@
   // Items will be positioned by JavaScript
   // No default styles needed - JS handles everything
 }
+// About page styles
+.page-content {
+  grid-column: 1 / -1;
+  margin-bottom: variables.$spacing-lg;
+}
+
+// Fallback CSS masonry for about page
+#about-masonry {
+  // Use CSS columns as fallback if JavaScript doesn't work
+  column-count: 3;
+  column-gap: variables.$spacing-lg;
+  column-fill: balance;
+  
+  @media (max-width: 768px) {
+    column-count: 2;
+  }
+  
+  @media (max-width: 480px) {
+    column-count: 1;
+  }
+}
+
+.child-page-item {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: variables.$spacing-lg;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  
+  .child-page-image {
+    margin-bottom: variables.$spacing-sm;
+    
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  .child-page-content {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-sm;
+  }
+  
+  .child-page-title {
+    margin: 0;
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  .child-page-excerpt {
+    margin: 0;
+  }
+}
+
+// Child page styles for masonry
+.child-page-header {
+  margin-bottom: variables.$spacing-sm;
+}
+
+.child-page-title {
+  margin: 0;
+}
+
+.child-page-thumbnail {
+  margin-bottom: variables.$spacing-sm;
+  
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.child-page-content {
+  // Content styling handled by WordPress
+}

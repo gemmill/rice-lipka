@@ -190,6 +190,60 @@ Author: Rice+Lipka Architects
   width: 100%;
 }
 
+.page-content {
+  grid-column: 1/-1;
+  margin-bottom: 2.4rem;
+}
+
+#about-masonry {
+  column-count: 3;
+  column-gap: 2.4rem;
+  column-fill: balance;
+}
+@media (max-width: 768px) {
+  #about-masonry {
+    column-count: 2;
+  }
+}
+@media (max-width: 480px) {
+  #about-masonry {
+    column-count: 1;
+  }
+}
+
+.child-page-item {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2.4rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.child-page-item .child-page-image {
+  margin-bottom: 0.6rem;
+}
+.child-page-item .child-page-image img {
+  width: 100%;
+  height: auto;
+}
+.child-page-item .child-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.child-page-item .child-page-title {
+  margin: 0;
+}
+.child-page-item .child-page-title a {
+  text-decoration: none;
+  color: inherit;
+}
+.child-page-item .child-page-title a:hover {
+  text-decoration: underline;
+}
+.child-page-item .child-page-excerpt {
+  margin: 0;
+}
+
 /*
 Theme Name: Rice+Lipka Architects
 Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects

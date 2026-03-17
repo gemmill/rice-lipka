@@ -13,19 +13,16 @@ get_header(); ?>
     <?php get_template_part('template-parts/site-menu'); ?>
     
     <div class="grid">
-    <?php while (have_posts()) : the_post(); ?>
-        
-       
-            <?php the_content(); ?>
-       
+        <?php while (have_posts()) : the_post(); ?>
+                <?php the_content(); ?>
+      
+            
             <?php
             // Display child pages with full content if any exist
             get_template_part('template-parts/child-pages-display', null, array('page_id' => get_the_ID()));
             ?>
-            
-
-    <?php endwhile; ?>
-</div>
+        <?php endwhile; ?>
+    </div>
 </div>
 
 <?php
