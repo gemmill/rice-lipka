@@ -236,32 +236,7 @@ function ricelipka_theme_scripts() {
         wp_get_theme()->get('Version')
     );
     
-    // Enqueue performance optimization CSS
-    wp_enqueue_style(
-        'ricelipka-performance-optimization',
-        get_template_directory_uri() . '/assets/css/performance-optimization.css',
-        array('ricelipka-responsive-layouts'),
-        wp_get_theme()->get('Version')
-    );
-    
-    // Enqueue chronological ordering CSS
-    wp_enqueue_style(
-        'ricelipka-chronological-ordering',
-        get_template_directory_uri() . '/assets/css/chronological-ordering.css',
-        array('ricelipka-responsive-layouts'),
-        wp_get_theme()->get('Version')
-    );
-    
-    // Enqueue custom CSS (if exists)
-    if (file_exists(get_template_directory() . '/assets/css/custom.css')) {
-        wp_enqueue_style(
-            'ricelipka-theme-custom',
-            get_template_directory_uri() . '/assets/css/custom.css',
-            array('ricelipka-responsive-layouts'),
-            wp_get_theme()->get('Version')
-        );
-    }
-    
+
     // Enqueue main JavaScript
     wp_enqueue_script(
         'ricelipka-theme-script',
@@ -275,33 +250,6 @@ function ricelipka_theme_scripts() {
     wp_enqueue_script(
         'ricelipka-acf-help',
         get_template_directory_uri() . '/assets/js/acf-help.js',
-        array('jquery', 'ricelipka-theme-script'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-    
-    // Enqueue responsive enhancements JavaScript
-    wp_enqueue_script(
-        'ricelipka-responsive-enhancements',
-        get_template_directory_uri() . '/assets/js/responsive-enhancements.js',
-        array('jquery', 'ricelipka-theme-script'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-    
-    // Enqueue performance optimization JavaScript
-    wp_enqueue_script(
-        'ricelipka-performance-optimization',
-        get_template_directory_uri() . '/assets/js/performance-optimization.js',
-        array('jquery', 'ricelipka-theme-script'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-    
-    // Enqueue chronological ordering JavaScript
-    wp_enqueue_script(
-        'ricelipka-chronological-ordering',
-        get_template_directory_uri() . '/assets/js/chronological-ordering.js',
         array('jquery', 'ricelipka-theme-script'),
         wp_get_theme()->get('Version'),
         true

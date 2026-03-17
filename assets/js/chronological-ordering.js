@@ -12,6 +12,7 @@
     // Initialize chronological ordering functionality
     $(document).ready(function() {
         initChronologicalOrdering();
+        initArchiveControlsVisibility();
     });
 
     function initChronologicalOrdering() {
@@ -494,7 +495,6 @@
         });
     }
 
-})(jQuery);
     /**
      * Initialize archive controls visibility
      */
@@ -522,8 +522,4 @@
         }
     }
 
-    // Add to initialization
-    $(document).ready(function() {
-        initChronologicalOrdering();
-        initArchiveControlsVisibility();
-    });
+})(jQuery);

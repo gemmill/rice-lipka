@@ -357,36 +357,6 @@
     }
 
     /**
-     * Initialize all functionality when document is ready
-     */
-    $(document).ready(function() {
-        initMobileMenu();
-        initNavigationEnhancements();
-        initSmoothScrolling();
-        initLazyLoading();
-        initFormEnhancements();
-        initCategoryFilters();
-        initSearchEnhancements();
-        initAccessibility();
-        initPerformanceOptimizations();
-        initWorkCategoryHover();
-        
-        // Add category-specific functionality
-        initCategoryEnhancements();
-    });
-
-    /**
-     * Handle window load events
-     */
-    $(window).on('load', function() {
-        // Remove loading classes
-        $('body').removeClass('loading');
-        
-        // Initialize any load-dependent functionality
-    });
-
-})(jQuery);
-    /**
      * Project filtering functionality
      */
     function initProjectFilters() {
@@ -442,37 +412,6 @@
     }
 
     /**
-     * Category-specific enhancements
-     */
-    function initCategoryEnhancements() {
-        // Initialize based on current page
-        if ($('body').hasClass('category-projects') || $('.projects-archive').length) {
-            initProjectFilters();
-            initProjectGallery();
-        }
-        
-        if ($('body').hasClass('category-awards') || $('.awards-archive').length) {
-            initAwardProjectLinks();
-        }
-    }
-
-    /**
-     * Update the document ready function to include new functionality
-     */
-    $(document).ready(function() {
-        initMobileMenu();
-        initSmoothScrolling();
-        initLazyLoading();
-        initFormEnhancements();
-        initCategoryFilters();
-        initSearchEnhancements();
-        initAccessibility();
-        initPerformanceOptimizations();
-        
-        // Add category-specific functionality
-        initCategoryEnhancements();
-    });
-    /**
      * People filtering functionality
      */
     function initPeopleFilters() {
@@ -497,7 +436,7 @@
     }
 
     /**
-     * Update the category enhancements function to include people
+     * Category-specific enhancements
      */
     function initCategoryEnhancements() {
         // Initialize based on current page
@@ -514,3 +453,36 @@
             initPeopleFilters();
         }
     }
+
+    /**
+     * Initialize all functionality when document is ready
+     */
+    $(document).ready(function() {
+        initMobileMenu();
+        initNavigationEnhancements();
+        initSmoothScrolling();
+        initLazyLoading();
+        initFormEnhancements();
+        initCategoryFilters();
+        initSearchEnhancements();
+        initAccessibility();
+        initPerformanceOptimizations();
+        initWorkCategoryHover();
+        
+        // Add category-specific functionality
+        initCategoryEnhancements();
+    });
+
+    /**
+     * Handle window load events
+     */
+    $(window).on('load', function() {
+        // Remove loading classes
+        $('body').removeClass('loading');
+        
+        // Initialize any load-dependent functionality
+    });
+
+})(jQuery);
+
+// End of jQuery wrapper - no additional code should be added here
