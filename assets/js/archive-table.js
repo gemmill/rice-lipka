@@ -1,44 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Archive table script loaded');
     
     const table = document.getElementById('projects-table');
     
     // Safety check - make sure table exists
     if (!table) {
-        console.error('Projects table not found');
         return;
     }
-    
-    console.log('Table found:', table);
     
     const headers = table.querySelectorAll('th.sortable');
     const tbody = table.querySelector('tbody');
     
-    console.log('Headers found:', headers.length);
-    console.log('Tbody found:', tbody);
-    
     // Safety check - make sure we have headers and tbody
     if (!headers.length || !tbody) {
-        console.error('Table headers or tbody not found');
         return;
     }
     
     let currentSort = { column: 'year', direction: 'desc' };
     
     headers.forEach((header, index) => {
-        console.log('Adding click listener to header', index, header.dataset.sort);
         
         header.addEventListener('click', function() {
-            console.log('Header clicked:', this.dataset.sort);
             
             const sortType = this.dataset.sort;
             const rows = Array.from(tbody.querySelectorAll('tr'));
             
-            console.log('Rows found for sorting:', rows.length);
-            
             // Safety check - make sure we have rows
             if (!rows.length) {
-                console.warn('No table rows found');
                 return;
             }
             
@@ -49,8 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentSort.direction = 'asc';
                 currentSort.column = sortType;
             }
-            
-            console.log('Sorting by:', sortType, 'direction:', currentSort.direction);
             
             // Remove sort indicators from all headers
             headers.forEach(h => {
@@ -64,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             rows.sort((a, b) => {
                 let aVal = a.dataset[sortType] || '';
                 let bVal = b.dataset[sortType] || '';
-                
-                console.log('Comparing:', aVal, 'vs', bVal);
                 
                 // Handle numeric sorting for year
                 if (sortType === 'year') {
@@ -85,12 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            console.log('Rows sorted, re-appending to tbody');
-            
             // Re-append sorted rows
             rows.forEach(row => tbody.appendChild(row));
             
-            console.log('Sorting complete');
         });
     });
     
@@ -98,8 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearHeader = table.querySelector('th[data-sort="year"]');
     if (yearHeader) {
         yearHeader.classList.add('sort-desc');
-        console.log('Initial sort indicator set on year header');
     }
     
-    console.log('Archive table script initialization complete');
 });

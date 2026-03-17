@@ -60,21 +60,16 @@ class Masonry {
         
         // Initialize column heights
         this.columnHeights = new Array(this.columnCount).fill(0);
-        
-        console.log(`Masonry: ${this.columnCount} columns, width: ${this.columnWidth}px`);
     }
     
     layout() {
         this.items = Array.from(this.container.querySelectorAll(this.options.itemSelector));
         
         if (this.items.length === 0) {
-            console.log('No masonry items found');
             // Still show container even if no items
             this.container.classList.add('masonry-loaded');
             return;
         }
-        
-        console.log(`Laying out ${this.items.length} items`);
         
         // Reset column heights
         this.columnHeights.fill(0);
@@ -89,8 +84,6 @@ class Masonry {
         
         // Show container after layout is complete
         this.container.classList.add('masonry-loaded');
-        
-        console.log(`Container height: ${maxHeight}px`);
     }
     
     positionItem(item, index) {
@@ -115,8 +108,6 @@ class Masonry {
         
         // Update column height
         this.columnHeights[shortestColumnIndex] += itemHeight + this.options.gutter;
-        
-        console.log(`Item ${index}: (${x}, ${y}) height: ${itemHeight}px`);
     }
     
     addItems(newItems) {
@@ -142,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize news masonry
     const newsMasonryContainer = document.getElementById('news-masonry');
     if (newsMasonryContainer) {
-        console.log('Initializing news masonry...');
         setTimeout(() => {
             window.newsMasonryInstance = new Masonry(newsMasonryContainer, {
                 itemSelector: '.masonry-item',
@@ -154,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize awards masonry
     const awardsMasonryContainer = document.getElementById('awards-masonry');
     if (awardsMasonryContainer) {
-        console.log('Initializing awards masonry...');
         setTimeout(() => {
             window.awardsMasonryInstance = new Masonry(awardsMasonryContainer, {
                 itemSelector: '.masonry-item',
@@ -166,23 +155,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize about page masonry
     const aboutMasonryContainer = document.getElementById('about-masonry');
     if (aboutMasonryContainer) {
-        console.log('Initializing about masonry...');
-        console.log('About container found, items:', aboutMasonryContainer.querySelectorAll('.masonry-item').length);
+        const items = aboutMasonryContainer.querySelectorAll('.masonry-item');
+        
         setTimeout(() => {
-            window.aboutMasonryInstance = new Masonry(aboutMasonryContainer, {
-                itemSelector: '.masonry-item',
-                gutter: 32
-            });
-            console.log('About masonry initialized');
+            try {
+                window.aboutMasonryInstance = new Masonry(aboutMasonryContainer, {
+                    itemSelector: '.masonry-item',
+                    gutter: 32
+                });
+            } catch (error) {
+                // Fallback: show content anyway
+                aboutMasonryContainer.classList.add('masonry-loaded');
+            }
         }, 100);
-    } else {
-        console.log('No about masonry container found');
     }
     
     // Initialize projects masonry
     const projectsMasonryContainer = document.getElementById('projects-masonry');
     if (projectsMasonryContainer) {
-        console.log('Initializing projects masonry...');
         setTimeout(() => {
             window.projectsMasonryInstance = new Masonry(projectsMasonryContainer, {
                 itemSelector: '.masonry-item',

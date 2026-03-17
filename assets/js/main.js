@@ -391,7 +391,6 @@
                 e.preventDefault();
                 // Implement lightbox functionality here
                 // This is a placeholder for future gallery enhancement
-                console.log('Gallery lightbox would open here');
             }
         });
     }

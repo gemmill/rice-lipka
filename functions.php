@@ -271,7 +271,8 @@ function ricelipka_theme_scripts() {
         (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false) ||
         is_post_type_archive('awards') ||
         is_post_type_archive('projects') ||
-        is_page_template('page-about.php')) {
+        is_page_template('page-about.php') ||
+        is_page('about')) { // Add this condition for about page
         
         wp_enqueue_script(
             'ricelipka-masonry',
@@ -282,7 +283,7 @@ function ricelipka_theme_scripts() {
         );
         
         // Only enqueue endless scroll for archives, not about page
-        if (!is_page_template('page-about.php')) {
+        if (!is_page_template('page-about.php') && !is_page('about')) {
             wp_enqueue_script(
                 'ricelipka-endless-scroll',
                 get_template_directory_uri() . '/assets/js/endless-scroll.js',

@@ -41,13 +41,16 @@
   grid-column: 1 / -1; // Span all grid columns when inside grid
   position: relative;
   width: 100%;
-  opacity: 0; // Hide initially to prevent flash
+  opacity: 1; // Temporarily always visible to debug JS issues
   transition: opacity 0.3s ease;
-  
+
   &.masonry-loaded {
     opacity: 1; // Show after JavaScript positioning
+    animation: none; // Cancel fallback animation
   }
 }
+
+
 
 .masonry-item {
   // Items will be positioned by JavaScript
@@ -59,21 +62,7 @@
   margin-bottom: variables.$spacing-lg;
 }
 
-// Fallback CSS masonry for about page
-#about-masonry {
-  // Use CSS columns as fallback if JavaScript doesn't work
-  column-count: 3;
-  column-gap: variables.$spacing-lg;
-  column-fill: balance;
-  
-  @media (max-width: 768px) {
-    column-count: 2;
-  }
-  
-  @media (max-width: 480px) {
-    column-count: 1;
-  }
-}
+// About page masonry - handled above in main masonry rule
 
 .child-page-item {
   display: inline-block;
@@ -126,10 +115,13 @@
 
 .child-page-thumbnail {
   margin-bottom: variables.$spacing-sm;
+  aspect-ratio: 3/2;
+  overflow: hidden;
   
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
   }
 }
 

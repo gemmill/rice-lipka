@@ -520,6 +520,4 @@
             $('.archive-controls').show();
             $('.archive-content').show();
         }
-    }
-
 })(jQuery);

@@ -1,1 +1,682 @@
-﻿*,*::before,*::after{box-sizing:border-box}*{margin:0}html,body{height:100%}body{line-height:1.6;-webkit-font-smoothing:antialiased;color:#000;background:#fff}img,picture,video,canvas,svg{display:block;max-width:100%}input,button,textarea,select{font:inherit}p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}@font-face{font-family:FGEC;src:url(assets/fonts/frankgotbtextcon-webfont.eot);src:local("☺"),url(assets/fonts/frankgotbtextcon-webfont.woff) format("woff"),url(assets/fonts/frankgotbtextcon-webfont.ttf) format("truetype"),url(assets/fonts/frankgotbtextcon-webfont.svg#webfontqpXDLdbu) format("svg");font-weight:400;font-style:normal}html,body{font:1rem sans-serif}h1,h2,h3,h4,h5,h6,.heading{font:bold 2rem/1em FGEC,sans-serif;text-transform:uppercase;margin:0 !important;margin:0 !important}a{color:inherit;text-decoration:none}a:hover,a:focus{opacity:.7}h1 a,h2 a,h3 a,h4 a,h5 a,h6 a,.heading a{text-decoration:none}h1 a:hover,h1 a:focus,h2 a:hover,h2 a:focus,h3 a:hover,h3 a:focus,h4 a:hover,h4 a:focus,h5 a:hover,h5 a:focus,h6 a:hover,h6 a:focus,.heading a:hover,.heading a:focus{opacity:.7}.thumbnail-image{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden}.thumbnail-image img{width:100%;height:100%;object-fit:cover;display:block}.thumbnail-image .thumbnail-placeholder{width:100%;height:100%;background:#f5f5f5;border:1px solid #e0e0e0;display:flex;align-items:center;justify-content:center}.thumbnail-image .thumbnail-placeholder .placeholder-text{color:#999;font-size:.875rem;text-align:center}.layout{padding:2.4rem;display:flex;flex-direction:row;flex-wrap:wrap;gap:1.2rem}.column{display:flex;flex-direction:column;flex:1;gap:1.2rem}.grid{flex:3;display:grid;grid-template-columns:repeat(3, 1fr);gap:2.4rem}@media(max-width: 768px){.grid{grid-template-columns:repeat(2, 1fr)}}@media(max-width: 480px){.grid{grid-template-columns:1fr}}.masonry{grid-column:1/-1;position:relative;width:100%;opacity:0;transition:opacity .3s ease}.masonry.masonry-loaded{opacity:1}.page-content{grid-column:1/-1;margin-bottom:2.4rem}#about-masonry{column-count:3;column-gap:2.4rem;column-fill:balance}@media(max-width: 768px){#about-masonry{column-count:2}}@media(max-width: 480px){#about-masonry{column-count:1}}.child-page-item{display:inline-block;width:100%;margin-bottom:2.4rem;break-inside:avoid;page-break-inside:avoid}.child-page-item .child-page-image{margin-bottom:.6rem}.child-page-item .child-page-image img{width:100%;height:auto}.child-page-item .child-page-content{display:flex;flex-direction:column;gap:.6rem}.child-page-item .child-page-title{margin:0}.child-page-item .child-page-title a{text-decoration:none;color:inherit}.child-page-item .child-page-title a:hover{text-decoration:underline}.child-page-item .child-page-excerpt{margin:0}.child-page-header{margin-bottom:.6rem}.child-page-title{margin:0}.child-page-thumbnail{margin-bottom:.6rem}.child-page-thumbnail img{width:100%;height:auto}.projects-loading{grid-column:1/-1;text-align:center;padding:2.4rem}@media(max-width: 768px){.menu{min-width:100%}}.menu ul{display:flex;flex-direction:column;position:sticky;top:2rem;list-style:none;margin:0;padding:0;gap:0}@media(max-width: 769px){.menu ul{flex-direction:row}}.menu li{margin:0;padding:0}.menu>ul>li:first-child{margin-bottom:1.2rem}.menu a{display:block;color:inherit;text-decoration:none;font:bold 2rem/1em FGEC,sans-serif;text-transform:uppercase}.menu a:hover{opacity:.7}.menu>ul>li.current-menu-item>a,.menu>ul>li.current-menu-ancestor>a{color:var(--custom-color, #000)}.menu .submenu a{font:1rem sans-serif;font-weight:600;text-transform:none}.menu .submenu{display:none;margin-left:1.2rem}.menu .submenu li:first-child{margin-top:.3rem}.menu .submenu li:last-child{margin-bottom:.6rem}.menu .menu-item.current-menu-item .submenu,.menu .menu-item.current-menu-ancestor .submenu{display:block}.news-item .news-link{display:block;text-decoration:none;color:inherit}.news-item .news-image-wrapper{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;background:#f5f5f5;margin-bottom:.6rem}.news-item .news-image{width:100%;height:100%;object-fit:cover}.news-item .news-placeholder{width:100%;height:100%;background:#f5f5f5;border:1px solid #e0e0e0}.news-item .news-content{display:flex;flex-direction:column;gap:.6rem}.news-loading{grid-column:1/-1;text-align:center;padding:2.4rem}.award{display:flex;flex-direction:column;gap:.6rem}.awards-loading{grid-column:1/-1;text-align:center;padding:2.4rem}.not-grid{grid-column:1/-1;width:100%}.projects-table{width:100%;border-collapse:collapse}.projects-table th,.projects-table td{text-align:left;vertical-align:top;border-bottom:1px solid #eee}.projects-table th{padding:0 0 .6rem 0;font-weight:bold;cursor:pointer;user-select:none;position:relative}.projects-table th:first-child{padding-left:0}.projects-table th:last-child{padding-right:0}.projects-table th.sortable:hover{background-color:#f5f5f5}.projects-table th.sort-asc::after{content:" ↑";position:absolute;right:.3rem}.projects-table th.sort-desc::after{content:" ↓";position:absolute;right:.3rem}.projects-table th.thumbnail-header{cursor:default}.projects-table th.thumbnail-header:hover{background-color:rgba(0,0,0,0)}.projects-table td{padding:.6rem}.projects-table td:first-child{padding-left:0}.projects-table td:last-child{padding-right:0}.projects-table .thumbnail-cell{width:10rem}.projects-table .project-thumbnail{width:10rem;height:6.67rem;overflow:hidden;position:relative}.projects-table .project-thumbnail .project-thumbnail-img{width:100%;height:100%;object-fit:cover}.projects-table .project-thumbnail .project-placeholder{width:100%;height:100%;background-color:#f0f0f0}.projects-table .project-thumbnail .project-placeholder .placeholder-content{width:100%;height:100%}.projects-table .project-link{text-decoration:none;color:inherit}.projects-table .project-link:hover{text-decoration:underline}.projects-table .year-cell{width:80px}.projects-table .client-cell,.projects-table .location-cell,.projects-table .category-cell{width:auto}@media(max-width: 768px){.projects-table .thumbnail-header,.projects-table .thumbnail-cell,.projects-table th[data-sort=location],.projects-table .location-cell,.projects-table th[data-sort=category],.projects-table .category-cell{display:none}.projects-table .year-cell{width:60px}.projects-table .project-cell{width:auto}.projects-table .client-cell{width:auto}.projects-table .project-link.heading{font:1rem sans-serif;text-transform:none}}@media(min-width: 769px){.projects-table .project-link.heading{font:bold 2rem/1em FGEC,sans-serif;text-transform:uppercase}}.item-person{display:flex;flex-direction:column;gap:.6rem}.item-person .person-meta{font-weight:bold}.project-item,.project-item *{box-sizing:border-box}.project-item{position:relative;width:100%;background:none;background-color:rgba(0,0,0,0);border:none;box-shadow:none;margin:0;padding:0;display:block}.project-item .project-link{display:block;text-decoration:none;color:inherit;background:none;background-color:rgba(0,0,0,0);border:none;padding:0;margin:0;width:100%}.project-item .project-image-wrapper{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;border:none;padding:0;margin:0;display:block}.project-item .project-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .3s ease;z-index:1;background:none;border:none;display:block}.project-item .project-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;opacity:1;transition:opacity .3s ease;z-index:1;padding:0;margin:0;display:block;background-color:#d0d0d0}.project-item .project-overlay{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:none;background-color:rgba(0,0,0,0);display:block;padding:0;margin:0;opacity:0;transition:opacity .3s ease;z-index:2;text-align:left;border:none;box-shadow:none}.project-item .project-title{position:absolute;top:0;left:0;margin:0;padding:0;text-align:left;display:block;width:auto;background:none;background-color:rgba(0,0,0,0);text-transform:uppercase;border:none;box-shadow:none}.project-item:hover .project-image,.project-item:hover .project-placeholder,.project-item.menu-hover .project-image,.project-item.menu-hover .project-placeholder{opacity:0}.project-item:hover .project-overlay,.project-item.menu-hover .project-overlay{opacity:1}.project-item{position:relative;width:100%;background:none;background-color:rgba(0,0,0,0);border:none;box-shadow:none;margin:0;padding:0;display:block}.project-item:hover .project-image,.project-item:hover .project-placeholder,.project-item.menu-hover .project-image,.project-item.menu-hover .project-placeholder{opacity:0}.project-item:hover .project-overlay,.project-item.menu-hover .project-overlay{opacity:1}/*# sourceMappingURL=style.css.map */
+@charset "UTF-8";
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+/*
+ * Variables
+ * Global variables for consistent spacing, colors, and other design tokens
+ */
+/*
+ * CSS Reset and Base Styles
+ * Modern CSS reset with sensible defaults
+ */
+/* Box sizing reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margins */
+* {
+  margin: 0;
+}
+
+/* Full height layout */
+html, body {
+  height: 100%;
+}
+
+/* Body defaults */
+body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  color: #000;
+  background: #fff;
+}
+
+/* Media elements */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Form elements inherit font */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Text elements word wrapping */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+ * Typography Styles
+ * Site-wide typography system with two font styles
+ */
+@font-face {
+  font-family: FGEC;
+  src: url(assets/fonts/frankgotbtextcon-webfont.eot);
+  src: local("☺"), url(assets/fonts/frankgotbtextcon-webfont.woff) format("woff"), url(assets/fonts/frankgotbtextcon-webfont.ttf) format("truetype"), url(assets/fonts/frankgotbtextcon-webfont.svg#webfontqpXDLdbu) format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+html, body {
+  font: 1rem sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .heading {
+  font: bold 2rem/1em FGEC, sans-serif;
+  text-transform: uppercase;
+  margin: 0 !important;
+  margin: 0 !important;
+}
+
+/*
+ * Link Styles
+ * Default link styling and behavior
+ */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover, a:focus {
+  opacity: 0.7;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a,
+.heading a {
+  text-decoration: none;
+}
+h1 a:hover, h1 a:focus,
+h2 a:hover,
+h2 a:focus,
+h3 a:hover,
+h3 a:focus,
+h4 a:hover,
+h4 a:focus,
+h5 a:hover,
+h5 a:focus,
+h6 a:hover,
+h6 a:focus,
+.heading a:hover,
+.heading a:focus {
+  opacity: 0.7;
+}
+
+/*
+ * Image Styles
+ * Styles for image containers and responsive images
+ */
+.thumbnail-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+.thumbnail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.thumbnail-image .thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumbnail-image .thumbnail-placeholder .placeholder-text {
+  color: #999;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+/*
+ * Layout Styles
+ * Basic layout utilities and structure
+ */
+.layout {
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1.2rem;
+}
+
+.grid {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+}
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.masonry {
+  grid-column: 1/-1;
+  position: relative;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.masonry.masonry-loaded {
+  opacity: 1;
+  animation: none;
+}
+
+.page-content {
+  grid-column: 1/-1;
+  margin-bottom: 2.4rem;
+}
+
+.child-page-item {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2.4rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.child-page-item .child-page-image {
+  margin-bottom: 0.6rem;
+}
+.child-page-item .child-page-image img {
+  width: 100%;
+  height: auto;
+}
+.child-page-item .child-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.child-page-item .child-page-title {
+  margin: 0;
+}
+.child-page-item .child-page-title a {
+  text-decoration: none;
+  color: inherit;
+}
+.child-page-item .child-page-title a:hover {
+  text-decoration: underline;
+}
+.child-page-item .child-page-excerpt {
+  margin: 0;
+}
+
+.child-page-header {
+  margin-bottom: 0.6rem;
+}
+
+.child-page-title {
+  margin: 0;
+}
+
+.child-page-thumbnail {
+  margin-bottom: 0.6rem;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+.child-page-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.projects-loading {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 2.4rem;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+/*
+ * Menu Styles
+ * Styles for site navigation and menu components
+ */
+@media (max-width: 768px) {
+  .menu {
+    min-width: 100%;
+  }
+}
+.menu ul {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+@media (max-width: 769px) {
+  .menu ul {
+    flex-direction: row;
+  }
+}
+.menu li {
+  margin: 0;
+  padding: 0;
+}
+.menu > ul > li:first-child {
+  margin-bottom: 1.2rem;
+}
+.menu a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  font: bold 2rem/1em FGEC, sans-serif;
+  text-transform: uppercase;
+}
+.menu a:hover {
+  opacity: 0.7;
+}
+.menu > ul > li.current-menu-item > a,
+.menu > ul > li.current-menu-ancestor > a {
+  color: var(--custom-color, #000);
+}
+.menu .submenu a {
+  font: 1rem sans-serif;
+  font-weight: 600;
+  text-transform: none;
+}
+.menu .submenu {
+  display: none;
+  margin-left: 1.2rem;
+}
+.menu .submenu li:first-child {
+  margin-top: 0.3rem;
+}
+.menu .submenu li:last-child {
+  margin-bottom: 0.6rem;
+}
+.menu .menu-item.current-menu-item .submenu,
+.menu .menu-item.current-menu-ancestor .submenu {
+  display: block;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+/*
+ * News Component Styles
+ * Styles for news item components
+ */
+.news-item .news-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.news-item .news-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  background: #f5f5f5;
+  margin-bottom: 0.6rem;
+}
+.news-item .news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.news-item .news-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+.news-item .news-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.news-loading {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 2.4rem;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+/*
+ * Awards Styles
+ * Styles for award components and listings
+ */
+.award {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.awards-loading {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 2.4rem;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+.not-grid {
+  grid-column: 1/-1;
+  width: 100%;
+}
+
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.projects-table th, .projects-table td {
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #eee;
+}
+.projects-table th {
+  padding: 0 0 0.6rem 0;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+.projects-table th:first-child {
+  padding-left: 0;
+}
+.projects-table th:last-child {
+  padding-right: 0;
+}
+.projects-table th.sortable:hover {
+  background-color: #f5f5f5;
+}
+.projects-table th.sort-asc::after {
+  content: " ↑";
+  position: absolute;
+  right: 0.3rem;
+}
+.projects-table th.sort-desc::after {
+  content: " ↓";
+  position: absolute;
+  right: 0.3rem;
+}
+.projects-table th.thumbnail-header {
+  cursor: default;
+}
+.projects-table th.thumbnail-header:hover {
+  background-color: transparent;
+}
+.projects-table td {
+  padding: 0.6rem;
+}
+.projects-table td:first-child {
+  padding-left: 0;
+}
+.projects-table td:last-child {
+  padding-right: 0;
+}
+.projects-table .thumbnail-cell {
+  width: 10rem;
+}
+.projects-table .project-thumbnail {
+  width: 10rem;
+  height: 6.67rem;
+  overflow: hidden;
+  position: relative;
+}
+.projects-table .project-thumbnail .project-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.projects-table .project-thumbnail .project-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+}
+.projects-table .project-thumbnail .project-placeholder .placeholder-content {
+  width: 100%;
+  height: 100%;
+}
+.projects-table .project-link {
+  text-decoration: none;
+  color: inherit;
+}
+.projects-table .project-link:hover {
+  text-decoration: underline;
+}
+.projects-table .year-cell {
+  width: 80px;
+}
+.projects-table .client-cell,
+.projects-table .location-cell,
+.projects-table .category-cell {
+  width: auto;
+}
+@media (max-width: 768px) {
+  .projects-table .thumbnail-header,
+  .projects-table .thumbnail-cell,
+  .projects-table th[data-sort=location],
+  .projects-table .location-cell,
+  .projects-table th[data-sort=category],
+  .projects-table .category-cell {
+    display: none;
+  }
+  .projects-table .year-cell {
+    width: 60px;
+  }
+  .projects-table .project-cell {
+    width: auto;
+  }
+  .projects-table .client-cell {
+    width: auto;
+  }
+  .projects-table .project-link.heading {
+    font: 1rem sans-serif;
+    text-transform: none;
+  }
+}
+@media (min-width: 769px) {
+  .projects-table .project-link.heading {
+    font: bold 2rem/1em FGEC, sans-serif;
+    text-transform: uppercase;
+  }
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+.item-person {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.item-person .person-meta {
+  font-weight: bold;
+}
+
+/*
+ * PROJECT COMPONENT - ISOLATED STYLES
+ * This file contains ONLY styles for the project component
+ * to ensure consistent display across all pages
+ */
+.project-item,
+.project-item * {
+  box-sizing: border-box;
+}
+
+.project-item {
+  position: relative;
+  width: 100%;
+  background: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.project-item .project-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.project-item .project-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+.project-item .project-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  background: none;
+  border: none;
+  display: block;
+}
+.project-item .project-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  display: block;
+  background-color: #d0d0d0;
+}
+.project-item .project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  background-color: transparent;
+  display: block;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  text-align: left;
+  border: none;
+  box-shadow: none;
+}
+.project-item .project-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: block;
+  width: auto;
+  background: none;
+  background-color: transparent;
+  text-transform: uppercase;
+  border: none;
+  box-shadow: none;
+}
+.project-item:hover .project-image,
+.project-item:hover .project-placeholder, .project-item.menu-hover .project-image,
+.project-item.menu-hover .project-placeholder {
+  opacity: 0;
+}
+.project-item:hover .project-overlay, .project-item.menu-hover .project-overlay {
+  opacity: 1;
+}
+
+.project-item {
+  position: relative;
+  width: 100%;
+  background: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.project-item:hover .project-image,
+.project-item:hover .project-placeholder,
+.project-item.menu-hover .project-image,
+.project-item.menu-hover .project-placeholder {
+  opacity: 0;
+}
+.project-item:hover .project-overlay,
+.project-item.menu-hover .project-overlay {
+  opacity: 1;
+}
+
+/*# sourceMappingURL=style.css.map */
