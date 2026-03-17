@@ -216,7 +216,6 @@ add_action('init', 'ricelipka_optimize_assets');
 function ricelipka_defer_scripts($tag, $handle, $src) {
     // Scripts to defer (non-critical)
     $defer_scripts = array(
-        'ricelipka-responsive-enhancements',
         'ricelipka-acf-help',
     );
     
@@ -233,8 +232,7 @@ function ricelipka_defer_scripts($tag, $handle, $src) {
 function ricelipka_minify_css($html, $handle, $href, $media) {
     // Non-critical CSS files to load asynchronously
     $async_styles = array(
-        'ricelipka-acf-help',
-        'ricelipka-help-documentation'
+        'ricelipka-acf-help'
     );
     
     if (in_array($handle, $async_styles)) {

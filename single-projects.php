@@ -66,12 +66,12 @@ get_header(); ?>
                         <div class="gallery-grid">
                             <?php foreach ($fields['image_gallery'] as $image) : ?>
                                 <div class="gallery-item">
-                                    <a href="<?php echo esc_url($image['url']); ?>" data-lightbox="project-gallery">
-                                        <img src="<?php echo esc_url($image['sizes']['medium']); ?>" 
-                                             alt="<?php echo esc_attr($image['alt']); ?>" />
+                                    <a href="<?php echo esc_url($image['url'] ?? ''); ?>" data-lightbox="project-gallery">
+                                        <img src="<?php echo esc_url($image['sizes']['medium'] ?? $image['url'] ?? ''); ?>" 
+                                             alt="<?php echo esc_attr($image['alt'] ?? get_the_title()); ?>" />
                                     </a>
-                                    <?php if (!empty($image['caption'])) : ?>
-                                        <p class="gallery-caption"><?php echo esc_html($image['caption']); ?></p>
+                                    <?php if (!empty($image['caption'] ?? '')) : ?>
+                                        <p class="gallery-caption"><?php echo esc_html($image['caption'] ?? ''); ?></p>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>

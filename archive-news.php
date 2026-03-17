@@ -35,6 +35,9 @@ get_header(); ?>
     </div>
 </div>
 
+<?php
+global $wp_query;
+?>
 <script>
 // Pass data to JavaScript
 window.endlessScrollData = {

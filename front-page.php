@@ -26,11 +26,6 @@ get_header(); ?>
         <div class="column">
         
             <?php
-            // Debug: Check if we're on the right template
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                echo "<!-- DEBUG: Using front-page.php template -->";
-            }
-            
             // Query for 5 most recent projects
             $projects_query = new WP_Query(array(
                 'post_type' => 'projects',
@@ -39,11 +34,6 @@ get_header(); ?>
                 'orderby' => 'date',
                 'order' => 'DESC'
             ));
-            
-            // Debug output
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                echo "<!-- DEBUG: Projects query found " . $projects_query->found_posts . " posts -->";
-            }
             
             if ($projects_query->have_posts()) : ?>
              
@@ -54,9 +44,6 @@ get_header(); ?>
                 
             <?php else : ?>
                 <p class="no-projects">No projects available.</p>
-                <?php if (defined('WP_DEBUG') && WP_DEBUG) : ?>
-                    <!-- DEBUG: No projects found. Check if projects post type exists and has published posts. -->
-                <?php endif; ?>
             <?php endif; ?>
             
             <?php wp_reset_postdata(); ?>

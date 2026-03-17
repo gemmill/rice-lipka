@@ -27,24 +27,42 @@ get_header(); ?>
             </thead>
             <tbody>
                 <?php
+                // Debug: Check if ACF is available
+                $acf_available = function_exists('get_field');
+                // echo "<!-- ACF Available: " . ($acf_available ? 'Yes' : 'No') . " -->";
+                
                 // Get all projects
                 $projects_query = new WP_Query(array(
                     'post_type' => 'projects',
                     'posts_per_page' => -1,
                     'post_status' => 'publish',
-                    'orderby' => 'meta_value_num',
-                    'meta_key' => 'project_year',
+                    'orderby' => 'date',
                     'order' => 'DESC'
                 ));
                 
                 if ($projects_query->have_posts()) :
                     while ($projects_query->have_posts()) : $projects_query->the_post();
-                        $project_fields = ricelipka_get_post_type_fields();
-                        $project_year = $project_fields['project_year'] ?: '';
-                        $client = $project_fields['client'] ?: '';
-                        $location = $project_fields['location'] ?: '';
-                        $project_type = $project_fields['project_type'] ?: '';
+                        // Get ACF fields directly with fallbacks
+                        if (function_exists('get_field')) {
+                            $project_year = get_field('project_year');
+                            $client = get_field('client');
+                            $location = get_field('location');
+                            $project_type = get_field('project_type');
+                        } else {
+                            // Fallback to post meta if ACF is not available
+                            $project_year = get_post_meta(get_the_ID(), 'project_year', true);
+                            $client = get_post_meta(get_the_ID(), 'client', true);
+                            $location = get_post_meta(get_the_ID(), 'location', true);
+                            $project_type = get_post_meta(get_the_ID(), 'project_type', true);
+                        }
+                        
                         $category_display = ricelipka_get_project_type_display($project_type);
+                        
+                        // Provide meaningful fallback values
+                        if (empty($project_year)) $project_year = get_the_date('Y'); // Use post year as fallback
+                        if (empty($client)) $client = '—';
+                        if (empty($location)) $location = '—';
+                        if (empty($category_display) || $category_display === '—') $category_display = 'General';
                 ?>
                 <tr class="project-row" data-year="<?php echo esc_attr($project_year); ?>" data-project="<?php echo esc_attr(get_the_title()); ?>" data-client="<?php echo esc_attr($client); ?>" data-location="<?php echo esc_attr($location); ?>" data-category="<?php echo esc_attr($category_display); ?>">
                     <td class="year-cell"><?php echo esc_html($project_year); ?></td>
@@ -74,6 +92,14 @@ get_header(); ?>
                 <?php
                     endwhile;
                     wp_reset_postdata();
+                else :
+                ?>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 20px;">
+                            No projects found. Make sure you have published projects with the post type 'projects'.
+                        </td>
+                    </tr>
+                <?php
                 endif;
                 ?>
             </tbody>

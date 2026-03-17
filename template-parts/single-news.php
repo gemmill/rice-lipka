@@ -15,7 +15,7 @@ $fields = $args['fields'] ?? array();
         <?php if ($fields['featured_image'] && is_array($fields['featured_image'])) : ?>
             <div class="news-featured-image">
                 <img src="<?php echo esc_url($fields['featured_image']['url']); ?>" 
-                     alt="<?php echo esc_attr($fields['featured_image']['alt'] ?: get_the_title()); ?>" />
+                     alt="<?php echo esc_attr($fields['featured_image']['alt'] ?? get_the_title()); ?>" />
             </div>
         <?php endif; ?>
         

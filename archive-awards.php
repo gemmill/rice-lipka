@@ -38,24 +38,6 @@ get_header(); ?>
                 <p><?php _e('No awards have been added yet.', 'ricelipka-theme'); ?></p>
             </div>
         <?php endif; ?>
-        
-        <?php 
-        // Debug: Show query information
-        global $wp_query;
-        $total_awards = wp_count_posts('awards');
-        $posts_per_page = get_option('posts_per_page');
-        $current_posts_per_page = $wp_query->get('posts_per_page');
-        
-        echo "<!-- Debug Info:";
-        echo " Total awards: " . $total_awards->publish;
-        echo ", Default posts per page: " . $posts_per_page;
-        echo ", Current query posts per page: " . $current_posts_per_page;
-        echo ", Found posts: " . $wp_query->found_posts;
-        echo ", Post count: " . $wp_query->post_count;
-        echo ", Max pages: " . $wp_query->max_num_pages;
-        echo ", Current page: " . (get_query_var('paged') ? get_query_var('paged') : 1);
-        echo " -->";
-        ?>
     </div>
 </div>
 

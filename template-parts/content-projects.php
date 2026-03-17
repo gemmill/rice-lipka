@@ -7,10 +7,10 @@
  */
 
 $project_fields = ricelipka_get_post_type_fields(get_the_ID());
-$project_type = $project_fields['project_type'] ?: 'general';
+$project_type = $project_fields['project_type'] ?? 'general';
 
 // Display project gallery or featured image
-$image_gallery = $project_fields['image_gallery'];
+$image_gallery = $project_fields['image_gallery'] ?? null;
 $featured_image = null;
 
 if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
@@ -27,7 +27,7 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
             <a href="<?php the_permalink(); ?>">
                 <?php if (is_array($featured_image) && isset($featured_image['url'])) : ?>
                     <img src="<?php echo esc_url($featured_image['url']); ?>" 
-                         alt="<?php echo esc_attr($featured_image['alt'] ?: get_the_title()); ?>" />
+                         alt="<?php echo esc_attr($featured_image['alt'] ?? get_the_title()); ?>" />
                 <?php else : ?>
                     <?php the_post_thumbnail('large'); ?>
                 <?php endif; ?>
@@ -50,7 +50,7 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
             </h2>
             
             <div class="entry-meta project-meta">
-                <?php if ($project_fields['project_type']) : ?>
+                <?php if (!empty($project_fields['project_type'])) : ?>
                     <span class="project-type type-<?php echo esc_attr($project_fields['project_type']); ?>">
                         <?php echo esc_html(ricelipka_get_project_type_display($project_fields['project_type'])); ?>
                     </span>
@@ -59,21 +59,21 @@ if ($image_gallery && is_array($image_gallery) && !empty($image_gallery)) {
         </header>
         
         <div class="project-details">
-            <?php if ($project_fields['client']) : ?>
+            <?php if (!empty($project_fields['client'])) : ?>
                 <div class="project-client">
                     <strong><?php _e('Client:', 'ricelipka-theme'); ?></strong>
                     <?php echo esc_html($project_fields['client']); ?>
                 </div>
             <?php endif; ?>
             
-            <?php if ($project_fields['location']) : ?>
+            <?php if (!empty($project_fields['location'])) : ?>
                 <div class="project-location">
                     <strong><?php _e('Location:', 'ricelipka-theme'); ?></strong>
                     <?php echo esc_html($project_fields['location']); ?>
                 </div>
             <?php endif; ?>
             
-            <?php if ($project_fields['project_year']) : ?>
+            <?php if (!empty($project_fields['project_year'])) : ?>
                 <div class="project-year">
                     <strong><?php _e('Year:', 'ricelipka-theme'); ?></strong>
                     <?php echo esc_html($project_fields['project_year']); ?>

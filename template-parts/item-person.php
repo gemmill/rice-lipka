@@ -26,9 +26,11 @@ $image_size = 'large';
         <?php if (!empty($person_fields['person_title'])) : ?>
             <span class="person-job-title"><?php echo esc_html($person_fields['person_title']); ?></span>
         <?php endif; ?>
-        <div class="person-associations">
-            <span class="associations-text"><?php echo esc_html($person_fields['person_associations']); ?></span>
-        </div>
+        <?php if (!empty($person_fields['person_associations'])) : ?>
+            <div class="person-associations">
+                <span class="associations-text"><?php echo esc_html($person_fields['person_associations']); ?></span>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="person-image">

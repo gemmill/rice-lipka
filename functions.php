@@ -220,14 +220,6 @@ function ricelipka_theme_scripts() {
         wp_get_theme()->get('Version')
     );
     
-    // Enqueue help documentation CSS
-    wp_enqueue_style(
-        'ricelipka-help-documentation',
-        get_template_directory_uri() . '/assets/css/help-documentation.css',
-        array('ricelipka-responsive-layouts'),
-        wp_get_theme()->get('Version')
-    );
-    
     // Enqueue ACF help CSS
     wp_enqueue_style(
         'ricelipka-acf-help',
@@ -341,24 +333,10 @@ add_filter('excerpt_more', 'ricelipka_excerpt_more');
 /**
  * Include additional theme files
  */
-require_once get_template_directory() . '/inc/acf-blocks.php'; // Now contains classic editor functionality
-require_once get_template_directory() . '/inc/category-fields.php';
-require_once get_template_directory() . '/inc/category-navigation-widget.php';
+require_once get_template_directory() . '/inc/acf-blocks.php';
 require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/acf-help-system.php';
-require_once get_template_directory() . '/inc/acf-field-validation.php';
-require_once get_template_directory() . '/inc/acf-help-documentation.php';
-require_once get_template_directory() . '/inc/chronological-ordering.php';
-
-/**
- * Restrict posts to only one category selection
- */
-function ricelipka_restrict_single_category() {
-    // This will be replaced with custom post types
-    // Keeping minimal functionality for now
-}
-add_action('init', 'ricelipka_restrict_single_category');
 
 /**
  * Register custom post types for content organization
@@ -883,14 +861,6 @@ function ricelipka_get_random_site_color() {
 function ricelipka_add_random_color_css() {
     $random_color = ricelipka_get_random_site_color();
     
-    // Debug output (remove in production)
-    if (defined('WP_DEBUG') && WP_DEBUG) {
-        $time_slot = floor(time() / (30 * 60));
-        $next_change = ($time_slot + 1) * (30 * 60);
-        $minutes_until_change = ceil(($next_change - time()) / 60);
-        echo '<!-- Random color selected: ' . $random_color . ' (changes in ' . $minutes_until_change . ' minutes) -->';
-    }
-    
     echo '<style type="text/css">';
     echo 'body h1, body h2, body h3, body h4, body h5, body h6, body .heading { color: ' . esc_attr($random_color) . ' !important; }';
     echo '.menu .menu-item.current-menu-item > a, .menu .menu-item.current-menu-ancestor > a, .menu .submenu .submenu-item.current-menu-item > a { color: ' . esc_attr($random_color) . ' !important; }';
@@ -901,14 +871,8 @@ add_action('wp_head', 'ricelipka_add_random_color_css');
  * Modify posts per page for awards archive
  */
 function ricelipka_modify_awards_query($query) {
-    // Debug logging
-    error_log('Awards query modification called. Is admin: ' . (is_admin() ? 'yes' : 'no'));
-    error_log('Is main query: ' . ($query->is_main_query() ? 'yes' : 'no'));
-    error_log('Is post type archive awards: ' . (is_post_type_archive('awards') ? 'yes' : 'no'));
-    
     // Only modify the main query on the frontend for awards archive
     if (!is_admin() && $query->is_main_query() && is_post_type_archive('awards')) {
-        error_log('Setting awards posts per page to 18');
         $query->set('posts_per_page', 18);
     }
 }
@@ -1063,3 +1027,52 @@ function ricelipka_load_more_projects() {
 }
 add_action('wp_ajax_load_more_projects', 'ricelipka_load_more_projects');
 add_action('wp_ajax_nopriv_load_more_projects', 'ricelipka_load_more_projects');
+
+/**
+ * Get child pages for a given page ID
+ */
+function ricelipka_get_page_child_pages($page_id) {
+    $child_pages = get_pages(array(
+        'parent' => $page_id,
+        'post_status' => 'publish',
+        'sort_column' => 'menu_order',
+        'sort_order' => 'ASC'
+    ));
+    
+    return $child_pages;
+}
+
+/**
+ * Get display name for project type
+ */
+function ricelipka_get_project_type_display($project_type) {
+    $project_types = array(
+        'cultural' => 'Cultural',
+        'academic' => 'Academic',
+        'offices' => 'Offices',
+        'retail_commercial' => 'Retail & Commercial',
+        'institutional' => 'Institutional',
+        'planning' => 'Planning',
+        'exhibitions' => 'Exhibitions',
+        'research_installation' => 'Research & Installation',
+        'residential' => 'Residential'
+    );
+    
+    return isset($project_types[$project_type]) ? $project_types[$project_type] : ucfirst(str_replace('_', ' ', $project_type));
+}
+
+/**
+ * Get ACF fields for a post type
+ */
+function ricelipka_get_post_type_fields($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    if (!function_exists('get_fields')) {
+        return array();
+    }
+    
+    $fields = get_fields($post_id);
+    return is_array($fields) ? $fields : array();
+}

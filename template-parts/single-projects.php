@@ -18,9 +18,9 @@ $fields = $args['fields'] ?? array();
                 <div class="gallery-grid">
                     <?php foreach ($fields['image_gallery'] as $image) : ?>
                         <div class="gallery-item">
-                            <a href="<?php echo esc_url($image['url']); ?>" data-lightbox="project-gallery">
+                            <a href="<?php echo esc_url($image['url'] ?? ''); ?>" data-lightbox="project-gallery">
                                 <img src="<?php echo esc_url($image['sizes']['medium'] ?? $image['url']); ?>" 
-                                     alt="<?php echo esc_attr($image['alt'] ?: get_the_title()); ?>" />
+                                     alt="<?php echo esc_attr($image['alt'] ?? get_the_title()); ?>" />
                             </a>
                         </div>
                     <?php endforeach; ?>
