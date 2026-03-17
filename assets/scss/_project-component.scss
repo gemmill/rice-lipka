@@ -122,7 +122,8 @@ $project-transition: opacity 0.3s ease;
   }
 
   // Hover effects
-  &:hover {
+  &:hover,
+  &.menu-hover {
     .project-image,
     .project-placeholder {
       opacity: 0;
@@ -148,7 +149,8 @@ $project-transition: opacity 0.3s ease;
 }
 
 // Ensure hover works in all contexts
-.project-item:hover {
+.project-item:hover,
+.project-item.menu-hover {
   .project-image,
   .project-placeholder {
     opacity: 0;

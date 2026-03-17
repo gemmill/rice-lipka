@@ -332,6 +332,31 @@
     }
 
     /**
+     * Work category menu hover effects
+     */
+    function initWorkCategoryHover() {
+        // Only run on projects archive page
+        if (!$('body').hasClass('post-type-archive-projects') && !$('#projects-masonry').length) {
+            return;
+        }
+        
+        // Handle work submenu hover for category items
+        $('.menu .submenu .submenu-item[class*="category-"]').on('mouseenter', function() {
+            // Extract category class (e.g., "category-cultural")
+            const categoryClass = $(this).attr('class').match(/category-([^\s]+)/);
+            if (categoryClass && categoryClass[1]) {
+                const category = categoryClass[1];
+                
+                // Add hover effect to matching projects with same category class
+                $(`.project-item.${category}`).addClass('menu-hover');
+            }
+        }).on('mouseleave', function() {
+            // Remove hover effect from all projects
+            $('.project-item').removeClass('menu-hover');
+        });
+    }
+
+    /**
      * Initialize all functionality when document is ready
      */
     $(document).ready(function() {
@@ -344,6 +369,7 @@
         initSearchEnhancements();
         initAccessibility();
         initPerformanceOptimizations();
+        initWorkCategoryHover();
         
         // Add category-specific functionality
         initCategoryEnhancements();

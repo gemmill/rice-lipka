@@ -71,7 +71,13 @@
                     $sub_active_class = ' current-menu-item';
                 }
                 
-                echo '<li class="submenu-item' . $sub_active_class . '">';
+                // Add category class for work submenu items
+                $category_class = '';
+                if ($key === 'work' && $sub_key !== 'archive') {
+                    $category_class = ' category-' . $sub_key;
+                }
+                
+                echo '<li class="submenu-item' . $sub_active_class . $category_class . '">';
                 echo '<a href="' . esc_url($sub_item['url']) . '">' . esc_html($sub_item['title']) . '</a>';
                 echo '</li>';
             }

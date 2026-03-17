@@ -660,10 +660,11 @@ Author: Rice+Lipka Architects
   box-shadow: none;
 }
 .project-item:hover .project-image,
-.project-item:hover .project-placeholder {
+.project-item:hover .project-placeholder, .project-item.menu-hover .project-image,
+.project-item.menu-hover .project-placeholder {
   opacity: 0;
 }
-.project-item:hover .project-overlay {
+.project-item:hover .project-overlay, .project-item.menu-hover .project-overlay {
   opacity: 1;
 }
 
@@ -680,10 +681,13 @@ Author: Rice+Lipka Architects
 }
 
 .project-item:hover .project-image,
-.project-item:hover .project-placeholder {
+.project-item:hover .project-placeholder,
+.project-item.menu-hover .project-image,
+.project-item.menu-hover .project-placeholder {
   opacity: 0;
 }
-.project-item:hover .project-overlay {
+.project-item:hover .project-overlay,
+.project-item.menu-hover .project-overlay {
   opacity: 1;
 }
 
