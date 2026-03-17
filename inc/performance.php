@@ -638,7 +638,7 @@ function ricelipka_performance_monitoring() {
                     
                     // Log LCP for debugging (remove in production)
                     if (console && console.log) {
-                        console.log('LCP:', lastEntry.startTime);
+                        // LCP logging removed for production
                     }
                 });
                 
@@ -658,7 +658,7 @@ function ricelipka_performance_monitoring() {
                     }
                     
                     if (console && console.log && clsValue > 0) {
-                        console.log('CLS:', clsValue);
+                        // CLS logging removed for production
                     }
                 });
                 
@@ -677,8 +677,7 @@ function ricelipka_performance_monitoring() {
                 
                 // Log basic metrics (remove in production)
                 if (console && console.log) {
-                    console.log('Page Load Time:', loadTime + 'ms');
-                    console.log('DOM Ready Time:', domReady + 'ms');
+                    // Performance logging removed for production
                 }
             }
         });

@@ -43,7 +43,6 @@ window.endlessScrollData = {
     maxPages: <?php echo intval($wp_query->max_num_pages); ?>,
     nonce: '<?php echo esc_js(wp_create_nonce('ricelipka_nonce')); ?>'
 };
-console.log('News page data:', window.endlessScrollData);
 </script>
 
 <?php get_footer(); ?>
