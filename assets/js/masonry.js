@@ -134,16 +134,30 @@ window.masonryInstance = null;
 
 // Initialize masonry when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    const masonryContainer = document.getElementById('news-masonry');
-    if (masonryContainer) {
-        console.log('Initializing masonry...');
-        
-        // Wait a bit for CSS to load
+    // Initialize news masonry
+    const newsMasonryContainer = document.getElementById('news-masonry');
+    if (newsMasonryContainer) {
+        console.log('Initializing news masonry...');
         setTimeout(() => {
-            window.masonryInstance = new Masonry(masonryContainer, {
+            window.newsMasonryInstance = new Masonry(newsMasonryContainer, {
                 itemSelector: '.masonry-item',
                 gutter: 32
             });
         }, 100);
     }
+    
+    // Initialize awards masonry
+    const awardsMasonryContainer = document.getElementById('awards-masonry');
+    if (awardsMasonryContainer) {
+        console.log('Initializing awards masonry...');
+        setTimeout(() => {
+            window.awardsMasonryInstance = new Masonry(awardsMasonryContainer, {
+                itemSelector: '.masonry-item',
+                gutter: 32
+            });
+        }, 100);
+    }
+    
+    // Set global instance for backwards compatibility
+    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance;
 });

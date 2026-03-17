@@ -402,7 +402,6 @@
         loadCriticalCSS: function() {
             const criticalCSS = [
                 'responsive-layouts.css',
-                'block-templates.css'
             ];
             
             criticalCSS.forEach(cssFile => {

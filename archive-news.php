@@ -36,22 +36,14 @@ get_header(); ?>
 </div>
 
 <script>
-// Configuration for endless scroll
-window.endlessScrollConfig = {
-    ajaxAction: 'load_more_news',
-    containerId: 'news-masonry',
-    loadingId: 'news-loading',
-    itemSelector: '.news-item',
-    wrapperClass: 'masonry-item'
-};
-
 // Pass data to JavaScript
 window.endlessScrollData = {
-    ajaxUrl: '<?php echo admin_url('admin-ajax.php'); ?>',
-    currentPage: <?php echo get_query_var('paged') ? get_query_var('paged') : 1; ?>,
-    maxPages: <?php echo $wp_query->max_num_pages; ?>,
-    nonce: '<?php echo wp_create_nonce('ricelipka_nonce'); ?>'
+    ajaxUrl: '<?php echo esc_js(admin_url('admin-ajax.php')); ?>',
+    currentPage: <?php echo intval(get_query_var('paged') ? get_query_var('paged') : 1); ?>,
+    maxPages: <?php echo intval($wp_query->max_num_pages); ?>,
+    nonce: '<?php echo esc_js(wp_create_nonce('ricelipka_nonce')); ?>'
 };
+console.log('News page data:', window.endlessScrollData);
 </script>
 
 <?php get_footer(); ?>

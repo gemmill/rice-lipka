@@ -319,6 +319,12 @@ Author: Rice+Lipka Architects
   gap: 0.6rem;
 }
 
+.awards-loading {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 2.4rem;
+}
+
 /*
 Theme Name: Rice+Lipka Architects
 Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects

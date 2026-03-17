@@ -318,8 +318,11 @@ function ricelipka_theme_scripts() {
         );
     }
     
-    // Enqueue news endless scroll JavaScript on news archive
-    if (get_query_var('news_archive') || (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false)) {
+    // Enqueue masonry and endless scroll JavaScript on archives that need it
+    if (get_query_var('news_archive') || 
+        (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false) ||
+        is_post_type_archive('awards')) {
+        
         wp_enqueue_script(
             'ricelipka-masonry',
             get_template_directory_uri() . '/assets/js/masonry.js',
@@ -335,6 +338,15 @@ function ricelipka_theme_scripts() {
             wp_get_theme()->get('Version'),
             true
         );
+        
+        // Pass data to endless scroll script
+        global $wp_query;
+        wp_localize_script('ricelipka-endless-scroll', 'endlessScrollData', array(
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'currentPage' => get_query_var('paged') ? get_query_var('paged') : 1,
+            'maxPages' => $wp_query->max_num_pages,
+            'nonce' => wp_create_nonce('ricelipka_nonce')
+        ));
     }
     
     // Localize script for AJAX and performance optimization
@@ -935,9 +947,15 @@ add_action('wp_head', 'ricelipka_add_random_color_css');
  * Modify posts per page for awards archive
  */
 function ricelipka_modify_awards_query($query) {
+    // Debug logging
+    error_log('Awards query modification called. Is admin: ' . (is_admin() ? 'yes' : 'no'));
+    error_log('Is main query: ' . ($query->is_main_query() ? 'yes' : 'no'));
+    error_log('Is post type archive awards: ' . (is_post_type_archive('awards') ? 'yes' : 'no'));
+    
     // Only modify the main query on the frontend for awards archive
     if (!is_admin() && $query->is_main_query() && is_post_type_archive('awards')) {
-        $query->set('posts_per_page', 96);
+        error_log('Setting awards posts per page to 18');
+        $query->set('posts_per_page', 18);
     }
 }
 add_action('pre_get_posts', 'ricelipka_modify_awards_query');
@@ -997,3 +1015,53 @@ function ricelipka_load_more_news() {
 }
 add_action('wp_ajax_load_more_news', 'ricelipka_load_more_news');
 add_action('wp_ajax_nopriv_load_more_news', 'ricelipka_load_more_news');
+/**
+ * AJAX handler for loading more awards
+ */
+function ricelipka_load_more_awards() {
+    // Verify nonce for security
+    if (!wp_verify_nonce($_POST['nonce'], 'ricelipka_nonce')) {
+        wp_die('Security check failed');
+    }
+    
+    $page = intval($_POST['page']);
+    
+    $args = array(
+        'post_type' => 'awards',
+        'post_status' => 'publish',
+        'posts_per_page' => 18,
+        'paged' => $page,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+    
+    $awards_query = new WP_Query($args);
+    
+    if ($awards_query->have_posts()) {
+        ob_start();
+        
+        while ($awards_query->have_posts()) {
+            $awards_query->the_post();
+            get_template_part('template-parts/item-award', null, array(
+                'class' => 'award-card',
+                'layout' => 'default',
+                'image_size' => 'medium',
+                'show_meta' => true,
+                'show_excerpt' => true
+            ));
+        }
+        
+        $html = ob_get_clean();
+        wp_reset_postdata();
+        
+        wp_send_json_success(array(
+            'html' => $html,
+            'max_pages' => $awards_query->max_num_pages,
+            'current_page' => $page
+        ));
+    } else {
+        wp_send_json_error('No more awards found');
+    }
+}
+add_action('wp_ajax_load_more_awards', 'ricelipka_load_more_awards');
+add_action('wp_ajax_nopriv_load_more_awards', 'ricelipka_load_more_awards');

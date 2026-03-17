@@ -10,3 +10,8 @@
   flex-direction: column;
   gap: variables.$spacing-sm;
 }
+.awards-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: variables.$spacing-lg;
+}

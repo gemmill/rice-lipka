@@ -218,7 +218,6 @@ function ricelipka_defer_scripts($tag, $handle, $src) {
     $defer_scripts = array(
         'ricelipka-responsive-enhancements',
         'ricelipka-acf-help',
-        'ricelipka-block-templates'
     );
     
     if (in_array($handle, $defer_scripts)) {

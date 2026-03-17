@@ -1,124 +1,146 @@
 /**
- * Generic Endless Scroll
- * Handles infinite scroll loading for any content type
+ * Simple Endless Scroll
+ * Uses WordPress localized data
  */
 
-(function() {
-    'use strict';
+console.log('Endless scroll script loaded');
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, checking for endless scroll data...');
     
-    // Configuration - can be set via window.endlessScrollConfig
-    const config = window.endlessScrollConfig || {
-        ajaxAction: 'load_more_news',
-        containerId: 'news-masonry',
-        loadingId: 'news-loading',
-        itemSelector: '.news-item',
-        wrapperClass: 'masonry-item'
-    };
+    // Check if WordPress provided the data
+    if (typeof endlessScrollData === 'undefined') {
+        console.log('No endlessScrollData found');
+        return;
+    }
     
-    let isLoading = false;
-    let currentPage = window.endlessScrollData ? window.endlessScrollData.currentPage : 1;
-    let maxPages = window.endlessScrollData ? window.endlessScrollData.maxPages : 1;
-    let ajaxUrl = window.endlessScrollData ? window.endlessScrollData.ajaxUrl : '';
+    console.log('Endless scroll data:', endlessScrollData);
+    
+    // Auto-detect configuration based on page elements
+    let config = null;
+    
+    if (document.getElementById('news-masonry')) {
+        config = {
+            ajaxAction: 'load_more_news',
+            containerId: 'news-masonry',
+            loadingId: 'news-loading',
+            itemSelector: '.news-item',
+            wrapperClass: 'masonry-item'
+        };
+        console.log('Detected news page');
+    } else if (document.getElementById('awards-masonry')) {
+        config = {
+            ajaxAction: 'load_more_awards',
+            containerId: 'awards-masonry',
+            loadingId: 'awards-loading',
+            itemSelector: '.award',
+            wrapperClass: 'masonry-item'
+        };
+        console.log('Detected awards page');
+    }
+    
+    if (!config) {
+        console.log('No supported page type found');
+        return;
+    }
     
     const container = document.getElementById(config.containerId);
     const loadingIndicator = document.getElementById(config.loadingId);
     
-    if (!container || !ajaxUrl) {
+    if (!container) {
+        console.log('Container not found:', config.containerId);
         return;
     }
     
-    function loadMoreContent() {
+    let isLoading = false;
+    let currentPage = parseInt(endlessScrollData.currentPage);
+    let maxPages = parseInt(endlessScrollData.maxPages);
+    
+    console.log('Initialized with page', currentPage, 'of', maxPages);
+    
+    function loadMore() {
         if (isLoading || currentPage >= maxPages) {
+            console.log('Cannot load more:', {isLoading, currentPage, maxPages});
             return;
         }
         
         isLoading = true;
-        loadingIndicator.style.display = 'block';
+        if (loadingIndicator) loadingIndicator.style.display = 'block';
         
         const nextPage = currentPage + 1;
+        console.log('Loading page', nextPage);
         
-        fetch(ajaxUrl, {
+        fetch(endlessScrollData.ajaxUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
                 action: config.ajaxAction,
                 page: nextPage,
-                nonce: window.endlessScrollData.nonce || ''
+                nonce: endlessScrollData.nonce
             })
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Response:', data);
+            
             if (data.success && data.data.html) {
-                // Create temporary container to parse HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data.data.html;
+                const temp = document.createElement('div');
+                temp.innerHTML = data.data.html;
                 
-                // Get new items
-                const items = Array.from(tempDiv.querySelectorAll(config.itemSelector));
+                const items = temp.querySelectorAll(config.itemSelector);
+                console.log('Adding', items.length, 'items');
                 
                 items.forEach(item => {
-                    if (config.wrapperClass) {
-                        // Wrap item in wrapper class
-                        const wrapper = document.createElement('div');
-                        wrapper.className = config.wrapperClass;
-                        wrapper.appendChild(item);
-                        container.appendChild(wrapper);
-                    } else {
-                        // Add item directly
-                        container.appendChild(item);
-                    }
+                    const wrapper = document.createElement('div');
+                    wrapper.className = config.wrapperClass;
+                    wrapper.appendChild(item);
+                    container.appendChild(wrapper);
                 });
                 
-                // Refresh masonry layout if available
-                if (window.masonryInstance) {
-                    window.masonryInstance.refresh();
+                // Refresh masonry
+                if (window.awardsMasonryInstance) {
+                    window.awardsMasonryInstance.refresh();
+                } else if (window.newsMasonryInstance) {
+                    window.newsMasonryInstance.refresh();
                 }
                 
                 currentPage = nextPage;
-                
-                // Update max pages if provided
-                if (data.data.max_pages) {
-                    maxPages = data.data.max_pages;
-                }
+                if (data.data.max_pages) maxPages = data.data.max_pages;
             }
         })
-        .catch(error => {
-            console.error('Error loading more content:', error);
-        })
+        .catch(error => console.error('Error:', error))
         .finally(() => {
             isLoading = false;
-            loadingIndicator.style.display = 'none';
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
         });
     }
     
     function checkScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollTop = window.pageYOffset;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         
-        // Load more when user is 200px from bottom
         if (scrollTop + windowHeight >= documentHeight - 200) {
-            loadMoreContent();
+            loadMore();
         }
     }
     
-    // Throttle scroll events
+    // Add scroll listener
     let scrollTimeout;
-    function throttledScroll() {
-        if (scrollTimeout) {
-            return;
-        }
-        
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) return;
         scrollTimeout = setTimeout(() => {
             checkScroll();
             scrollTimeout = null;
         }, 100);
-    }
+    });
     
-    // Initialize
-    window.addEventListener('scroll', throttledScroll);
-    window.addEventListener('resize', throttledScroll);
+    // Test button
+    const btn = document.createElement('button');
+    btn.textContent = 'Load More (Test)';
+    btn.style.cssText = 'position:fixed;top:10px;right:10px;z-index:9999;background:red;color:white;padding:10px';
+    btn.onclick = loadMore;
+    document.body.appendChild(btn);
     
-})();
+    console.log('Endless scroll ready');
+});
