@@ -944,7 +944,7 @@ function ricelipka_add_random_color_css() {
     
     echo '<style type="text/css">';
     echo 'body h1, body h2, body h3, body h4, body h5, body h6, body .heading { color: ' . esc_attr($random_color) . ' !important; }';
-    echo '.menu > ul > li > a { color: ' . esc_attr($random_color) . ' !important; }';
+    echo '.menu .menu-item.current-menu-item > a, .menu .menu-item.current-menu-ancestor > a, .menu .submenu .submenu-item.current-menu-item > a { color: ' . esc_attr($random_color) . ' !important; }';
     echo '</style>';
 }
 add_action('wp_head', 'ricelipka_add_random_color_css');
