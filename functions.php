@@ -1076,3 +1076,311 @@ function ricelipka_get_post_type_fields($post_id = null) {
     $fields = get_fields($post_id);
     return is_array($fields) ? $fields : array();
 }
+
+/**
+ * Register ACF Field Groups
+ */
+function ricelipka_register_acf_fields() {
+    if (!function_exists('acf_add_local_field_group')) {
+        return;
+    }
+
+    // Projects Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_projects',
+        'title' => 'Project Details',
+        'fields' => array(
+            array(
+                'key' => 'field_project_year',
+                'label' => 'Project Year',
+                'name' => 'project_year',
+                'type' => 'number',
+                'instructions' => 'Enter the year the project was completed or is expected to be completed.',
+                'required' => 0,
+                'min' => 1900,
+                'max' => 2050,
+                'step' => 1,
+            ),
+            array(
+                'key' => 'field_project_type',
+                'label' => 'Project Type',
+                'name' => 'project_type',
+                'type' => 'select',
+                'instructions' => 'Select the category that best describes this project.',
+                'required' => 0,
+                'choices' => array(
+                    'cultural' => 'Cultural',
+                    'academic' => 'Academic',
+                    'offices' => 'Offices',
+                    'retail_commercial' => 'Retail & Commercial',
+                    'institutional' => 'Institutional',
+                    'planning' => 'Planning',
+                    'exhibitions' => 'Exhibitions',
+                    'research_installation' => 'Research & Installation',
+                    'residential' => 'Residential',
+                ),
+                'default_value' => '',
+                'allow_null' => 1,
+            ),
+            array(
+                'key' => 'field_client',
+                'label' => 'Client',
+                'name' => 'client',
+                'type' => 'text',
+                'instructions' => 'Enter the client organization or entity that commissioned this project.',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_location',
+                'label' => 'Location',
+                'name' => 'location',
+                'type' => 'text',
+                'instructions' => 'Enter the project location (city, state or full address if appropriate).',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_completion_status',
+                'label' => 'Completion Status',
+                'name' => 'completion_status',
+                'type' => 'select',
+                'instructions' => 'Select the current completion status of the project.',
+                'required' => 0,
+                'choices' => array(
+                    'planning' => 'Planning',
+                    'design' => 'Design',
+                    'construction' => 'Construction',
+                    'completed' => 'Completed',
+                ),
+                'default_value' => 'completed',
+                'allow_null' => 0,
+            ),
+            array(
+                'key' => 'field_image_gallery',
+                'label' => 'Image Gallery',
+                'name' => 'image_gallery',
+                'type' => 'gallery',
+                'instructions' => 'Upload images for the project gallery. Include exterior views, interior spaces, detail shots, and construction progress.',
+                'required' => 0,
+                'min' => 0,
+                'max' => 20,
+                'insert' => 'append',
+                'library' => 'all',
+                'min_width' => 800,
+                'min_height' => 600,
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'projects',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // News Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_news',
+        'title' => 'News Details',
+        'fields' => array(
+            array(
+                'key' => 'field_publication_date',
+                'label' => 'Publication Date',
+                'name' => 'publication_date',
+                'type' => 'date_picker',
+                'instructions' => 'Select the date this news item was published.',
+                'required' => 0,
+                'display_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
+                'first_day' => 1,
+            ),
+            array(
+                'key' => 'field_subcategory',
+                'label' => 'News Category',
+                'name' => 'subcategory',
+                'type' => 'select',
+                'instructions' => 'Select the category for this news item.',
+                'required' => 0,
+                'choices' => array(
+                    'press' => 'Press',
+                    'awards' => 'Awards',
+                    'events' => 'Events',
+                    'announcements' => 'Announcements',
+                    'publications' => 'Publications',
+                ),
+                'default_value' => '',
+                'allow_null' => 1,
+            ),
+            array(
+                'key' => 'field_excerpt',
+                'label' => 'Custom Excerpt',
+                'name' => 'excerpt',
+                'type' => 'textarea',
+                'instructions' => 'Enter a custom excerpt for this news item (optional).',
+                'required' => 0,
+                'rows' => 3,
+            ),
+            array(
+                'key' => 'field_featured_image',
+                'label' => 'Featured Image',
+                'name' => 'featured_image',
+                'type' => 'image',
+                'instructions' => 'Upload a featured image for this news item.',
+                'required' => 0,
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'library' => 'all',
+                'min_width' => 600,
+                'min_height' => 400,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'news',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // Awards Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_awards',
+        'title' => 'Award Details',
+        'fields' => array(
+            array(
+                'key' => 'field_award_name',
+                'label' => 'Award Name',
+                'name' => 'award_name',
+                'type' => 'text',
+                'instructions' => 'Enter the official name of the award.',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_awarding_organization',
+                'label' => 'Awarding Organization',
+                'name' => 'awarding_organization',
+                'type' => 'text',
+                'instructions' => 'Enter the name of the organization that gave this award.',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_date_received',
+                'label' => 'Date Received',
+                'name' => 'date_received',
+                'type' => 'date_picker',
+                'instructions' => 'Select the date this award was received.',
+                'required' => 0,
+                'display_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
+                'first_day' => 1,
+            ),
+            array(
+                'key' => 'field_associated_project',
+                'label' => 'Associated Project',
+                'name' => 'associated_project',
+                'type' => 'post_object',
+                'instructions' => 'Select the project this award is associated with (if applicable).',
+                'required' => 0,
+                'post_type' => array('projects'),
+                'taxonomy' => '',
+                'allow_null' => 1,
+                'multiple' => 0,
+                'return_format' => 'object',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'awards',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // People Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_people',
+        'title' => 'Person Details',
+        'fields' => array(
+            array(
+                'key' => 'field_person_title',
+                'label' => 'Job Title',
+                'name' => 'person_title',
+                'type' => 'text',
+                'instructions' => 'Enter the person\'s job title or position.',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_person_associations',
+                'label' => 'Professional Associations',
+                'name' => 'person_associations',
+                'type' => 'textarea',
+                'instructions' => 'Enter any professional associations or credentials.',
+                'required' => 0,
+                'rows' => 3,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'people',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+}
+add_action('acf/init', 'ricelipka_register_acf_fields');
+/**
+ * Check if ACF is installed and show admin notice if not
+ */
+function ricelipka_check_acf_plugin() {
+    if (!function_exists('acf_add_local_field_group')) {
+        add_action('admin_notices', 'ricelipka_acf_missing_notice');
+    }
+}
+add_action('admin_init', 'ricelipka_check_acf_plugin');
+
+/**
+ * Display admin notice if ACF is missing
+ */
+function ricelipka_acf_missing_notice() {
+    ?>
+    <div class="notice notice-warning is-dismissible">
+        <p>
+            <strong>Rice+Lipka Theme:</strong> This theme requires the Advanced Custom Fields (ACF) plugin to display custom fields in the admin. 
+            <a href="<?php echo admin_url('plugin-install.php?s=advanced+custom+fields&tab=search&type=term'); ?>">Install ACF Plugin</a>
+        </p>
+    </div>
+    <?php
+}
