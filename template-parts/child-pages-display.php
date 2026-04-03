@@ -14,7 +14,7 @@ if ($child_pages && !empty($child_pages)) : ?>
     <div id="about-masonry" class="masonry">
         <?php foreach ($child_pages as $child_page) : ?>
            <div class="masonry-item">
-                <div class="child-page-item">
+               
                  
                         <h2 class="child-page-title">
                             <?php echo get_the_title($child_page->ID); ?>
@@ -56,7 +56,7 @@ if ($child_pages && !empty($child_pages)) : ?>
                         }
                         ?>
                     </div>
-                </div>
+              
            </div>
         <?php endforeach; ?>
     </div>

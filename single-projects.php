@@ -11,8 +11,8 @@ get_header(); ?>
 <div class="layout">
     <?php get_template_part('template-parts/site-menu'); ?>
     
-    <div class="grid">
-<main id="main" class="site-main">
+
+
     <div class="container">
         <?php while (have_posts()) : the_post(); ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class('single-project'); ?>>
@@ -20,28 +20,28 @@ get_header(); ?>
                     <h1 class="project-title"><?php the_title(); ?></h1>
                     
                     <?php
-                    // Get ACF fields directly with fallbacks
-                    if (function_exists('get_field')) {
+                 
                         $project_year = get_field('project_year');
                         $client = get_field('client');
                         $location = get_field('location');
                         $project_type = get_field('project_type');
                         $image_gallery = get_field('image_gallery');
-                    } else {
-                        // Fallback to post meta if ACF is not available
-                        $project_year = get_post_meta(get_the_ID(), 'project_year', true);
-                        $client = get_post_meta(get_the_ID(), 'client', true);
-                        $location = get_post_meta(get_the_ID(), 'location', true);
-                        $project_type = get_post_meta(get_the_ID(), 'project_type', true);
-                        $image_gallery = get_post_meta(get_the_ID(), 'image_gallery', true);
-                    }
+                   
                     
-                    // Check if we have any fields to display
-                    $has_fields = !empty($project_year) || !empty($client) || !empty($location) || !empty($project_type);
-                    
-                    if ($has_fields) :
+
                     ?>
-                        <div class="project-meta">
+                       
+
+                </header>
+
+                <?php if (has_post_thumbnail()) : ?>
+                    <div class="project-featured-image">
+                        <?php the_post_thumbnail('large'); ?>
+                    </div>
+                <?php endif; ?>
+
+
+                 <div class="project-meta">
                             <?php if (!empty($project_year)) : ?>
                                 <span class="project-year"><?php echo esc_html($project_year); ?></span>
                             <?php endif; ?>
@@ -66,16 +66,11 @@ get_header(); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
-                    <?php endif; ?>
-                </header>
-
-                <?php if (has_post_thumbnail()) : ?>
-                    <div class="project-featured-image">
-                        <?php the_post_thumbnail('large'); ?>
-                    </div>
-                <?php endif; ?>
 
                 <div class="project-content">
+
+
+                
                     <?php the_content(); ?>
                 </div>
 
@@ -83,22 +78,39 @@ get_header(); ?>
                 // Display image gallery if it exists
                 if (!empty($image_gallery) && is_array($image_gallery)) :
                 ?>
-                
-    
-
+                    <div class="project-gallery">
+                        <h2>Project Gallery</h2>
+                        <div class="gallery-grid">
                             <?php foreach ($image_gallery as $image) : ?>
-                        
+                                <?php
+                                // Handle both image arrays and image IDs
+                                if (is_array($image)) {
+                                    // Image is already an array with URL and sizes
+                                    $full_url = $image['url'] ?? $image['sizes']['large'] ?? '';
+                                    $thumb_url = $image['sizes']['medium'] ?? $image['sizes']['thumbnail'] ?? $image['url'] ?? '';
+                                    $alt_text = $image['alt'] ?? get_the_title();
+                                    $caption = $image['caption'] ?? '';
+                                } else {
+                                    // Image is just an ID, get the data
+                                    $image_id = $image;
+                                    $full_url = wp_get_attachment_image_url($image_id, 'large') ?: wp_get_attachment_image_url($image_id, 'full');
+                                    $thumb_url = wp_get_attachment_image_url($image_id, 'medium') ?: wp_get_attachment_image_url($image_id, 'thumbnail') ?: $full_url;
+                                    $alt_text = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title();
+                                    $caption = wp_get_attachment_caption($image_id) ?: '';
+                                }
+                                ?>
                                 <div class="gallery-item">
-                                    <a href="<?php echo esc_url($image['url'] ?? ''); ?>" data-lightbox="project-gallery">
-                                        <img src="<?php echo esc_url($image['sizes']['medium'] ?? $image['url'] ?? ''); ?>" 
-                                             alt="<?php echo esc_attr($image['alt'] ?? get_the_title()); ?>" />
+                                    <a href="<?php echo esc_url($full_url); ?>" data-lightbox="project-gallery">
+                                        <img src="<?php echo esc_url($thumb_url); ?>" 
+                                             alt="<?php echo esc_attr($alt_text); ?>" />
                                     </a>
-                                    <?php if (!empty($image['caption'] ?? '')) : ?>
-                                        <p class="gallery-caption"><?php echo esc_html($image['caption'] ?? ''); ?></p>
+                                    <?php if (!empty($caption)) : ?>
+                                        <p class="gallery-caption"><?php echo esc_html($caption); ?></p>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
-
+                        </div>
+                    </div>
                 <?php endif; ?>
 
                 <nav class="project-navigation">
@@ -136,8 +148,6 @@ get_header(); ?>
             </article>
         <?php endwhile; ?>
     </div>
-</main>
-                        </div>
                         </div>
 
 <?php get_footer(); ?>

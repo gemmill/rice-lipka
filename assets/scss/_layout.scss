@@ -62,47 +62,11 @@
   margin-bottom: variables.$spacing-lg;
 }
 
-// About page masonry - handled above in main masonry rule
 
-.child-page-item {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: variables.$spacing-lg;
-  break-inside: avoid;
-  page-break-inside: avoid;
-  
-  .child-page-image {
-    margin-bottom: variables.$spacing-sm;
-    
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-  
-  .child-page-content {
-    display: flex;
-    flex-direction: column;
-    gap: variables.$spacing-sm;
-  }
-  
-  .child-page-title {
-    margin: 0;
-    
-    a {
-      text-decoration: none;
-      color: inherit;
-      
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  
-  .child-page-excerpt {
-    margin: 0;
-  }
+.container {
+  flex: 3;
 }
+
 
 // Child page styles for masonry
 .child-page-header {

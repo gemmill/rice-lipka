@@ -384,14 +384,256 @@
      * Gallery lightbox functionality for projects
      */
     function initProjectGallery() {
-        $('.project-thumbnail a').on('click', function(e) {
-            // Check if this is a gallery item
-            const galleryCount = $(this).siblings('.gallery-count');
-            if (galleryCount.length > 0) {
-                e.preventDefault();
-                // Implement lightbox functionality here
-                // This is a placeholder for future gallery enhancement
+        // Initialize lightbox for project galleries
+        if ($('.project-gallery').length > 0) {
+            console.log('Initializing project gallery lightbox');
+            initLightbox();
+        }
+    }
+
+    /**
+     * Advanced lightbox with swipe and keyboard navigation
+     */
+    function initLightbox() {
+        console.log('Setting up lightbox functionality');
+        let currentIndex = 0;
+        let images = [];
+        let isOpen = false;
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+
+        // Create lightbox HTML structure
+        const lightboxHTML = `
+            <div id="project-lightbox" class="lightbox-overlay">
+                <div class="lightbox-container">
+                    <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+                    <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+                    <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+                    <div class="lightbox-content">
+                        <img class="lightbox-image" src="" alt="" />
+                        <div class="lightbox-caption"></div>
+                    </div>
+                    <div class="lightbox-counter">
+                        <span class="current">1</span> / <span class="total">1</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add lightbox to body if it doesn't exist
+        if ($('#project-lightbox').length === 0) {
+            $('body').append(lightboxHTML);
+        }
+
+        const $lightbox = $('#project-lightbox');
+        const $lightboxImage = $('.lightbox-image');
+        const $lightboxCaption = $('.lightbox-caption');
+        const $currentCounter = $('.lightbox-counter .current');
+        const $totalCounter = $('.lightbox-counter .total');
+
+        // Handle gallery clicks
+        $('.gallery-item a, .project-gallery a').on('click', function(e) {
+            e.preventDefault();
+            
+            // Get all images in the current gallery
+            const $gallery = $(this).closest('.project-gallery, .gallery-grid');
+            images = [];
+            
+            $gallery.find('a').each(function(index) {
+                const $img = $(this).find('img');
+                const $caption = $(this).siblings('.gallery-caption');
+                
+                images.push({
+                    src: $(this).attr('href'),
+                    alt: $img.attr('alt') || '',
+                    caption: $caption.length ? $caption.text() : ''
+                });
+                
+                // Set current index if this is the clicked image
+                if (this === e.currentTarget) {
+                    currentIndex = index;
+                }
+            });
+
+            if (images.length > 0) {
+                openLightbox();
             }
+        });
+
+        // Open lightbox
+        function openLightbox() {
+            isOpen = true;
+            $lightbox.addClass('active');
+            $('body').addClass('lightbox-open');
+            $totalCounter.text(images.length);
+            showImage(currentIndex);
+            
+            // Focus management for accessibility
+            $lightbox.focus();
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            isOpen = false;
+            $lightbox.removeClass('active');
+            $('body').removeClass('lightbox-open');
+            
+            // Return focus to the trigger element
+            setTimeout(() => {
+                $('.gallery-item a, .project-gallery a').eq(currentIndex).focus();
+            }, 100);
+        }
+
+        // Show specific image
+        function showImage(index) {
+            if (index < 0 || index >= images.length) return;
+            
+            currentIndex = index;
+            const image = images[currentIndex];
+            
+            // Update image
+            $lightboxImage.attr('src', image.src).attr('alt', image.alt);
+            
+            // Update caption
+            if (image.caption) {
+                $lightboxCaption.text(image.caption).show();
+            } else {
+                $lightboxCaption.hide();
+            }
+            
+            // Update counter
+            $currentCounter.text(currentIndex + 1);
+            
+            // Update navigation button states
+            $('.lightbox-prev').toggleClass('disabled', currentIndex === 0);
+            $('.lightbox-next').toggleClass('disabled', currentIndex === images.length - 1);
+        }
+
+        // Navigate to previous image
+        function prevImage() {
+            if (currentIndex > 0) {
+                showImage(currentIndex - 1);
+            }
+        }
+
+        // Navigate to next image
+        function nextImage() {
+            if (currentIndex < images.length - 1) {
+                showImage(currentIndex + 1);
+            }
+        }
+
+        // Click event handlers
+        $('.lightbox-close').on('click', closeLightbox);
+        $('.lightbox-prev').on('click', prevImage);
+        $('.lightbox-next').on('click', nextImage);
+
+        // Click outside to close
+        $lightbox.on('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        $(document).on('keydown', function(e) {
+            if (!isOpen) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    prevImage();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextImage();
+                    break;
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        $lightbox.on('touchstart', function(e) {
+            touchStartX = e.originalEvent.touches[0].clientX;
+            touchStartY = e.originalEvent.touches[0].clientY;
+        });
+
+        $lightbox.on('touchend', function(e) {
+            touchEndX = e.originalEvent.changedTouches[0].clientX;
+            touchEndY = e.originalEvent.changedTouches[0].clientY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            const minSwipeDistance = 50;
+            
+            // Horizontal swipe
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0) {
+                    // Swipe right - previous image
+                    prevImage();
+                } else {
+                    // Swipe left - next image
+                    nextImage();
+                }
+            }
+            
+            // Vertical swipe down to close
+            if (deltaY > minSwipeDistance && Math.abs(deltaX) < minSwipeDistance) {
+                closeLightbox();
+            }
+        });
+
+        // Mouse drag support for desktop
+        let mouseStartX = 0;
+        let isDragging = false;
+
+        $lightbox.on('mousedown', function(e) {
+            if (e.target.classList.contains('lightbox-image')) {
+                mouseStartX = e.clientX;
+                isDragging = true;
+                e.preventDefault();
+            }
+        });
+
+        $(document).on('mousemove', function(e) {
+            if (isDragging) {
+                const deltaX = e.clientX - mouseStartX;
+                // Add visual feedback for drag
+                $lightboxImage.css('transform', `translateX(${deltaX * 0.3}px)`);
+            }
+        });
+
+        $(document).on('mouseup', function(e) {
+            if (isDragging) {
+                const deltaX = e.clientX - mouseStartX;
+                const minDragDistance = 100;
+                
+                // Reset image position
+                $lightboxImage.css('transform', '');
+                
+                if (Math.abs(deltaX) > minDragDistance) {
+                    if (deltaX > 0) {
+                        prevImage();
+                    } else {
+                        nextImage();
+                    }
+                }
+                
+                isDragging = false;
+            }
+        });
+
+        // Prevent image dragging
+        $lightboxImage.on('dragstart', function(e) {
+            e.preventDefault();
         });
     }
 
@@ -439,7 +681,7 @@
      */
     function initCategoryEnhancements() {
         // Initialize based on current page
-        if ($('body').hasClass('category-projects') || $('.projects-archive').length) {
+        if ($('body').hasClass('category-projects') || $('.projects-archive').length || $('.single-project').length || $('body').hasClass('single-projects')) {
             initProjectFilters();
             initProjectGallery();
         }
@@ -470,6 +712,11 @@
         
         // Add category-specific functionality
         initCategoryEnhancements();
+        
+        // Always initialize project gallery if it exists on the page
+        if ($('.project-gallery').length > 0) {
+            initProjectGallery();
+        }
     });
 
     /**
