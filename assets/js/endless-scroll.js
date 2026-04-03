@@ -21,14 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
             itemSelector: '.news-item',
             wrapperClass: 'masonry-item'
         };
-    } else if (document.getElementById('projects-masonry')) {
-        config = {
-            ajaxAction: 'load_more_projects',
-            containerId: 'projects-masonry',
-            loadingId: 'projects-loading',
-            itemSelector: '.project-item',
-            wrapperClass: 'masonry-item'
-        };
     } else if (document.getElementById('awards-masonry')) {
         config = {
             ajaxAction: 'load_more_awards',

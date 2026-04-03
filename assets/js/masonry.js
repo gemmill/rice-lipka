@@ -170,17 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
     
-    // Initialize projects masonry
-    const projectsMasonryContainer = document.getElementById('projects-masonry');
-    if (projectsMasonryContainer) {
-        setTimeout(() => {
-            window.projectsMasonryInstance = new Masonry(projectsMasonryContainer, {
-                itemSelector: '.masonry-item',
-                gutter: 32
-            });
-        }, 100);
-    }
-    
     // Set global instance for backwards compatibility
     window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance || window.projectsMasonryInstance;
 });

@@ -545,7 +545,7 @@ function ricelipka_modify_projects_query($query) {
         // Handle projects archive
         if ($query->get('post_type') === 'projects') {
             // Set posts per page for projects
-            $query->set('posts_per_page', 18);
+            $query->set('posts_per_page',1000);
             
             if ($project_type) {
                 // Validate that the project type exists
