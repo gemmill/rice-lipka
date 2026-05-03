@@ -11,92 +11,89 @@ get_header(); ?>
 <div class="layout">
     <?php get_template_part('template-parts/site-menu'); ?>
     
-
-
     <div class="container">
         <?php while (have_posts()) : the_post(); ?>
-            <article id="post-<?php the_ID(); ?>" <?php post_class('single-project'); ?>>
-                <header class="project-header">
-                    <h1 class="project-title"><?php the_title(); ?></h1>
-                    
-                    <?php
-                 
-                        $project_year = get_field('project_year');
-                        $client = get_field('client');
-                        $location = get_field('location');
-                        $project_type = get_field('project_type');
-                        $image_gallery = get_field('image_gallery');
-                   
-                    
-
+            <?php
+            $project_year  = get_field('project_year');
+            $client        = get_field('client');
+            $location      = get_field('location');
+            $project_type  = get_field('project_type');
+            $image_gallery = get_field('image_gallery');
+            $project_status = get_field('completion_status');
                     ?>
                        
+            <article id="post-<?php the_ID(); ?>" <?php post_class('single-project'); ?>>
 
-                </header>
+                <div class="project-featured-image">
+                <?php
+                if (has_post_thumbnail()) {
+                    the_post_thumbnail('large');
+                } elseif (!empty($image_gallery)) {
+                    $first_image = $image_gallery[0];
+                    if (is_array($first_image)) {
+                        $img_url = $first_image['sizes']['large'] ?? $first_image['url'] ?? '';
+                        $img_alt = $first_image['alt'] ?? get_the_title();
+                        echo '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($img_alt) . '" />';
+                    } else {
+                        echo wp_get_attachment_image($first_image, 'large');
+                    }
+                }
+                ?>
+                </div>
+           
+              
+                    <h1 class="project-title"><?php the_title(); ?></h1>
 
-                <?php if (has_post_thumbnail()) : ?>
-                    <div class="project-featured-image">
-                        <?php the_post_thumbnail('large'); ?>
+ <div>
+                    <?php
+                    $meta_parts = array();
+                    if (!empty($client)) {
+                        $meta_parts[] = esc_html($client);
+                    }
+                    if (!empty($location)) {
+                        $meta_parts[] = esc_html($location);
+                    }
+                    if (!empty($meta_parts)) : ?>
+                        <span class="project-client-location">
+                            <?php echo implode(', ', $meta_parts); ?>
+                        </span>
+                    <?php endif; ?>
                     </div>
-                <?php endif; ?>
 
-
-                 <div class="project-meta">
-                            <?php if (!empty($project_year)) : ?>
-                                <span class="project-year"><?php echo esc_html($project_year); ?></span>
-                            <?php endif; ?>
-                            
-                            <?php if (!empty($project_type)) : ?>
-                                <span class="project-type">
-                                    <a href="<?php echo home_url('/work/' . $project_type . '/'); ?>">
-                                        <?php echo esc_html(ricelipka_get_project_type_display($project_type)); ?>
-                                    </a>
-                                </span>
-                            <?php endif; ?>
-                            
-                            <?php if (!empty($client)) : ?>
-                                <span class="project-client">
-                                    <strong>Client:</strong> <?php echo esc_html($client); ?>
-                                </span>
-                            <?php endif; ?>
-                            
-                            <?php if (!empty($location)) : ?>
-                                <span class="project-location">
-                                    <strong>Location:</strong> <?php echo esc_html($location); ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
 
                 <div class="project-content">
-
-
-                
                     <?php the_content(); ?>
                 </div>
 
-                <?php
-                // Display image gallery if it exists
-                if (!empty($image_gallery) && is_array($image_gallery)) :
-                ?>
+
+               <div class="project-content">
+                    <?php
+                    $status_year_parts = array();
+                    if (!empty($project_status)) {
+                        $status_year_parts[] = esc_html(ucfirst($project_status));
+                    }
+                    if (!empty($project_year)) {
+                        $status_year_parts[] = esc_html($project_year);
+                    }
+                    if (!empty($status_year_parts)) : ?>
+                        <span class="project-status-year"><?php echo implode(' ', $status_year_parts); ?></span>
+                    <?php endif; ?>       
+                </div>
+                <?php if (!empty($image_gallery) && is_array($image_gallery)) : ?>
                     <div class="project-gallery">
-                        <h2>Project Gallery</h2>
-                        <div class="gallery-grid">
                             <?php foreach ($image_gallery as $image) : ?>
                                 <?php
-                                // Handle both image arrays and image IDs
-                                if (is_array($image)) {
-                                    // Image is already an array with URL and sizes
-                                    $full_url = $image['url'] ?? $image['sizes']['large'] ?? '';
-                                    $thumb_url = $image['sizes']['medium'] ?? $image['sizes']['thumbnail'] ?? $image['url'] ?? '';
-                                    $alt_text = $image['alt'] ?? get_the_title();
-                                    $caption = $image['caption'] ?? '';
+                            if (is_array($image)) {
+                                $full_url  = $image['url'] ?? $image['sizes']['large'] ?? '';
+                                $thumb_url = $image['sizes']['large'] ?? $image['url'] ?? '';
+                                $alt_text  = $image['alt'] ?? get_the_title();
+                                $caption   = $image['caption'] ?? '';
                                 } else {
-                                    // Image is just an ID, get the data
-                                    $image_id = $image;
-                                    $full_url = wp_get_attachment_image_url($image_id, 'large') ?: wp_get_attachment_image_url($image_id, 'full');
+                                $image_id  = $image;
+                                $full_url  = wp_get_attachment_image_url($image_id, 'large') ?: wp_get_attachment_image_url($image_id, 'full');
                                     $thumb_url = wp_get_attachment_image_url($image_id, 'medium') ?: wp_get_attachment_image_url($image_id, 'thumbnail') ?: $full_url;
-                                    $alt_text = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title();
-                                    $caption = wp_get_attachment_caption($image_id) ?: '';
+                                $alt_text  = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title();
+                                $caption   = wp_get_attachment_caption($image_id) ?: '';
                                 }
                                 ?>
                                 <div class="gallery-item">
@@ -109,7 +106,6 @@ get_header(); ?>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
-                        </div>
                     </div>
                 <?php endif; ?>
 
@@ -145,6 +141,7 @@ get_header(); ?>
                         <?php endif; ?>
                     </div>
                 </nav>
+
             </article>
         <?php endwhile; ?>
     </div>

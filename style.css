@@ -72,6 +72,7 @@ h1, h2, h3, h4, h5, h6, .heading {
   text-transform: uppercase;
   margin: 0 !important;
   margin: 0 !important;
+  line-height: 1;
 }
 
 /*
@@ -871,6 +872,37 @@ Author: Rice+Lipka Architects
 .project-item:hover .project-overlay,
 .project-item.menu-hover .project-overlay {
   opacity: 1;
+}
+
+/*
+Theme Name: Rice+Lipka Architects
+Description: Clean, minimal WordPress theme inspired by Rice+Lipka Architects
+Version: 1.0.0
+Author: Rice+Lipka Architects
+*/
+.single-project {
+  display: flex;
+  gap: 1.2rem;
+  flex-direction: column;
+}
+
+.project-gallery {
+  display: flex;
+  gap: 2.4rem;
+  flex-direction: column;
+}
+
+.project-content {
+  max-width: 50rem;
+}
+
+.project-featured-image {
+  aspect-ratio: 3/2;
+}
+.project-featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
 /*# sourceMappingURL=style.css.map */
