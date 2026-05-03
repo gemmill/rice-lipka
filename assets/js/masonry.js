@@ -184,6 +184,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, 100);
     }
+
+    // Initialize people masonry
+    const peopleMasonryContainer = document.getElementById('people-masonry');
+    if (peopleMasonryContainer) {
+        setTimeout(() => {
+            window.peopleMasonryInstance = new Masonry(peopleMasonryContainer, {
+                itemSelector: '.masonry-item',
+                gutter: 32
+            });
+        }, 100);
+    }
     
     // Initialize about page masonry
     const aboutMasonryContainer = document.getElementById('about-masonry');

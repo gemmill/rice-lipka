@@ -274,6 +274,7 @@ function ricelipka_theme_scripts() {
     if (get_query_var('news_archive') || 
         (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/news') !== false) ||
         is_post_type_archive('awards') ||
+        is_post_type_archive('people') ||
         is_post_type_archive('projects') ||
         is_page_template('page-about.php') ||
         is_page('about') ||
@@ -288,7 +289,7 @@ function ricelipka_theme_scripts() {
         );
         
         // Only enqueue endless scroll for archives, not about page
-        if (!is_page_template('page-about.php') && !is_page('about') && !is_page('contact')) {
+        if (!is_page_template('page-about.php') && !is_page('about') && !is_page('contact') && !is_post_type_archive('people')) {
             wp_enqueue_script(
                 'ricelipka-endless-scroll',
                 get_template_directory_uri() . '/assets/js/endless-scroll.js',

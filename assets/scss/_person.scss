@@ -12,4 +12,14 @@
       .person-meta {
         font-weight:bold;
       }
+
+      .person-image {
+        width: 100%;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+      }
     }

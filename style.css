@@ -736,6 +736,14 @@ Author: Rice+Lipka Architects
 .item-person .person-meta {
   font-weight: bold;
 }
+.item-person .person-image {
+  width: 100%;
+}
+.item-person .person-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /*
  * PROJECT COMPONENT - ISOLATED STYLES

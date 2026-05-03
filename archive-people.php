@@ -12,11 +12,17 @@ get_header(); ?>
     <?php get_template_part('template-parts/site-menu'); ?>
     
     <div class="grid">
-        <?php if (have_posts()) : ?>
-            <?php while (have_posts()) : the_post(); ?>
-                <?php get_template_part('template-parts/item-person', null); ?>
-            <?php endwhile; ?>
-        <?php else : ?>
+        <div id="people-masonry" class="masonry">
+            <?php if (have_posts()) : ?>
+                <?php while (have_posts()) : the_post(); ?>
+                    <div class="masonry-item">
+                        <?php get_template_part('template-parts/item-person', null); ?>
+                    </div>
+                <?php endwhile; ?>
+            <?php endif; ?>
+        </div>
+
+        <?php if (!have_posts()) : ?>
             <div class="no-people">
                 <h2><?php _e('No people found', 'ricelipka-theme'); ?></h2>
                 <p><?php _e('No people have been added yet.', 'ricelipka-theme'); ?></p>
