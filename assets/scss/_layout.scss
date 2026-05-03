@@ -41,8 +41,8 @@
   grid-column: 1 / -1; // Span all grid columns when inside grid
   position: relative;
   width: 100%;
-  opacity: 1; // Temporarily always visible to debug JS issues
-  transition: opacity 0.3s ease;
+  opacity: 0; // Hidden until JS positions items, prevents flash/bounce
+  transition: opacity 0.2s ease;
 
   &.masonry-loaded {
     opacity: 1; // Show after JavaScript positioning

@@ -30,8 +30,12 @@ class Masonry {
     init() {
         this.container.style.position = 'relative';
         this.calculateDimensions();
-        this.layout();
-        
+        // Defer initial layout until all images inside the container have loaded
+        // so item heights are correct on first paint (prevents flicker/bounce).
+        this.whenImagesReady(() => {
+            this.layout();
+        });
+
         // Handle window resize
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimeout);
@@ -40,6 +44,35 @@ class Masonry {
                 this.layout();
             }, 250);
         });
+    }
+
+    whenImagesReady(callback) {
+        const imgs = Array.from(this.container.querySelectorAll('img'));
+        const pending = imgs.filter(img => !img.complete && img.src);
+
+        if (pending.length === 0) {
+            callback();
+            return;
+        }
+
+        let remaining = pending.length;
+        const done = () => {
+            remaining--;
+            if (remaining <= 0) callback();
+        };
+
+        pending.forEach(img => {
+            img.addEventListener('load', done, { once: true });
+            img.addEventListener('error', done, { once: true });
+        });
+
+        // Safety net: don't wait forever on a stuck image
+        setTimeout(() => {
+            if (remaining > 0) {
+                remaining = 0;
+                callback();
+            }
+        }, 3000);
     }
     
     calculateDimensions() {
