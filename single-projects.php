@@ -27,15 +27,25 @@ get_header(); ?>
                 <div class="project-featured-image">
                 <?php
                 if (has_post_thumbnail()) {
+                    $thumb_id  = get_post_thumbnail_id();
+                    $full_url  = wp_get_attachment_image_url($thumb_id, 'full') ?: wp_get_attachment_image_url($thumb_id, 'large');
+                    echo '<a href="' . esc_url($full_url) . '" class="project-lightbox-trigger" data-lightbox-src="' . esc_url($full_url) . '">';
                     the_post_thumbnail('large');
+                    echo '</a>';
                 } elseif (!empty($image_gallery)) {
                     $first_image = $image_gallery[0];
                     if (is_array($first_image)) {
-                        $img_url = $first_image['sizes']['large'] ?? $first_image['url'] ?? '';
-                        $img_alt = $first_image['alt'] ?? get_the_title();
+                        $img_url  = $first_image['sizes']['large'] ?? $first_image['url'] ?? '';
+                        $full_url = $first_image['url'] ?? $img_url;
+                        $img_alt  = $first_image['alt'] ?? get_the_title();
+                        echo '<a href="' . esc_url($full_url) . '" class="project-lightbox-trigger" data-lightbox-src="' . esc_url($full_url) . '">';
                         echo '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($img_alt) . '" />';
+                        echo '</a>';
                     } else {
+                        $full_url = wp_get_attachment_image_url($first_image, 'full') ?: wp_get_attachment_image_url($first_image, 'large');
+                        echo '<a href="' . esc_url($full_url) . '" class="project-lightbox-trigger" data-lightbox-src="' . esc_url($full_url) . '">';
                         echo wp_get_attachment_image($first_image, 'large');
+                        echo '</a>';
                     }
                 }
                 ?>
@@ -90,14 +100,14 @@ get_header(); ?>
                                 $caption   = $image['caption'] ?? '';
                                 } else {
                                 $image_id  = $image;
-                                $full_url  = wp_get_attachment_image_url($image_id, 'large') ?: wp_get_attachment_image_url($image_id, 'full');
+                                $full_url  = wp_get_attachment_image_url($image_id, 'full') ?: wp_get_attachment_image_url($image_id, 'large');
                                     $thumb_url = wp_get_attachment_image_url($image_id, 'medium') ?: wp_get_attachment_image_url($image_id, 'thumbnail') ?: $full_url;
                                 $alt_text  = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title();
                                 $caption   = wp_get_attachment_caption($image_id) ?: '';
                                 }
                                 ?>
                                 <div class="gallery-item">
-                                    <a href="<?php echo esc_url($full_url); ?>" data-lightbox="project-gallery">
+                                    <a href="<?php echo esc_url($full_url); ?>" class="project-lightbox-trigger" data-lightbox-src="<?php echo esc_url($full_url); ?>">
                                         <img src="<?php echo esc_url($thumb_url); ?>" 
                                              alt="<?php echo esc_attr($alt_text); ?>" />
                                     </a>
@@ -108,43 +118,30 @@ get_header(); ?>
                             <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-
-                <nav class="project-navigation">
-                    <div class="nav-links">
-                        <?php
-                        $prev_post = get_previous_post();
-                        $next_post = get_next_post();
-                        ?>
-                        
-                        <?php if ($prev_post) : ?>
-                            <div class="nav-previous">
-                                <a href="<?php echo get_permalink($prev_post); ?>" rel="prev">
-                                    <span class="nav-subtitle">Previous Project</span>
-                                    <span class="nav-title"><?php echo get_the_title($prev_post); ?></span>
-                                </a>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <div class="nav-back">
-                            <a href="<?php echo home_url('/work/'); ?>" class="back-to-projects">
-                                All Projects
-                            </a>
-                        </div>
-                        
-                        <?php if ($next_post) : ?>
-                            <div class="nav-next">
-                                <a href="<?php echo get_permalink($next_post); ?>" rel="next">
-                                    <span class="nav-subtitle">Next Project</span>
-                                    <span class="nav-title"><?php echo get_the_title($next_post); ?></span>
-                                </a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </nav>
-
             </article>
         <?php endwhile; ?>
     </div>
                         </div>
+
+<style>
+.project-lightbox-trigger { display: block; cursor: zoom-in; }
+.project-lightbox-trigger img { display: block; width: 100%; height: auto; }
+.project-lightbox-trigger:hover,
+.project-lightbox-trigger:focus { opacity: 1 !important; }
+#project-lightbox { position: fixed !important; inset: 0 !important; z-index: 2147483647 !important; background: #ffffff !important; display: none; align-items: center; justify-content: center; }
+#project-lightbox.is-open { display: flex !important; }
+#project-lightbox img { max-width: 90vw; max-height: 88vh; width: auto; height: auto; object-fit: contain; display: block; opacity: 0; transition: opacity 0.25s ease; }
+#project-lightbox.is-loaded img { opacity: 1; }
+#project-lightbox .pl-spinner { position: absolute; width: 48px; height: 48px; border: 3px solid rgba(0,0,0,0.15); border-top-color: var(--ricelipka-active-color, #000); border-radius: 50%; animation: pl-spin 0.9s linear infinite; display: none; }
+#project-lightbox.is-loading .pl-spinner { display: block; }
+@keyframes pl-spin { to { transform: rotate(360deg); } }
+#project-lightbox .pl-btn { position: absolute; background: transparent; border: 0; color: var(--ricelipka-active-color, #000); cursor: pointer; line-height: 1; padding: 0.25rem 0.75rem; font-family: inherit; z-index: 2; }
+#project-lightbox .pl-btn:hover, #project-lightbox .pl-btn:focus { opacity: 0.7; outline: none; }
+#project-lightbox .pl-close { top: 1rem; right: 1.25rem; font-size: 2.75rem; }
+#project-lightbox .pl-prev { left: 1rem; top: 50%; transform: translateY(-50%); font-size: 2.5rem; }
+#project-lightbox .pl-next { right: 1rem; top: 50%; transform: translateY(-50%); font-size: 2.5rem; }
+#project-lightbox .pl-counter { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); color: var(--ricelipka-active-color, #000); font-size: 0.85rem; opacity: 0.75; z-index: 2; }
+body.pl-open { overflow: hidden; }
+</style>
 
 <?php get_footer(); ?>

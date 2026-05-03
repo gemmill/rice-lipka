@@ -247,6 +247,18 @@ function ricelipka_theme_scripts() {
         true
     );
     
+    // Enqueue project lightbox JavaScript on single project pages
+    if (is_singular('projects')) {
+        $pl_path = get_template_directory() . '/assets/js/project-lightbox.js';
+        wp_enqueue_script(
+            'ricelipka-project-lightbox',
+            get_template_directory_uri() . '/assets/js/project-lightbox.js',
+            array(),
+            file_exists($pl_path) ? filemtime($pl_path) : wp_get_theme()->get('Version'),
+            true
+        );
+    }
+
     // Enqueue archive table JavaScript on work archive page
     if (is_page_template('page-work-archive.php') || (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/work/archive') !== false)) {
         wp_enqueue_script(
@@ -862,6 +874,7 @@ function ricelipka_add_random_color_css() {
     $random_color = ricelipka_get_random_site_color();
     
     echo '<style type="text/css">';
+    echo ':root { --ricelipka-active-color: ' . esc_attr($random_color) . '; }';
     echo 'body h1, body h2, body h3, body h4, body h5, body h6, body .heading { color: ' . esc_attr($random_color) . ' !important; }';
     echo '.menu .menu-item.current-menu-item > a, .menu .menu-item.current-menu-ancestor > a, .menu .submenu .submenu-item.current-menu-item > a { color: ' . esc_attr($random_color) . ' !important; }';
     echo '</style>';
@@ -884,7 +897,7 @@ add_action('pre_get_posts', 'ricelipka_modify_awards_query');
 function ricelipka_modify_news_query($query) {
     // Only modify the main query on the frontend for news archive
     if (!is_admin() && $query->is_main_query() && get_query_var('news_archive')) {
-        $query->set('posts_per_page', 18);
+        $query->set('posts_per_page', 99);
     }
 }
 add_action('pre_get_posts', 'ricelipka_modify_news_query');
@@ -903,7 +916,7 @@ function ricelipka_load_more_news() {
     $args = array(
         'post_type' => 'post',
         'post_status' => 'publish',
-        'posts_per_page' => 18,
+        'posts_per_page' => 99,
         'paged' => $page,
         'orderby' => 'date',
         'order' => 'DESC'
