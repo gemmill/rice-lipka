@@ -276,7 +276,8 @@ function ricelipka_theme_scripts() {
         is_post_type_archive('awards') ||
         is_post_type_archive('projects') ||
         is_page_template('page-about.php') ||
-        is_page('about')) { // Add this condition for about page
+        is_page('about') ||
+        is_page('contact')) { // Add this condition for about page
         
         wp_enqueue_script(
             'ricelipka-masonry',
@@ -287,7 +288,7 @@ function ricelipka_theme_scripts() {
         );
         
         // Only enqueue endless scroll for archives, not about page
-        if (!is_page_template('page-about.php') && !is_page('about')) {
+        if (!is_page_template('page-about.php') && !is_page('about') && !is_page('contact')) {
             wp_enqueue_script(
                 'ricelipka-endless-scroll',
                 get_template_directory_uri() . '/assets/js/endless-scroll.js',
@@ -886,7 +887,7 @@ add_action('wp_head', 'ricelipka_add_random_color_css');
 function ricelipka_modify_awards_query($query) {
     // Only modify the main query on the frontend for awards archive
     if (!is_admin() && $query->is_main_query() && is_post_type_archive('awards')) {
-        $query->set('posts_per_page', 18);
+        $query->set('posts_per_page', 99);
     }
 }
 add_action('pre_get_posts', 'ricelipka_modify_awards_query');
@@ -960,7 +961,7 @@ function ricelipka_load_more_awards() {
     $args = array(
         'post_type' => 'awards',
         'post_status' => 'publish',
-        'posts_per_page' => 18,
+        'posts_per_page' => 99,
         'paged' => $page,
         'orderby' => 'date',
         'order' => 'DESC'

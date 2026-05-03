@@ -169,6 +169,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 100);
     }
+
+    // Initialize contact page masonry
+    const contactMasonryContainer = document.getElementById('contact-masonry');
+    if (contactMasonryContainer) {
+        setTimeout(() => {
+            try {
+                window.contactMasonryInstance = new Masonry(contactMasonryContainer, {
+                    itemSelector: '.masonry-item',
+                    gutter: 32
+                });
+            } catch (error) {
+                contactMasonryContainer.classList.add('masonry-loaded');
+            }
+        }, 100);
+    }
     
     // Set global instance for backwards compatibility
     window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance || window.projectsMasonryInstance;
