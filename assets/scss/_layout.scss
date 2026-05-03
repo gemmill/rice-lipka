@@ -90,7 +90,15 @@
 }
 
 .child-page-content {
-  // Content styling handled by WordPress
+  display:flex;
+  flex-direction: column;
+  gap:1rem;
+}
+
+.contact-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; 
 }
 .projects-loading {
   grid-column: 1 / -1;

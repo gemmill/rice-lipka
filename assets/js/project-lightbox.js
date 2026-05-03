@@ -32,7 +32,7 @@
             '<button type="button" class="pl-btn pl-close" aria-label="Close">&times;</button>' +
             '<button type="button" class="pl-btn pl-prev" aria-label="Previous">&#10094;</button>' +
             '<button type="button" class="pl-btn pl-next" aria-label="Next">&#10095;</button>' +
-            '<div class="pl-spinner" aria-hidden="true"></div>' +
+            '<div class="pl-spinner"></div>' +
             '<img alt="" />' +
             '<div class="pl-counter"></div>';
         document.body.appendChild(box);

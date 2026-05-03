@@ -879,6 +879,8 @@ function ricelipka_add_random_color_css() {
     echo ':root { --ricelipka-active-color: ' . esc_attr($random_color) . '; }';
     echo 'body h1, body h2, body h3, body h4, body h5, body h6, body .heading { color: ' . esc_attr($random_color) . ' !important; }';
     echo '.menu .menu-item.current-menu-item > a, .menu .menu-item.current-menu-ancestor > a, .menu .submenu .submenu-item.current-menu-item > a { color: ' . esc_attr($random_color) . ' !important; }';
+    // Body-copy and caption links pick up the dynamic color
+    echo '.entry-content a, .project-content a, .news-content a, .news-excerpt a, .contact-body a, .child-page-content a, .gallery-caption a, .wp-caption-text a, figcaption a { color: ' . esc_attr($random_color) . ' !important; }';
     echo '</style>';
 }
 add_action('wp_head', 'ricelipka_add_random_color_css');

@@ -13,6 +13,11 @@
   margin: 0;
 }
 
+/* Hide elements marked aria-hidden from sighted users as well */
+[aria-hidden="true"] {
+  display: none !important;
+}
+
 /* Full height layout */
 html, body {
   height: 100%;
