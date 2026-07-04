@@ -57,6 +57,7 @@ function ricelipka_remove_excerpt_metabox() {
     remove_meta_box('postexcerpt', 'projects', 'normal');
     remove_meta_box('postexcerpt', 'awards', 'normal');
     remove_meta_box('postexcerpt', 'people', 'normal');
+    remove_meta_box('postexcerpt', 'exhibitions', 'normal');
 }
 add_action('admin_menu', 'ricelipka_remove_excerpt_metabox');
 
@@ -421,6 +422,29 @@ function ricelipka_register_custom_post_types() {
         'menu_icon' => 'dashicons-groups',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array('slug' => 'people'),
+        'show_in_rest' => true
+    ));
+
+    // Exhibitions Post Type
+    register_post_type('exhibitions', array(
+        'labels' => array(
+            'name' => 'Exhibitions',
+            'singular_name' => 'Exhibition',
+            'add_new' => 'Add New Exhibition',
+            'add_new_item' => 'Add New Exhibition',
+            'edit_item' => 'Edit Exhibition',
+            'new_item' => 'New Exhibition',
+            'view_item' => 'View Exhibition',
+            'search_items' => 'Search Exhibitions',
+            'not_found' => 'No exhibitions found',
+            'not_found_in_trash' => 'No exhibitions found in trash'
+        ),
+        'public' => true,
+        'publicly_queryable' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-art',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'exhibitions'),
         'show_in_rest' => true
     ));
 }
@@ -1367,6 +1391,72 @@ function ricelipka_register_acf_fields() {
                     'param' => 'post_type',
                     'operator' => '==',
                     'value' => 'people',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // Exhibitions Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_exhibitions',
+        'title' => 'Exhibition Details',
+        'fields' => array(
+            array(
+                'key' => 'field_exhibition_venue',
+                'label' => 'Venue',
+                'name' => 'venue',
+                'type' => 'text',
+                'instructions' => 'Enter the venue name for this exhibition.',
+                'required' => 0,
+            ),
+            array(
+                'key' => 'field_exhibition_start_date',
+                'label' => 'Start Date',
+                'name' => 'start_date',
+                'type' => 'date_picker',
+                'instructions' => 'Select the exhibition start date.',
+                'required' => 0,
+                'display_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
+                'first_day' => 1,
+            ),
+            array(
+                'key' => 'field_exhibition_end_date',
+                'label' => 'End Date',
+                'name' => 'end_date',
+                'type' => 'date_picker',
+                'instructions' => 'Select the exhibition end date.',
+                'required' => 0,
+                'display_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
+                'first_day' => 1,
+            ),
+            array(
+                'key' => 'field_exhibition_related_projects',
+                'label' => 'Related Projects',
+                'name' => 'related_projects',
+                'type' => 'post_object',
+                'instructions' => 'Select one or more related projects.',
+                'required' => 0,
+                'post_type' => array('projects'),
+                'taxonomy' => '',
+                'allow_null' => 1,
+                'multiple' => 1,
+                'return_format' => 'object',
+                'ui' => 1,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'exhibitions',
                 ),
             ),
         ),
