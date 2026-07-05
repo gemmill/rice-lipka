@@ -1124,6 +1124,279 @@ function ricelipka_modify_news_query($query) {
 add_action('pre_get_posts', 'ricelipka_modify_news_query');
 
 /**
+ * Add custom admin columns for Publications.
+ */
+function ricelipka_publications_admin_columns($columns) {
+    $new_columns = array();
+
+    foreach ($columns as $key => $label) {
+        $new_columns[$key] = $label;
+
+        // Insert Year column after title for easier sorting.
+        if ($key === 'title') {
+            $new_columns['publication_year'] = __('Year', 'ricelipka-theme');
+        }
+    }
+
+    if (!isset($new_columns['publication_year'])) {
+        $new_columns['publication_year'] = __('Year', 'ricelipka-theme');
+    }
+
+    return $new_columns;
+}
+add_filter('manage_publications_posts_columns', 'ricelipka_publications_admin_columns');
+
+/**
+ * Render custom Publications admin columns.
+ */
+function ricelipka_publications_admin_column_content($column, $post_id) {
+    if ($column !== 'publication_year') {
+        return;
+    }
+
+    $year = get_post_meta($post_id, 'year', true);
+    echo $year ? esc_html($year) : '&mdash;';
+}
+add_action('manage_publications_posts_custom_column', 'ricelipka_publications_admin_column_content', 10, 2);
+
+/**
+ * Make Publications admin Year column sortable.
+ */
+function ricelipka_publications_sortable_columns($columns) {
+    $columns['publication_year'] = 'publication_year';
+    return $columns;
+}
+add_filter('manage_edit-publications_sortable_columns', 'ricelipka_publications_sortable_columns');
+
+/**
+ * Apply numeric ordering for Publications Year sorting in wp-admin.
+ */
+function ricelipka_publications_admin_year_orderby($query) {
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    if ($query->get('post_type') !== 'publications') {
+        return;
+    }
+
+    if ($query->get('orderby') !== 'publication_year') {
+        return;
+    }
+
+    $query->set('meta_key', 'year');
+    $query->set('orderby', 'meta_value_num');
+}
+add_action('pre_get_posts', 'ricelipka_publications_admin_year_orderby');
+
+/**
+ * Add custom admin columns for Exhibitions.
+ */
+function ricelipka_exhibitions_admin_columns($columns) {
+    $new_columns = array();
+
+    foreach ($columns as $key => $label) {
+        $new_columns[$key] = $label;
+
+        if ($key === 'title') {
+            $new_columns['exhibition_venue'] = __('Venue', 'ricelipka-theme');
+            $new_columns['exhibition_start_date'] = __('Start Date', 'ricelipka-theme');
+            $new_columns['exhibition_end_date'] = __('End Date', 'ricelipka-theme');
+        }
+    }
+
+    if (!isset($new_columns['exhibition_venue'])) {
+        $new_columns['exhibition_venue'] = __('Venue', 'ricelipka-theme');
+    }
+
+    if (!isset($new_columns['exhibition_start_date'])) {
+        $new_columns['exhibition_start_date'] = __('Start Date', 'ricelipka-theme');
+    }
+
+    if (!isset($new_columns['exhibition_end_date'])) {
+        $new_columns['exhibition_end_date'] = __('End Date', 'ricelipka-theme');
+    }
+
+    return $new_columns;
+}
+add_filter('manage_exhibitions_posts_columns', 'ricelipka_exhibitions_admin_columns');
+
+/**
+ * Render custom Exhibitions admin columns.
+ */
+function ricelipka_exhibitions_admin_column_content($column, $post_id) {
+    if ($column === 'exhibition_venue') {
+        $venue = get_post_meta($post_id, 'venue', true);
+        echo $venue ? esc_html($venue) : '&mdash;';
+        return;
+    }
+
+    if ($column === 'exhibition_start_date') {
+        $start_date = get_post_meta($post_id, 'start_date', true);
+
+        if (!$start_date) {
+            echo '&mdash;';
+            return;
+        }
+
+        echo esc_html(date_i18n(get_option('date_format'), strtotime($start_date)));
+        return;
+    }
+
+    if ($column === 'exhibition_end_date') {
+        $end_date = get_post_meta($post_id, 'end_date', true);
+
+        if (!$end_date) {
+            echo '&mdash;';
+            return;
+        }
+
+        echo esc_html(date_i18n(get_option('date_format'), strtotime($end_date)));
+    }
+}
+add_action('manage_exhibitions_posts_custom_column', 'ricelipka_exhibitions_admin_column_content', 10, 2);
+
+/**
+ * Make Exhibitions admin columns sortable.
+ */
+function ricelipka_exhibitions_sortable_columns($columns) {
+    $columns['exhibition_venue'] = 'exhibition_venue';
+    $columns['exhibition_start_date'] = 'exhibition_start_date';
+    $columns['exhibition_end_date'] = 'exhibition_end_date';
+
+    return $columns;
+}
+add_filter('manage_edit-exhibitions_sortable_columns', 'ricelipka_exhibitions_sortable_columns');
+
+/**
+ * Apply ordering for sortable Exhibitions admin columns.
+ */
+function ricelipka_exhibitions_admin_orderby($query) {
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    if ($query->get('post_type') !== 'exhibitions') {
+        return;
+    }
+
+    if ($query->get('orderby') === 'exhibition_venue') {
+        $query->set('meta_key', 'venue');
+        $query->set('orderby', 'meta_value');
+        return;
+    }
+
+    if ($query->get('orderby') === 'exhibition_start_date') {
+        $query->set('meta_key', 'start_date');
+        $query->set('orderby', 'meta_value');
+        return;
+    }
+
+    if ($query->get('orderby') === 'exhibition_end_date') {
+        $query->set('meta_key', 'end_date');
+        $query->set('orderby', 'meta_value');
+    }
+}
+add_action('pre_get_posts', 'ricelipka_exhibitions_admin_orderby');
+
+/**
+ * Add custom admin columns for Lectures.
+ */
+function ricelipka_lectures_admin_columns($columns) {
+    $new_columns = array();
+
+    foreach ($columns as $key => $label) {
+        $new_columns[$key] = $label;
+
+        if ($key === 'title') {
+            $new_columns['lecture_category'] = __('Category', 'ricelipka-theme');
+            $new_columns['lecture_date'] = __('Lecture Date', 'ricelipka-theme');
+        }
+    }
+
+    if (!isset($new_columns['lecture_category'])) {
+        $new_columns['lecture_category'] = __('Category', 'ricelipka-theme');
+    }
+
+    if (!isset($new_columns['lecture_date'])) {
+        $new_columns['lecture_date'] = __('Lecture Date', 'ricelipka-theme');
+    }
+
+    return $new_columns;
+}
+add_filter('manage_lectures_posts_columns', 'ricelipka_lectures_admin_columns');
+
+/**
+ * Render custom Lectures admin columns.
+ */
+function ricelipka_lectures_admin_column_content($column, $post_id) {
+    if ($column === 'lecture_category') {
+        $category = get_post_meta($post_id, 'category', true);
+
+        if (!$category) {
+            echo '&mdash;';
+            return;
+        }
+
+        $labels = array(
+            'lectures_talks' => __('Lectures & Talks', 'ricelipka-theme'),
+            'symposia_panels' => __('Symposia & Panels', 'ricelipka-theme'),
+        );
+
+        echo esc_html($labels[$category] ?? $category);
+        return;
+    }
+
+    if ($column === 'lecture_date') {
+        $date = get_post_meta($post_id, 'date', true);
+
+        if (!$date) {
+            echo '&mdash;';
+            return;
+        }
+
+        echo esc_html(date_i18n(get_option('date_format'), strtotime($date)));
+    }
+}
+add_action('manage_lectures_posts_custom_column', 'ricelipka_lectures_admin_column_content', 10, 2);
+
+/**
+ * Make Lectures admin columns sortable.
+ */
+function ricelipka_lectures_sortable_columns($columns) {
+    $columns['lecture_category'] = 'lecture_category';
+    $columns['lecture_date'] = 'lecture_date';
+
+    return $columns;
+}
+add_filter('manage_edit-lectures_sortable_columns', 'ricelipka_lectures_sortable_columns');
+
+/**
+ * Apply ordering for sortable Lectures admin columns.
+ */
+function ricelipka_lectures_admin_orderby($query) {
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    if ($query->get('post_type') !== 'lectures') {
+        return;
+    }
+
+    if ($query->get('orderby') === 'lecture_category') {
+        $query->set('meta_key', 'category');
+        $query->set('orderby', 'meta_value');
+        return;
+    }
+
+    if ($query->get('orderby') === 'lecture_date') {
+        $query->set('meta_key', 'date');
+        $query->set('orderby', 'meta_value');
+    }
+}
+add_action('pre_get_posts', 'ricelipka_lectures_admin_orderby');
+
+/**
  * AJAX handler for loading more news
  */
 function ricelipka_load_more_news() {
@@ -1714,6 +1987,14 @@ function ricelipka_register_acf_fields() {
         'key' => 'group_publications',
         'title' => 'Publication Details',
         'fields' => array(
+            array(
+                'key' => 'field_publication_periodical',
+                'label' => 'Periodical',
+                'name' => 'periodical',
+                'type' => 'text',
+                'instructions' => 'Enter the periodical or publication name.',
+                'required' => 0,
+            ),
             array(
                 'key' => 'field_publication_year',
                 'label' => 'Year',

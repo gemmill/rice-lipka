@@ -24,8 +24,13 @@ get_header(); ?>
                             </header>
 
                             <div class="entry-meta">
+                                <?php $publication_periodical = get_field('periodical'); ?>
                                 <?php $publication_year = get_field('year'); ?>
                                 <?php $publication_category = get_field('category'); ?>
+
+                                <?php if ($publication_periodical) : ?>
+                                    <p class="publication-periodical"><?php echo esc_html($publication_periodical); ?></p>
+                                <?php endif; ?>
 
                                 <?php if ($publication_year) : ?>
                                     <p class="publication-year"><?php echo esc_html($publication_year); ?></p>
