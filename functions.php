@@ -610,6 +610,122 @@ add_action('init', 'ricelipka_add_news_rewrite_rules');
 add_action('init', 'ricelipka_add_project_type_rewrite_rules');
 
 /**
+ * Add explicit rewrite rules for publications, lectures, and exhibitions archives
+ */
+function ricelipka_add_publications_rewrite_rules() {
+    // Ensure /publications/ resolves to the publications CPT archive
+    add_rewrite_rule(
+        '^publications/?$',
+        'index.php?post_type=publications',
+        'top'
+    );
+
+    // Ensure /publications/page/{page_num}/ works for archive pagination
+    add_rewrite_rule(
+        '^publications/page/([0-9]+)/?$',
+        'index.php?post_type=publications&paged=$matches[1]',
+        'top'
+    );
+
+    // Ensure /lectures/ resolves to the lectures CPT archive
+    add_rewrite_rule(
+        '^lectures/?$',
+        'index.php?post_type=lectures',
+        'top'
+    );
+
+    // Ensure /lectures/page/{page_num}/ works for archive pagination
+    add_rewrite_rule(
+        '^lectures/page/([0-9]+)/?$',
+        'index.php?post_type=lectures&paged=$matches[1]',
+        'top'
+    );
+
+    // Ensure /exhibitions/ resolves to the exhibitions CPT archive
+    add_rewrite_rule(
+        '^exhibitions/?$',
+        'index.php?post_type=exhibitions',
+        'top'
+    );
+
+    // Ensure /exhibitions/page/{page_num}/ works for archive pagination
+    add_rewrite_rule(
+        '^exhibitions/page/([0-9]+)/?$',
+        'index.php?post_type=exhibitions&paged=$matches[1]',
+        'top'
+    );
+}
+add_action('init', 'ricelipka_add_publications_rewrite_rules');
+
+/**
+ * Force publications, lectures, and exhibitions archive routing
+ */
+function ricelipka_force_publications_archive_request($wp) {
+    if (is_admin() || !isset($wp->request)) {
+        return;
+    }
+
+    $request = trim($wp->request, '/');
+
+    if ($request === 'publications') {
+        $wp->query_vars = array(
+            'post_type' => 'publications',
+        );
+        $wp->matched_rule = '^publications/?$';
+        $wp->matched_query = 'post_type=publications';
+        return;
+    }
+
+    if (preg_match('#^publications/page/([0-9]+)$#', $request, $matches)) {
+        $wp->query_vars = array(
+            'post_type' => 'publications',
+            'paged' => (int) $matches[1],
+        );
+        $wp->matched_rule = '^publications/page/([0-9]+)/?$';
+        $wp->matched_query = 'post_type=publications&paged=' . (int) $matches[1];
+        return;
+    }
+
+    if ($request === 'lectures') {
+        $wp->query_vars = array(
+            'post_type' => 'lectures',
+        );
+        $wp->matched_rule = '^lectures/?$';
+        $wp->matched_query = 'post_type=lectures';
+        return;
+    }
+
+    if (preg_match('#^lectures/page/([0-9]+)$#', $request, $matches)) {
+        $wp->query_vars = array(
+            'post_type' => 'lectures',
+            'paged' => (int) $matches[1],
+        );
+        $wp->matched_rule = '^lectures/page/([0-9]+)/?$';
+        $wp->matched_query = 'post_type=lectures&paged=' . (int) $matches[1];
+        return;
+    }
+
+    if ($request === 'exhibitions') {
+        $wp->query_vars = array(
+            'post_type' => 'exhibitions',
+        );
+        $wp->matched_rule = '^exhibitions/?$';
+        $wp->matched_query = 'post_type=exhibitions';
+        return;
+    }
+
+    if (preg_match('#^exhibitions/page/([0-9]+)$#', $request, $matches)) {
+        $wp->query_vars = array(
+            'post_type' => 'exhibitions',
+            'paged' => (int) $matches[1],
+        );
+        $wp->matched_rule = '^exhibitions/page/([0-9]+)/?$';
+        $wp->matched_query = 'post_type=exhibitions&paged=' . (int) $matches[1];
+    }
+}
+add_action('parse_request', 'ricelipka_force_publications_archive_request', 1);
+
+/**
  * Add custom query vars for project filtering
  */
 function ricelipka_add_project_query_vars($vars) {
@@ -663,6 +779,11 @@ function ricelipka_modify_projects_query($query) {
                     $query->set_404();
                 }
             }
+        }
+
+        // Handle exhibitions, lectures, and publications archives
+        if (in_array($query->get('post_type'), array('exhibitions', 'lectures', 'publications'), true)) {
+            $query->set('posts_per_page', 1000);
         }
         
         // Handle news archive (regular posts)
@@ -855,11 +976,32 @@ function ricelipka_theme_activation() {
     // Add rewrite rules
     ricelipka_add_project_type_rewrite_rules();
     ricelipka_add_news_rewrite_rules();
+    ricelipka_add_publications_rewrite_rules();
     
     // Flush rewrite rules to ensure custom post type URLs work
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'ricelipka_theme_activation');
+
+/**
+ * Flush rewrite rules once when rewrite configuration changes
+ */
+function ricelipka_maybe_flush_rewrite_rules() {
+    $rewrite_version = '2026_07_05_publications_lectures_exhibitions_archives';
+    $stored_version = get_option('ricelipka_rewrite_version');
+
+    if ($stored_version !== $rewrite_version) {
+        // Ensure CPTs and custom rules are registered before flushing.
+        ricelipka_register_custom_post_types();
+        ricelipka_add_project_type_rewrite_rules();
+        ricelipka_add_news_rewrite_rules();
+        ricelipka_add_publications_rewrite_rules();
+
+        flush_rewrite_rules(false);
+        update_option('ricelipka_rewrite_version', $rewrite_version);
+    }
+}
+add_action('init', 'ricelipka_maybe_flush_rewrite_rules', 99);
 
 /**
  * Add body classes for better styling control
