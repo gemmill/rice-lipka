@@ -58,6 +58,8 @@ function ricelipka_remove_excerpt_metabox() {
     remove_meta_box('postexcerpt', 'awards', 'normal');
     remove_meta_box('postexcerpt', 'people', 'normal');
     remove_meta_box('postexcerpt', 'exhibitions', 'normal');
+    remove_meta_box('postexcerpt', 'lectures', 'normal');
+    remove_meta_box('postexcerpt', 'publications', 'normal');
 }
 add_action('admin_menu', 'ricelipka_remove_excerpt_metabox');
 
@@ -445,6 +447,52 @@ function ricelipka_register_custom_post_types() {
         'menu_icon' => 'dashicons-art',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
         'rewrite' => array('slug' => 'exhibitions'),
+        'show_in_rest' => true
+    ));
+
+    // Lectures Post Type
+    register_post_type('lectures', array(
+        'labels' => array(
+            'name' => 'Lectures',
+            'singular_name' => 'Lecture',
+            'add_new' => 'Add New Lecture',
+            'add_new_item' => 'Add New Lecture',
+            'edit_item' => 'Edit Lecture',
+            'new_item' => 'New Lecture',
+            'view_item' => 'View Lecture',
+            'search_items' => 'Search Lectures',
+            'not_found' => 'No lectures found',
+            'not_found_in_trash' => 'No lectures found in trash'
+        ),
+        'public' => true,
+        'publicly_queryable' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-megaphone',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'lectures'),
+        'show_in_rest' => true
+    ));
+
+    // Publications Post Type
+    register_post_type('publications', array(
+        'labels' => array(
+            'name' => 'Publications',
+            'singular_name' => 'Publication',
+            'add_new' => 'Add New Publication',
+            'add_new_item' => 'Add New Publication',
+            'edit_item' => 'Edit Publication',
+            'new_item' => 'New Publication',
+            'view_item' => 'View Publication',
+            'search_items' => 'Search Publications',
+            'not_found' => 'No publications found',
+            'not_found_in_trash' => 'No publications found in trash'
+        ),
+        'public' => true,
+        'publicly_queryable' => true,
+        'has_archive' => true,
+        'menu_icon' => 'dashicons-book',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+        'rewrite' => array('slug' => 'publications'),
         'show_in_rest' => true
     ));
 }
@@ -1457,6 +1505,105 @@ function ricelipka_register_acf_fields() {
                     'param' => 'post_type',
                     'operator' => '==',
                     'value' => 'exhibitions',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // Lectures Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_lectures',
+        'title' => 'Lecture Details',
+        'fields' => array(
+            array(
+                'key' => 'field_lecture_date',
+                'label' => 'Date',
+                'name' => 'date',
+                'type' => 'date_picker',
+                'instructions' => 'Select the lecture date.',
+                'required' => 0,
+                'display_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
+                'first_day' => 1,
+            ),
+            array(
+                'key' => 'field_lecture_category',
+                'label' => 'Category',
+                'name' => 'category',
+                'type' => 'select',
+                'instructions' => 'Select the lecture category.',
+                'required' => 0,
+                'choices' => array(
+                    'symposia_panels' => 'Symposia & Panels',
+                    'lectures_talks' => 'Lectures & Talks',
+                ),
+                'default_value' => '',
+                'allow_null' => 1,
+                'multiple' => 0,
+                'ui' => 1,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'lectures',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // Publications Field Group
+    acf_add_local_field_group(array(
+        'key' => 'group_publications',
+        'title' => 'Publication Details',
+        'fields' => array(
+            array(
+                'key' => 'field_publication_year',
+                'label' => 'Year',
+                'name' => 'year',
+                'type' => 'number',
+                'instructions' => 'Enter the publication year.',
+                'required' => 0,
+                'min' => 1900,
+                'max' => 2100,
+                'step' => 1,
+            ),
+            array(
+                'key' => 'field_publication_category',
+                'label' => 'Category',
+                'name' => 'category',
+                'type' => 'select',
+                'instructions' => 'Select the publication category.',
+                'required' => 0,
+                'choices' => array(
+                    'catalogs' => 'Catalogs',
+                    'periodicals' => 'Periodicals',
+                    'books' => 'Books',
+                ),
+                'default_value' => '',
+                'allow_null' => 1,
+                'multiple' => 0,
+                'ui' => 1,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'publications',
                 ),
             ),
         ),
