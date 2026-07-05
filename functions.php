@@ -279,6 +279,9 @@ function ricelipka_theme_scripts() {
         is_post_type_archive('awards') ||
         is_post_type_archive('people') ||
         is_post_type_archive('projects') ||
+        is_post_type_archive('exhibitions') ||
+        is_post_type_archive('lectures') ||
+        is_post_type_archive('publications') ||
         is_page_template('page-about.php') ||
         is_page('about') ||
         is_page('contact')) { // Add this condition for about page
@@ -287,7 +290,7 @@ function ricelipka_theme_scripts() {
             'ricelipka-masonry',
             get_template_directory_uri() . '/assets/js/masonry.js',
             array(),
-            wp_get_theme()->get('Version'),
+            file_exists(get_template_directory() . '/assets/js/masonry.js') ? filemtime(get_template_directory() . '/assets/js/masonry.js') : wp_get_theme()->get('Version'),
             true
         );
         

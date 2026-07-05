@@ -163,38 +163,39 @@ window.masonryInstance = null;
 
 // Initialize masonry when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize news masonry
-    const newsMasonryContainer = document.getElementById('news-masonry');
-    if (newsMasonryContainer) {
+    function initMasonryById(id, instanceName) {
+        const container = document.getElementById(id);
+        if (!container) {
+            return null;
+        }
+
         setTimeout(() => {
-            window.newsMasonryInstance = new Masonry(newsMasonryContainer, {
+            window[instanceName] = new Masonry(container, {
                 itemSelector: '.masonry-item',
                 gutter: 32
             });
         }, 100);
-    }
-    
-    // Initialize awards masonry
-    const awardsMasonryContainer = document.getElementById('awards-masonry');
-    if (awardsMasonryContainer) {
-        setTimeout(() => {
-            window.awardsMasonryInstance = new Masonry(awardsMasonryContainer, {
-                itemSelector: '.masonry-item',
-                gutter: 32
-            });
-        }, 100);
+
+        return true;
     }
 
+    // Initialize news masonry
+    initMasonryById('news-masonry', 'newsMasonryInstance');
+    
+    // Initialize awards masonry
+    initMasonryById('awards-masonry', 'awardsMasonryInstance');
+
     // Initialize people masonry
-    const peopleMasonryContainer = document.getElementById('people-masonry');
-    if (peopleMasonryContainer) {
-        setTimeout(() => {
-            window.peopleMasonryInstance = new Masonry(peopleMasonryContainer, {
-                itemSelector: '.masonry-item',
-                gutter: 32
-            });
-        }, 100);
-    }
+    initMasonryById('people-masonry', 'peopleMasonryInstance');
+
+    // Initialize exhibitions masonry
+    initMasonryById('exhibitions-masonry', 'exhibitionsMasonryInstance');
+
+    // Initialize lectures masonry
+    initMasonryById('lectures-masonry', 'lecturesMasonryInstance');
+
+    // Initialize publications masonry
+    initMasonryById('publications-masonry', 'publicationsMasonryInstance');
     
     // Initialize about page masonry
     const aboutMasonryContainer = document.getElementById('about-masonry');
@@ -230,5 +231,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Set global instance for backwards compatibility
-    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.aboutMasonryInstance || window.projectsMasonryInstance;
+    window.masonryInstance = window.newsMasonryInstance || window.awardsMasonryInstance || window.peopleMasonryInstance || window.exhibitionsMasonryInstance || window.lecturesMasonryInstance || window.publicationsMasonryInstance || window.aboutMasonryInstance || window.projectsMasonryInstance;
 });
