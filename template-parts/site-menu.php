@@ -10,22 +10,27 @@
 ?>
 
 <div class="column menu">
-    <?php 
-    $menu_items = ricelipka_create_custom_menu();
+    <?php
     $current_url = home_url($_SERVER['REQUEST_URI']);
-    
-    // Remove trailing slash for consistent comparison
     $current_url = rtrim($current_url, '/');
-    
-    echo '<ul class="primary-menu">';
-    
-    // Add homepage link with site title as first menu item
+
     $home_url = rtrim(home_url('/'), '/');
     $home_active_class = ($current_url === $home_url) ? ' current-menu-item' : '';
+    ?>
+    <div class="menu-header">
+        <a class="site-title-link<?php echo esc_attr($home_active_class); ?>" href="<?php echo esc_url(home_url('/')); ?>">
+            <?php echo esc_html(get_bloginfo('name')); ?>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-mobile-navigation" aria-label="Open menu">
+            <span class="menu-toggle-icon" aria-hidden="true"></span>
+            <span class="menu-toggle-text">Menu</span>
+        </button>
+    </div>
+    <nav id="site-mobile-navigation" class="main-navigation" aria-label="Primary Navigation">
+    <?php 
+    $menu_items = ricelipka_create_custom_menu();
     
-    echo '<li class="menu-item home-link' . $home_active_class . '">';
-    echo '<a href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a>';
-    echo '</li>';
+    echo '<ul class="primary-menu">';
     
     // Add the rest of the menu items
     foreach ($menu_items as $key => $item) {
@@ -89,4 +94,5 @@
     
     echo '</ul>';
     ?>
+    </nav>
 </div>

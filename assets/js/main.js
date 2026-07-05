@@ -12,30 +12,78 @@
      * Mobile menu toggle
      */
     function initMobileMenu() {
-        const menuToggle = $('.menu-toggle');
-        const primaryMenu = $('.primary-menu');
+        const menu = $('.menu');
+        const menuToggle = menu.find('.menu-toggle');
+        const mainNavigation = menu.find('.main-navigation');
+        const menuToggleText = menuToggle.find('.menu-toggle-text');
 
-        menuToggle.on('click', function() {
+        if (!menuToggle.length || !mainNavigation.length) {
+            return;
+        }
+
+        function closeMenu() {
+            menuToggle.attr('aria-expanded', 'false');
+            menuToggle.attr('aria-label', 'Open menu');
+            menuToggleText.text('Menu');
+            mainNavigation.removeClass('is-open');
+            mainNavigation.attr('aria-hidden', 'true');
+            $('body').removeClass('menu-open');
+        }
+
+        function openMenu() {
+            menuToggle.attr('aria-expanded', 'true');
+            menuToggle.attr('aria-label', 'Close menu');
+            menuToggleText.text('Close');
+            mainNavigation.addClass('is-open');
+            mainNavigation.attr('aria-hidden', 'false');
+            $('body').addClass('menu-open');
+        }
+
+        function syncMenuForViewport() {
+            if ($(window).width() <= 768) {
+                closeMenu();
+                return;
+            }
+
+            // Desktop: menu should always be available.
+            menuToggle.attr('aria-expanded', 'false');
+            menuToggle.attr('aria-label', 'Open menu');
+            menuToggleText.text('Menu');
+            mainNavigation.removeClass('is-open');
+            mainNavigation.attr('aria-hidden', 'false');
+            $('body').removeClass('menu-open');
+        }
+
+        syncMenuForViewport();
+
+        menuToggle.on('click', function(e) {
+            e.preventDefault();
             const isExpanded = $(this).attr('aria-expanded') === 'true';
-            
-            $(this).attr('aria-expanded', !isExpanded);
-            primaryMenu.toggleClass('toggled');
+
+            if (isExpanded) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         });
 
         // Close menu when clicking outside
         $(document).on('click', function(e) {
-            if (!$(e.target).closest('.main-navigation').length) {
-                menuToggle.attr('aria-expanded', 'false');
-                primaryMenu.removeClass('toggled');
+            if (!$(e.target).closest('.menu').length && $(window).width() <= 768) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMenu();
             }
         });
 
         // Close menu on window resize if desktop
         $(window).on('resize', function() {
-            if ($(window).width() > 768) {
-                menuToggle.attr('aria-expanded', 'false');
-                primaryMenu.removeClass('toggled');
-            }
+            syncMenuForViewport();
         });
     }
 
@@ -249,17 +297,7 @@
         // Handle click states for mobile and accessibility
         $menuItems.find('> a').on('click', function(e) {
             if ($(window).width() <= 768) {
-                e.preventDefault();
-                const $submenu = $(this).siblings('.submenu');
-                const $parentItem = $(this).parent();
-                
-                // Toggle current submenu
-                $submenu.toggleClass('show');
-                $parentItem.toggleClass('expanded');
-                
-                // Close other submenus
-                $menuItems.not($parentItem).find('.submenu').removeClass('show');
-                $menuItems.not($parentItem).removeClass('expanded');
+                return;
             }
         });
         
